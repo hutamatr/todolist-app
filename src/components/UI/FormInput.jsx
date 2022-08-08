@@ -1,10 +1,10 @@
-import React, { useState, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import {
   MdCheckCircle,
   MdCancel,
   MdReport,
-  MdVisibility,
-  MdVisibilityOff,
+  // MdVisibility,
+  // MdVisibilityOff,
 } from "react-icons/md";
 
 import RegisterNote from "../Register/RegisterNote";
@@ -26,23 +26,23 @@ const FormInput = forwardRef(
     },
     ref
   ) => {
-    const [values, setValues] = useState({
-      password: "",
-      isPasswordShow: false,
-    });
+    // const [values, setValues] = useState({
+    //   password: "",
+    //   isPasswordShow: false,
+    // });
 
-    const passwordShowClickHandler = () =>
-      setValues((prevState) => {
-        return { ...prevState, isPasswordShow: !prevState.isPasswordShow };
-      });
+    // const passwordShowClickHandler = () =>
+    //   setValues((prevState) => {
+    //     return { ...prevState, isPasswordShow: !prevState.isPasswordShow };
+    //   });
 
-    const mouseDownHandler = (event) => event.preventDefault();
+    // const mouseDownHandler = (event) => event.preventDefault();
 
-    const passwordChangeHandler = (prop) => (event) => {
-      setValues((prevState) => {
-        return { ...prevState, [prop]: event.target.value };
-      });
-    };
+    // const passwordChangeHandler = (prop) => (event) => {
+    //   setValues((prevState) => {
+    //     return { ...prevState, [prop]: event.target.value };
+    //   });
+    // };
 
     // const viewPasswordHandler = () => setIsView((prevState) => !prevState);
 

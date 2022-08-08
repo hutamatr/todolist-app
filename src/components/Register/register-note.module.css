@@ -6,5 +6,5 @@
 .register-note--symbol {
   display: flex;
   flex-direction: row;
-  row-gap: 0.5rem;
+  column-gap: 0.5rem;
 }

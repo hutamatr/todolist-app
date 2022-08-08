@@ -4,9 +4,7 @@ import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <>
-      <main
-        style={{ padding: "0 1.5rem", maxWidth: "68rem", margin: "0 auto" }}
-      >
+      <main className="px-6 py-[25vh]">
         <Outlet />
       </main>
     </>
