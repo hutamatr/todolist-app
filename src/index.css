@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
+:root {
+  --primary-white: #ffffff;
+  --primary-black: #3f3f3f;
+  --primary-orange: #ff7c5f;
+  --primary-green: #107263;
+  --primary-yellow: #ffde62;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -25,6 +33,10 @@ a {
 img {
   max-width: 100%;
   height: auto;
+}
+
+input {
+  outline: none;
 }
 
 button,
