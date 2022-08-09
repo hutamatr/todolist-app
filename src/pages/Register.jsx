@@ -79,7 +79,7 @@ const Register = () => {
 
   return (
     <section className={styles["register"]}>
-      <h1 className={styles["register-title"]}>Register</h1>
+      <h1 className={styles["register-title"]}>Sign Up</h1>
       <form
         onSubmit={RegisterSubmitHandler}
         className={styles["register-form"]}

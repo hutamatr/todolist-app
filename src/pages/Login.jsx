@@ -43,8 +43,8 @@ const Login = () => {
   };
 
   return (
-    <section className="mx-auto flex max-w-sm flex-col gap-y-3 rounded-xl bg-custom-yellow p-4">
-      <h1 className="text-center text-3xl text-custom-orange">Login</h1>
+    <section className="mx-auto flex max-w-sm flex-col gap-y-3 rounded-xl bg-custom-white p-4 ring-2 ring-custom-green">
+      <h1 className="text-center text-3xl text-custom-orange">Sign In</h1>
       <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-3">
         <FormInput
           label={"Email"}
@@ -71,7 +71,7 @@ const Login = () => {
       </form>
       <p className="flex flex-row gap-x-1 sm:gap-x-2 text-custom-green">
         Don't have an account?
-        <Link to={"/register"} className="underline">
+        <Link to={"/register"} className="underline text-custom-orange">
           Sign Up
         </Link>
       </p>
