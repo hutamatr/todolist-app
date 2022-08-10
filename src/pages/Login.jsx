@@ -63,15 +63,15 @@ const Login = () => {
         />
 
         <button
-          className={`mx-auto rounded-lg bg-custom-green px-4 py-2 text-custom-white hover:bg-custom-orange duration-300 disabled:opacity-70 disabled:cursor-not-allowed`}
+          className={`mx-auto rounded-lg bg-custom-green px-4 py-2 text-custom-white duration-300 hover:bg-custom-orange disabled:cursor-not-allowed disabled:opacity-70`}
           disabled={!isValidEmail || !isValidPassword ? true : false}
         >
           Sign In
         </button>
       </form>
-      <p className="flex flex-row gap-x-1 sm:gap-x-2 text-custom-green">
+      <p className="flex flex-row gap-x-1 text-custom-green sm:gap-x-2">
         Don't have an account?
-        <Link to={"/register"} className="underline text-custom-orange">
+        <Link to={"/register"} className="text-custom-orange underline">
           Sign Up
         </Link>
       </p>

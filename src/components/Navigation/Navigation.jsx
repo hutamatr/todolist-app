@@ -29,8 +29,8 @@ const Navigation = () => {
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
   return (
-    <nav className="flex flex-row items-center justify-between mx-auto p-4 relative sm:static max-w-5xl">
-      <Link to={"/"} replace={true} className="flex gap-x-3 items-center">
+    <nav className="relative mx-auto flex max-w-5xl flex-row items-center justify-between bg-custom-white p-4 sm:static">
+      <Link to={"/"} replace={true} className="flex items-center gap-x-3">
         <img src={todoIcon} alt="" className="w-10" />
         <h1>todo-list.</h1>
       </Link>
@@ -42,7 +42,7 @@ const Navigation = () => {
         )}
       </button>
       <ul
-        className={`flex flex-col sm:flex-row items-center sm:gap-x-8 gap-y-4 absolute sm:static top-16 sm:top-0 text-center w-full sm:w-auto duration-500 bg-custom-white sm:bg-transparent h-[calc(100vh-3rem)] sm:h-0 rounded-xl sm:translate-x-0 py-10 sm:py-0 ${
+        className={`absolute top-16 flex h-[calc(100vh-3rem)] w-full flex-col items-center gap-y-4 rounded-xl bg-custom-white py-10 text-center duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:gap-x-8 sm:bg-transparent sm:py-0 ${
           viewMenu ? "left-0" : "translate-x-full"
         }`}
       >
@@ -54,7 +54,7 @@ const Navigation = () => {
                 to={href}
                 className={({ isActive }) =>
                   isActive
-                    ? "ring-2 ring-custom-green text-custom-orange p-1 rounded"
+                    ? "rounded p-1 text-custom-orange ring-2 ring-custom-green"
                     : ""
                 }
               >
