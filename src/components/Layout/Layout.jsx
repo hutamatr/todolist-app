@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 import Navigation from "../Navigation/Navigation";
+import FormModal from "../Dashboard/DashboardForm";
 
 const Layout = () => {
   return (
@@ -9,9 +10,10 @@ const Layout = () => {
       <header className="fixed top-0 w-full">
         <Navigation />
       </header>
-      <main className="mt-16 px-6 max-w-5xl mx-auto">
+      <main className="mx-auto mt-16 max-w-5xl px-4">
         <Outlet />
       </main>
+      <FormModal />
     </>
   );
 };

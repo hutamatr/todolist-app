@@ -4,13 +4,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "custom-white": "#ECE5E6",
+        "custom-white": "#FFFFFF",
         "custom-green": "#107263",
-        "custom-yellow": "#ffde62",
-        "custom-orange": "#ff7c5f",
-        "custom-black": "#3f3f3f",
+        "custom-yellow": "#FFDE62",
+        "custom-orange": "#FF7C5F",
+        "custom-black": "#3F3F3F",
+      },
+      boxShadow: {
+        "material-shadow":
+          "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    styled: true,
+    themes: false,
+    base: true,
+    utils: true,
+    rtl: false,
+    prefix: "",
+    darkTheme: "dark",
+  },
 };
