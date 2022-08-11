@@ -3,8 +3,12 @@ import { formatDistance } from "date-fns";
 
 import { MdDeleteOutline, MdCheckCircle } from "react-icons/md";
 
-const DashboardCard = ({ title, message, date, id }) => {
+import useTodos from "../../hooks/useTodos";
+
+const DashboardCard = ({ title, message, date, id, todo }) => {
   const [todoCompleted, setTodoCompleted] = useState(false);
+
+  const { deleteTodo } = useTodos();
 
   const newDate = new Date(date).toISOString();
   const formattedDate = formatDistance(new Date(newDate), new Date(), {
@@ -15,9 +19,12 @@ const DashboardCard = ({ title, message, date, id }) => {
     setTodoCompleted((prevState) => !prevState);
 
   const todoDeleteHandler = () => {
-    // console.log(todoId);
-    console.log(id);
+    deleteTodo(id);
   };
+
+  /*   const todoEditHandler = () => {
+    editTodo(todo);
+  }; */
 
   return (
     <div
@@ -26,7 +33,7 @@ const DashboardCard = ({ title, message, date, id }) => {
       }`}
     >
       <div className="flex items-start justify-between gap-x-4">
-        <h2 className="max-h-12 overflow-scroll break-all text-lg font-semibold">
+        <h2 className="max-h-12 overflow-auto break-all text-lg font-semibold">
           {title}
         </h2>
         {todoCompleted ? (
@@ -39,7 +46,7 @@ const DashboardCard = ({ title, message, date, id }) => {
           </span>
         )}
       </div>
-      <p className="max-h-24 overflow-scroll break-words">{message}</p>
+      <p className="max-h-24 overflow-auto break-words">{message}</p>
       <div className="flex flex-row items-center justify-between">
         <>
           <span className="text-xs">{formattedDate}</span>
@@ -52,6 +59,13 @@ const DashboardCard = ({ title, message, date, id }) => {
               }`}
             />
           </button>
+          {/*  <label
+            htmlFor="my-modal-6"
+            className="cursor-pointer"
+            onClick={todoEditHandler}
+          >
+            <MdEdit className="text-2xl text-custom-green" />
+          </label> */}
           <button onClick={todoDeleteHandler}>
             <MdDeleteOutline className="text-red-700" />
           </button>

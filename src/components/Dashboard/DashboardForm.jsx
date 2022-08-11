@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { MdCancel } from "react-icons/md";
 
 import Modal from "../UI/Modal";
@@ -10,16 +10,21 @@ const DashboardForm = () => {
     message: "",
     date: "",
   });
-
-  const { addTodos } = useTodos();
-
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
+  const { addTodos } = useTodos();
   const titleRef = useRef();
 
-  useEffect(() => {
+  /*   useEffect(() => {
     titleRef.current.focus();
-  }, []);
+    if (todoEdit.id) {
+      setNewTodoInput({
+        title: todoEdit.title,
+        message: todoEdit.message,
+        date: todoEdit.date,
+      });
+    }
+  }, [todoEdit]); */
 
   const titleChangeHandler = (event) => {
     setNewTodoInput((prevState) => ({
@@ -42,10 +47,22 @@ const DashboardForm = () => {
     }));
   };
 
+  /*   const todoEditHandler = () => {
+    setNewTodoInput({
+      title: todoEdit.title,
+      message: todoEdit.message,
+      date: todoEdit.date,
+    });
+  }; */
+
   const newTodoSubmitHandler = (event) => {
     event.preventDefault();
 
-    if (newTodoInput.title.length < 1 || newTodoInput.message.length < 1) {
+    if (
+      newTodoInput.title.length < 1 ||
+      newTodoInput.message.length < 1 ||
+      newTodoInput.date.length === 0
+    ) {
       setIsInputEmpty(true);
       return;
     }
@@ -64,8 +81,6 @@ const DashboardForm = () => {
       date: "",
     });
   };
-
-  console.log(newTodoInput);
 
   return (
     <Modal>

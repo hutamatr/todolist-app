@@ -1,17 +1,10 @@
 import React from "react";
-// import { formatDistance } from "date-fns";
 import { FcTodoList } from "react-icons/fc";
 
-// import { todoData } from "../utils/dummy-todos";
 import DashboardCard from "../components/Dashboard/DashboardCard";
 import useTodos from "../hooks/useTodos";
 
 const Dashboard = () => {
-  // const newDate = new Date().toISOString();
-  // const date = formatDistance(new Date(newDate), new Date(), {
-  //   addSuffix: true,
-  // });
-
   const { todos } = useTodos();
 
   return (
@@ -30,7 +23,7 @@ const Dashboard = () => {
         {todos.map((todo, index) => {
           return (
             <li key={index}>
-              <DashboardCard {...todo} />
+              <DashboardCard {...todo} todo={todo} />
             </li>
           );
         })}
