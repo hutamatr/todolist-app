@@ -1,0 +1,50 @@
+.form-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 0.25rem;
+  padding: 0.5rem;
+  color: var(--primary-green);
+}
+
+.form-check {
+  font-size: 1.25rem;
+  color: var(--primary-green);
+}
+
+.form-uncheck {
+  font-size: 1.25rem;
+  color: var(--primary-orange);
+}
+
+.form-check--isValid {
+  display: block;
+}
+
+.form-check--isInvalid {
+  display: none;
+}
+
+.form-input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  color: var(--primary-green);
+}
+
+.form-note {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  column-gap: 0.25rem;
+  border-radius: 0.25rem;
+  background-color: var(--primary-orange);
+}
+
+.form-note--hidden {
+  position: absolute;
+  left: -9999px;
+}

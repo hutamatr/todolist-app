@@ -1,0 +1,10 @@
+.register-note {
+  max-width: 90%;
+  font-size: 0.75rem;
+}
+
+.register-note--symbol {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+}
