@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { CgMenuRight, CgClose } from "react-icons/cg";
+import useAuth from "../../hooks/useAuth";
 
 import todoIcon from "../../assets/images/to-do-list.png";
 
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);
 
-  const navMenu = [
+  const { isAuthenticated, logout } = useAuth();
+
+  /*   const navMenu = [
     {
       href: "/",
       title: "Home",
@@ -24,9 +27,14 @@ const Navigation = () => {
       href: "login",
       title: "Login",
     },
-  ];
+  ]; */
+
+  const menuIsActive = ({ isActive }) =>
+    isActive ? "rounded p-1 text-custom-orange ring-2 ring-custom-green" : "";
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
+
+  const logoutHandler = () => logout();
 
   return (
     <nav className="relative mx-auto flex max-w-5xl flex-row items-center justify-between bg-custom-white p-4 sm:static">
@@ -46,23 +54,55 @@ const Navigation = () => {
           viewMenu ? "left-0" : "translate-x-full"
         }`}
       >
-        {navMenu.map((menu, index) => {
-          const { href, title } = menu;
+        <li>
+          <NavLink to={"/"} className={menuIsActive}>
+            Home
+          </NavLink>
+        </li>
+        {isAuthenticated && (
+          <li>
+            <NavLink to={"dashboard"} className={menuIsActive}>
+              Dashboard
+            </NavLink>
+          </li>
+        )}
+        {isAuthenticated && (
+          <li>
+            <NavLink to={"category"} className={menuIsActive}>
+              Category
+            </NavLink>
+          </li>
+        )}
+        {isAuthenticated ? (
+          <li>
+            <NavLink to={"/"} onClick={logoutHandler}>
+              Logout
+            </NavLink>
+          </li>
+        ) : (
+          <li>
+            <NavLink to={"login"} className={menuIsActive}>
+              Login
+            </NavLink>
+          </li>
+        )}
+
+        {/* {navMenu.map((menu, index) => {
           return (
             <li key={index}>
               <NavLink
-                to={href}
+                to={menu.href}
                 className={({ isActive }) =>
                   isActive
                     ? "rounded p-1 text-custom-orange ring-2 ring-custom-green"
                     : ""
                 }
               >
-                {title}
+                {menu.title}
               </NavLink>
             </li>
           );
-        })}
+        })} */}
       </ul>
     </nav>
   );

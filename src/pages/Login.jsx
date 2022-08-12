@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <section className="mx-auto flex max-w-sm flex-col gap-y-3 rounded-xl bg-custom-white p-4 ring-2 ring-custom-green">
+    <section className="mx-auto flex max-w-sm flex-col gap-y-3 rounded bg-custom-white p-4 shadow-material-shadow">
       <h1 className="text-center text-3xl text-custom-orange">Sign In</h1>
       <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-3">
         <FormInput

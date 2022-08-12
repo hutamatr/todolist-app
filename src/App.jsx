@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Category from "./pages/Category";
 import NotFound from "./pages/NotFound";
+import RequireAuth from "./components/Auth/RequireAuth";
 
 const App = () => {
   return (
@@ -18,8 +19,10 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/" element={<Layout />}>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="category" element={<Category />} />
+        <Route element={<RequireAuth />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="category" element={<Category />} />
+        </Route>
       </Route>
     </Routes>
   );
