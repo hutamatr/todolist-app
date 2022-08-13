@@ -1,6 +1,8 @@
 .register-note {
   max-width: 90%;
-  font-size: 0.75rem;
+  font-size: 0.6rem;
+  color: black;
+  font-weight: 600;
 }
 
 .register-note--symbol {

@@ -126,6 +126,7 @@ const Register = () => {
           onFocus={passwordMatchFocusHandler}
           onBlur={passwordMatchFocusHandler}
         />
+
         <button
           className={styles["register-button"]}
           disabled={

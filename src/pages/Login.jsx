@@ -43,9 +43,9 @@ const Login = () => {
   };
 
   return (
-    <section className="mx-auto flex max-w-sm flex-col gap-y-3 rounded bg-custom-white p-4 shadow-material-shadow">
+    <section className="flex flex-col gap-y-3 rounded bg-custom-white p-4">
       <h1 className="text-center text-3xl text-custom-orange">Sign In</h1>
-      <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-3">
+      <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
         <FormInput
           label={"Email"}
           input={email}
@@ -63,7 +63,7 @@ const Login = () => {
         />
 
         <button
-          className={`mx-auto rounded-lg bg-custom-green px-4 py-2 text-custom-white duration-300 hover:bg-custom-orange disabled:cursor-not-allowed disabled:opacity-70`}
+          className={`mx-auto rounded bg-custom-green px-4 py-2 text-custom-white duration-300 hover:bg-custom-orange disabled:cursor-not-allowed disabled:opacity-70`}
           disabled={!isValidEmail || !isValidPassword ? true : false}
         >
           Sign In
