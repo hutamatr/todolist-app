@@ -8,9 +8,9 @@ export const TodoContext = createContext({
   editTodo: (todoItem) => {},
 });
 
-export const authContext = createContext({
-  authToken: "",
-  isLoggedIn: false,
+export const AuthContext = createContext({
+  authToken: null,
+  isAuthenticated: false,
   login: (token) => {},
   logout: () => {},
 });

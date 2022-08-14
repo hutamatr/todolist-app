@@ -44,11 +44,11 @@ const Register = () => {
   }, [password, passwordMatch, passwordValidation]);
 
   const userNameChangeHandler = (event) => setUserName(event.target.value);
-  const useNameFocusHandler = () =>
+  const userNameFocusHandler = () =>
     setIsUserNameFocus((prevState) => !prevState);
 
   const userEmailChangeHandler = (event) => setUserEmail(event.target.value);
-  const useEmailFocusHandler = () =>
+  const userEmailFocusHandler = () =>
     setIsUserEmailFocus((prevState) => !prevState);
 
   const passwordChangeHandler = (event) => setPassword(event.target.value);
@@ -93,8 +93,8 @@ const Register = () => {
           autoComplete={"off"}
           type="text"
           onChange={userNameChangeHandler}
-          onFocus={useNameFocusHandler}
-          onBlur={useNameFocusHandler}
+          onFocus={userNameFocusHandler}
+          onBlur={userNameFocusHandler}
         />
         <FormInput
           label={"Email"}
@@ -103,8 +103,8 @@ const Register = () => {
           input={userEmail}
           type="email"
           onChange={userEmailChangeHandler}
-          onFocus={useEmailFocusHandler}
-          onBlur={useEmailFocusHandler}
+          onFocus={userEmailFocusHandler}
+          onBlur={userEmailFocusHandler}
         />
         <FormInput
           label={"Password"}
@@ -126,6 +126,7 @@ const Register = () => {
           onFocus={passwordMatchFocusHandler}
           onBlur={passwordMatchFocusHandler}
         />
+
         <button
           className={styles["register-button"]}
           disabled={

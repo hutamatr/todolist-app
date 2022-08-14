@@ -1,8 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 
 import Modal from "../UI/Modal";
 import useTodos from "../../hooks/useTodos";
+
+const generateID = () => {
+  return Date.now();
+};
 
 const DashboardForm = () => {
   const [newTodoInput, setNewTodoInput] = useState({
@@ -12,10 +16,10 @@ const DashboardForm = () => {
   });
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
-  const { addTodos } = useTodos();
+  const { addTodos, todoEdit, editTodo } = useTodos();
   const titleRef = useRef();
 
-  /*   useEffect(() => {
+  useEffect(() => {
     titleRef.current.focus();
     if (todoEdit.id) {
       setNewTodoInput({
@@ -24,7 +28,7 @@ const DashboardForm = () => {
         date: todoEdit.date,
       });
     }
-  }, [todoEdit]); */
+  }, [todoEdit]);
 
   const titleChangeHandler = (event) => {
     setNewTodoInput((prevState) => ({
@@ -47,13 +51,14 @@ const DashboardForm = () => {
     }));
   };
 
-  /*   const todoEditHandler = () => {
+  const cancelEditHandler = () => {
     setNewTodoInput({
-      title: todoEdit.title,
-      message: todoEdit.message,
-      date: todoEdit.date,
+      title: "",
+      message: "",
+      date: "",
     });
-  }; */
+    editTodo({});
+  };
 
   const newTodoSubmitHandler = (event) => {
     event.preventDefault();
@@ -67,24 +72,36 @@ const DashboardForm = () => {
       return;
     }
 
-    const newTodo = {
-      title: newTodoInput.title,
-      message: newTodoInput.message,
-      date: newTodoInput.date,
-    };
+    if (todoEdit.id) {
+      const updatedTodo = {
+        id: todoEdit.id,
+        title: newTodoInput.title,
+        message: newTodoInput.message,
+        date: newTodoInput.date,
+      };
 
-    addTodos(newTodo);
+      addTodos(updatedTodo);
+    } else {
+      const newTodo = {
+        id: generateID(),
+        title: newTodoInput.title,
+        message: newTodoInput.message,
+        date: newTodoInput.date,
+      };
 
+      addTodos(newTodo);
+    }
     setNewTodoInput({
       title: "",
       message: "",
       date: "",
     });
+    editTodo({});
   };
 
   return (
     <Modal>
-      <label htmlFor="my-modal-6">
+      <label htmlFor="my-modal-6" onClick={cancelEditHandler}>
         <MdCancel className="absolute top-3 right-6 cursor-pointer text-3xl text-custom-orange" />
       </label>
       <form onSubmit={newTodoSubmitHandler} className="flex flex-col gap-y-3">
@@ -107,7 +124,7 @@ const DashboardForm = () => {
           className="rounded-md p-2 outline-none ring-1 ring-custom-black"
         ></textarea>
         <input
-          type="datetime-local"
+          type="date"
           onChange={dateChangeHandler}
           value={newTodoInput.date}
           className="max-w-min rounded-md p-1 ring-1 ring-custom-black"
@@ -122,7 +139,7 @@ const DashboardForm = () => {
             className="cursor-pointer disabled:cursor-not-allowed"
             disabled={isInputEmpty ? true : false}
           >
-            Submit
+            {todoEdit.id ? "Update" : "Submit"}
           </label>
         </button>
       </form>
