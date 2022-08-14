@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { formatDistance } from "date-fns";
 
-import { MdDeleteOutline, MdCheckCircle } from "react-icons/md";
+import { MdDeleteOutline, MdCheckCircle, MdEdit } from "react-icons/md";
 
 import useTodos from "../../hooks/useTodos";
 
 const DashboardCard = ({ title, message, date, id, todo }) => {
   const [todoCompleted, setTodoCompleted] = useState(false);
 
-  const { deleteTodo } = useTodos();
+  const { deleteTodo, editTodo } = useTodos();
 
-  const newDate = new Date(date).toISOString();
-  const formattedDate = formatDistance(new Date(newDate), new Date(), {
+  const formattedDate = formatDistance(new Date(date), new Date(), {
     addSuffix: true,
+    includeSeconds: true,
   });
 
   const todoCompletedHandler = () =>
@@ -22,14 +22,14 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
     deleteTodo(id);
   };
 
-  /*   const todoEditHandler = () => {
+  const todoEditHandler = () => {
     editTodo(todo);
-  }; */
+  };
 
   return (
     <div
       className={`flex flex-col gap-y-3 rounded-lg bg-custom-white p-4 shadow-material-shadow ${
-        todoCompleted ? "opacity-50" : ""
+        todoCompleted ? "ring-2 ring-custom-green" : ""
       }`}
     >
       <div className="flex items-start justify-between gap-x-4">
@@ -59,13 +59,13 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
               }`}
             />
           </button>
-          {/*  <label
+          <label
             htmlFor="my-modal-6"
             className="cursor-pointer"
             onClick={todoEditHandler}
           >
             <MdEdit className="text-2xl text-custom-green" />
-          </label> */}
+          </label>
           <button onClick={todoDeleteHandler}>
             <MdDeleteOutline className="text-red-700" />
           </button>

@@ -5,7 +5,7 @@ import todoListImage from "../../assets/images/todo-list-image.webp";
 
 const LayoutWithOutNav = () => {
   return (
-    <main className="hero mx-auto max-w-5xl">
+    <main className="hero mx-auto max-w-5xl lg:min-h-screen">
       <section className="hero-content flex-col gap-8 lg:flex-row-reverse">
         <img
           src={todoListImage}

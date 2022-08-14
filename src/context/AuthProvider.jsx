@@ -4,7 +4,7 @@ import { AuthContext } from "./Context";
 
 const initState = {
   authToken: null,
-  isAuthenticated: false,
+  isAuthenticated: true, // default is false
 };
 
 const authReducer = (state, action) => {

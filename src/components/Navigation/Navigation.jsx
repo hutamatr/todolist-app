@@ -34,7 +34,7 @@ const Navigation = () => {
         </button>
       </div>
       <ul
-        className={`absolute top-16 flex h-[calc(100vh-3rem)] w-full flex-col items-center justify-center gap-y-4 rounded-xl bg-custom-white py-10 text-center duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:gap-x-8 sm:bg-transparent sm:py-0 ${
+        className={`absolute top-16 flex h-[calc(100vh-3rem)] w-full flex-col items-center justify-center gap-y-4 bg-custom-white text-center duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:gap-x-8 sm:bg-transparent sm:py-0 ${
           viewMenu ? "left-0" : "translate-x-full"
         }`}
       >

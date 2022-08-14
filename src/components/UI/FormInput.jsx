@@ -1,11 +1,5 @@
 import React, { forwardRef } from "react";
-import {
-  MdCheckCircle,
-  MdCancel,
-  MdReport,
-  // MdVisibility,
-  // MdVisibilityOff,
-} from "react-icons/md";
+import { MdCheckCircle, MdCancel, MdReport } from "react-icons/md";
 
 import RegisterNote from "../Register/RegisterNote";
 
@@ -26,26 +20,6 @@ const FormInput = forwardRef(
     },
     ref
   ) => {
-    // const [values, setValues] = useState({
-    //   password: "",
-    //   isPasswordShow: false,
-    // });
-
-    // const passwordShowClickHandler = () =>
-    //   setValues((prevState) => {
-    //     return { ...prevState, isPasswordShow: !prevState.isPasswordShow };
-    //   });
-
-    // const mouseDownHandler = (event) => event.preventDefault();
-
-    // const passwordChangeHandler = (prop) => (event) => {
-    //   setValues((prevState) => {
-    //     return { ...prevState, [prop]: event.target.value };
-    //   });
-    // };
-
-    // const viewPasswordHandler = () => setIsView((prevState) => !prevState);
-
     return (
       <>
         <label htmlFor={label.toLowerCase()} className={styles["form-label"]}>
@@ -65,31 +39,18 @@ const FormInput = forwardRef(
             }`}
           />
         </label>
-        <div className="">
-          <input
-            required
-            // type={values.isPasswordShow ? "password" : type}
-            type={type}
-            id={label.toLowerCase()}
-            value={input}
-            autoComplete={autoComplete ? autoComplete : null}
-            ref={ref}
-            // onChange={
-            //   values.isPasswordShow ? passwordChangeHandler("password") : onChange
-            // }
-            onChange={onChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            className={styles["form-input"]}
-          />
-          {/* <button
-            onClick={passwordShowClickHandler}
-            onMouseDown={mouseDownHandler}
-          >
-            {values.isPasswordShow ? <MdVisibility /> : <MdVisibilityOff />}
-          </button> */}
-        </div>
-
+        <input
+          required
+          type={type}
+          id={label.toLowerCase()}
+          value={input}
+          autoComplete={autoComplete ? autoComplete : null}
+          ref={ref}
+          onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          className={styles["form-input"]}
+        />
         <div
           className={`${
             isFocusInput && input && !isValidInput

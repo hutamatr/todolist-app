@@ -1,17 +1,30 @@
 import React, { useReducer } from "react";
 
 import { TodoContext } from "./Context";
-import { todoData } from "../utils/dummy-todos";
+// import { todoData } from "../utils/dummy-todos";
 
 const initTodo = {
-  todos: [...todoData],
-  // todoEdit: {},
+  todos: [],
+  todoEdit: {},
 };
 
 const todosReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TODO":
-      const updatedTodos = [action.payload, ...state.todos];
+      const existingTodoItemIndex = state.todos.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
+      const existingTodoItem = state.todos[existingTodoItemIndex];
+
+      let updatedTodos = null;
+
+      if (existingTodoItem) {
+        updatedTodos = [...state.todos];
+        updatedTodos[existingTodoItemIndex] = action.payload;
+      } else {
+        updatedTodos = [action.payload, ...state.todos];
+      }
+
       return {
         ...state,
         todos: updatedTodos,
@@ -20,16 +33,19 @@ const todosReducer = (state, action) => {
       const removedTodo = state.todos.filter(
         (todo) => todo.id !== action.payload
       );
+
       return {
         ...state,
         todos: removedTodo,
       };
-    /*  case "EDIT_TODO":
+    case "EDIT_TODO":
       const editTodo = { ...action.payload };
+
       return {
         ...state,
         todoEdit: editTodo,
-      }; */
+      };
+
     default:
       return initTodo;
   }
@@ -46,16 +62,16 @@ const TodoProvider = ({ children }) => {
     dispatchTodo({ type: "REMOVE_TODO", payload: todoId });
   };
 
-  /*   const editTodoHandler = (todoItem) => {
+  const editTodoHandler = (todoItem) => {
     dispatchTodo({ type: "EDIT_TODO", payload: todoItem });
-  }; */
+  };
 
   const value = {
     todos: todoState.todos,
     todoEdit: todoState.todoEdit,
     addTodos: addTodosHandler,
     deleteTodo: deleteTodoHandler,
-    // editTodo: editTodoHandler,
+    editTodo: editTodoHandler,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
