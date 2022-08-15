@@ -1,6 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useReducer } from 'react';
 
-import { AuthContext } from "./Context";
+import { AuthContext } from './Context';
 
 const initState = {
   authToken: null,
@@ -9,15 +9,15 @@ const initState = {
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case "LOGIN":
-      localStorage.setItem("auth_token", JSON.stringify(action.payload.token));
+    case 'LOGIN':
+      localStorage.setItem('auth_token', JSON.stringify(action.payload.token));
       return {
         ...state,
         authToken: action.payload.token,
         isAuthenticated: true,
       };
-    case "LOGOUT":
-      localStorage.removeItem("auth_token");
+    case 'LOGOUT':
+      localStorage.removeItem('auth_token');
       return {
         ...state,
         isAuthenticated: false,
@@ -32,11 +32,11 @@ const AuthProvider = ({ children }) => {
   const [authState, dispatchAuth] = useReducer(authReducer, initState);
 
   const loginHandler = (newToken) => {
-    dispatchAuth({ type: "LOGIN", payload: newToken });
+    dispatchAuth({ type: 'LOGIN', payload: newToken });
   };
 
   const logoutHandler = () => {
-    dispatchAuth({ type: "LOGOUT" });
+    dispatchAuth({ type: 'LOGOUT' });
   };
 
   const value = {

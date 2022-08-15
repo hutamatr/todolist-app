@@ -1,14 +1,14 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Layout from "./components/Layout/Layout";
-import LayoutWithOutNav from "./components/Layout/LayoutWithOutNav";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Category from "./pages/Category";
-import NotFound from "./pages/NotFound";
-import RequireAuth from "./components/Auth/RequireAuth";
+import Layout from './components/Layout/Layout';
+import LayoutWithOutNav from './components/Layout/LayoutWithOutNav';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Category from './pages/Category';
+import NotFound from './pages/NotFound';
+import RequireAuth from './components/Auth/RequireAuth';
 
 const App = () => {
   return (

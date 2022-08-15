@@ -1,12 +1,12 @@
-import { useState, useCallback } from "react";
-import axios from "axios";
+import { useState, useCallback } from 'react';
+import axios from 'axios';
 
-const BASE_URL = "";
+const BASE_URL = '';
 
 const useAxios = () => {
   const [error, setError] = useState({
     isError: false,
-    errorMessage: "",
+    errorMessage: '',
   });
 
   const requestHttp = useCallback(async (requestConfig, setRequestData) => {
@@ -24,12 +24,12 @@ const useAxios = () => {
       if (!error.response) {
         setError({
           isError: true,
-          errorMessage: "No Server Response",
+          errorMessage: 'No Server Response',
         });
       } else {
         setError({
           isError: true,
-          errorMessage: "Login Failed",
+          errorMessage: 'Login Failed',
         });
       }
     }

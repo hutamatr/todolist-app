@@ -1,11 +1,11 @@
-import React from "react";
-import { FcTodoList } from "react-icons/fc";
+import React from 'react';
+import { FcTodoList } from 'react-icons/fc';
 
-import DashboardCard from "../components/Dashboard/DashboardCard";
-import DashboardForm from "../components/Dashboard/DashboardForm";
-import useTodos from "../hooks/useTodos";
+import DashboardCard from '../components/Dashboard/DashboardCard';
+import DashboardForm from '../components/Dashboard/DashboardForm';
+import useTodos from '../hooks/useTodos';
 
-import todoListEmpty from "../assets/images/todo-list-empty.webp";
+import todoListEmpty from '../assets/images/todo-list-empty.webp';
 
 const Dashboard = () => {
   const { todos } = useTodos();
@@ -38,9 +38,9 @@ const Dashboard = () => {
     <>
       <section className="flex flex-col gap-y-6 py-6">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-xl text-custom-orange">Dashboard</h1>
+          <h1 className="text-custom-orange text-xl">Dashboard</h1>
           <label
-            className="btn-sm flex cursor-pointer flex-row items-center gap-x-2 rounded-lg bg-custom-white font-semibold shadow-material-shadow"
+            className="bg-custom-white btn-sm flex cursor-pointer flex-row items-center gap-x-2 rounded-lg font-semibold shadow-material-shadow"
             htmlFor="my-modal-6"
           >
             <FcTodoList className="text-xl" />

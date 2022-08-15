@@ -1,6 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useReducer } from 'react';
 
-import { TodoContext } from "./Context";
+import { TodoContext } from './Context';
 // import { todoData } from "../utils/dummy-todos";
 
 const initTodo = {
@@ -10,7 +10,7 @@ const initTodo = {
 
 const todosReducer = (state, action) => {
   switch (action.type) {
-    case "ADD_TODO":
+    case 'ADD_TODO':
       const existingTodoItemIndex = state.todos.findIndex(
         (todo) => todo.id === action.payload.id
       );
@@ -29,7 +29,7 @@ const todosReducer = (state, action) => {
         ...state,
         todos: updatedTodos,
       };
-    case "REMOVE_TODO":
+    case 'REMOVE_TODO':
       const removedTodo = state.todos.filter(
         (todo) => todo.id !== action.payload
       );
@@ -38,7 +38,7 @@ const todosReducer = (state, action) => {
         ...state,
         todos: removedTodo,
       };
-    case "EDIT_TODO":
+    case 'EDIT_TODO':
       const editTodo = { ...action.payload };
 
       return {
@@ -55,15 +55,15 @@ const TodoProvider = ({ children }) => {
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
 
   const addTodosHandler = (todoItem) => {
-    dispatchTodo({ type: "ADD_TODO", payload: todoItem });
+    dispatchTodo({ type: 'ADD_TODO', payload: todoItem });
   };
 
   const deleteTodoHandler = (todoId) => {
-    dispatchTodo({ type: "REMOVE_TODO", payload: todoId });
+    dispatchTodo({ type: 'REMOVE_TODO', payload: todoId });
   };
 
   const editTodoHandler = (todoItem) => {
-    dispatchTodo({ type: "EDIT_TODO", payload: todoItem });
+    dispatchTodo({ type: 'EDIT_TODO', payload: todoItem });
   };
 
   const value = {

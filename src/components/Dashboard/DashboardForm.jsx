@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { MdCancel } from "react-icons/md";
+import React, { useState, useRef, useEffect } from 'react';
+import { MdCancel } from 'react-icons/md';
 
-import Modal from "../UI/Modal";
-import useTodos from "../../hooks/useTodos";
+import Modal from '../UI/Modal';
+import useTodos from '../../hooks/useTodos';
 
 const generateID = () => {
   return Date.now();
@@ -10,9 +10,9 @@ const generateID = () => {
 
 const DashboardForm = () => {
   const [newTodoInput, setNewTodoInput] = useState({
-    title: "",
-    message: "",
-    date: "",
+    title: '',
+    message: '',
+    date: '',
   });
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
@@ -53,9 +53,9 @@ const DashboardForm = () => {
 
   const cancelEditHandler = () => {
     setNewTodoInput({
-      title: "",
-      message: "",
-      date: "",
+      title: '',
+      message: '',
+      date: '',
     });
     editTodo({});
   };
@@ -92,9 +92,9 @@ const DashboardForm = () => {
       addTodos(newTodo);
     }
     setNewTodoInput({
-      title: "",
-      message: "",
-      date: "",
+      title: '',
+      message: '',
+      date: '',
     });
     editTodo({});
   };
@@ -102,7 +102,7 @@ const DashboardForm = () => {
   return (
     <Modal>
       <label htmlFor="my-modal-6" onClick={cancelEditHandler}>
-        <MdCancel className="absolute top-3 right-6 cursor-pointer text-3xl text-custom-orange" />
+        <MdCancel className="text-custom-orange absolute top-3 right-6 cursor-pointer text-3xl" />
       </label>
       <form onSubmit={newTodoSubmitHandler} className="flex flex-col gap-y-3">
         <label htmlFor="todo-title">Title</label>
@@ -111,7 +111,7 @@ const DashboardForm = () => {
           ref={titleRef}
           onChange={titleChangeHandler}
           value={newTodoInput.title}
-          className="rounded-md p-2 ring-1 ring-custom-black"
+          className="ring-custom-black rounded-md p-2 ring-1"
         />
         <label htmlFor="todo-message">Todo</label>
         <textarea
@@ -121,17 +121,17 @@ const DashboardForm = () => {
           rows="5"
           onChange={messageChangeHandler}
           value={newTodoInput.message}
-          className="rounded-md p-2 outline-none ring-1 ring-custom-black"
+          className="ring-custom-black rounded-md p-2 outline-none ring-1"
         ></textarea>
         <input
           type="date"
           onChange={dateChangeHandler}
           value={newTodoInput.date}
-          className="max-w-min rounded-md p-1 ring-1 ring-custom-black"
+          className="ring-custom-black max-w-min rounded-md p-1 ring-1"
         />
 
         <button
-          className="mx-auto max-w-fit rounded-md bg-custom-green px-4 py-1 text-custom-white duration-300 hover:bg-custom-orange disabled:cursor-not-allowed"
+          className="bg-custom-green text-custom-white hover:bg-custom-orange mx-auto max-w-fit rounded-md px-4 py-1 duration-300 disabled:cursor-not-allowed"
           disabled={isInputEmpty ? true : false}
         >
           <label
@@ -139,7 +139,7 @@ const DashboardForm = () => {
             className="cursor-pointer disabled:cursor-not-allowed"
             disabled={isInputEmpty ? true : false}
           >
-            {todoEdit.id ? "Update" : "Submit"}
+            {todoEdit.id ? 'Update' : 'Submit'}
           </label>
         </button>
       </form>

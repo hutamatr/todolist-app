@@ -1,7 +1,7 @@
-import React from "react";
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import React from 'react';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
 
-import useAuth from "../../hooks/useAuth";
+import useAuth from '../../hooks/useAuth';
 
 const RequireAuth = () => {
   const { isAuthenticated } = useAuth();
@@ -10,7 +10,7 @@ const RequireAuth = () => {
   return isAuthenticated ? (
     <Outlet />
   ) : (
-    <Navigate to={"/login"} state={{ from: location }} replace />
+    <Navigate to={'/login'} state={{ from: location }} replace />
   );
 };
 

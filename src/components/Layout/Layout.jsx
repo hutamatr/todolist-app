@@ -1,7 +1,7 @@
-import React from "react";
-import { Outlet, Navigate, useLocation } from "react-router-dom";
+import React from 'react';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
-import Navigation from "../Navigation/Navigation";
+import Navigation from '../Navigation/Navigation';
 
 const Layout = () => {
   const location = useLocation().pathname;
@@ -12,8 +12,8 @@ const Layout = () => {
         <Navigation />
       </header>
       <main className="mx-auto mt-16 max-w-5xl px-4">
-        {location === "/" ? (
-          <Navigate to={"/dashboard"} state={{ from: location }} replace />
+        {location === '/' ? (
+          <Navigate to={'/dashboard'} state={{ from: location }} replace />
         ) : (
           <Outlet />
         )}

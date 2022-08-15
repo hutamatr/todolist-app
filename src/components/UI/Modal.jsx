@@ -1,5 +1,5 @@
-import React from "react";
-import { createPortal } from "react-dom";
+import React from 'react';
+import { createPortal } from 'react-dom';
 
 const ModalCard = ({ children }) => {
   return (
@@ -17,7 +17,7 @@ const Modal = ({ children }) => {
     <>
       {createPortal(
         <ModalCard children={children} />,
-        document.getElementById("modal-card")
+        document.getElementById('modal-card')
       )}
     </>
   );

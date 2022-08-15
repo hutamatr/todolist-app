@@ -4,11 +4,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "custom-white": "#FFFFFF",
-        "custom-green": "#107263",
-        "custom-yellow": "#FFDE62",
-        "custom-orange": "#FF7C5F",
-        "custom-black": "#3F3F3F",
+        "neutral-900": "#18191F",
+        "neutral-800": "#2F2F35",
+        "neutral-700": "#44454A",
+        "neutral-600": "#5B5B60",
+        "neutral-500": "#707175",
+        "neutral-400": "#D3D3D4",
+        "neutral-300": "#DEDEDE",
+        "neutral-200": "#EDEDED",
+        "neutral-100": "#F7F7F7",
+        "primary-100": "#FF844B",
+        "primary-80": "#FF9D6F",
+        "primary-50": "#FFC1A5",
+        "primary-10": "#FFF3ED",
+        'sub-primary-10': '#DBFFDF'
       },
       boxShadow: {
         "material-shadow":

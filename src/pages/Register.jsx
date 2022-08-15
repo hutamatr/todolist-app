@@ -1,28 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import validation from "../utils/validation";
-import FormInput from "../components/UI/FormInput";
-
-import styles from "./register.module.css";
+import validation from '../utils/validation';
+import FormInput from '../components/UI/FormInput';
+import { LoginFormContext } from '../context/Context';
 
 const Register = () => {
   const userNameRef = useRef();
   const { userNameValidation, emailValidation, passwordValidation } =
     validation();
-  const [userName, setUserName] = useState("");
+  const { loginScreen } = useContext(LoginFormContext);
+
+  const [userName, setUserName] = useState('');
   const [isValidUserName, setIsValidUserName] = useState(false);
   const [isUserNameFocus, setIsUserNameFocus] = useState(false);
 
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState('');
   const [isValidUserEmail, setIsValidUserEmail] = useState(false);
   const [isUserEmailFocus, setIsUserEmailFocus] = useState(false);
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isPasswordFocus, setIsPasswordFocus] = useState(false);
 
-  const [passwordMatch, setPasswordMatch] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState('');
   const [isValidPasswordMatch, setIsValidPasswordMatch] = useState(false);
   const [isPasswordMatchFocus, setIsPasswordMatchFocus] = useState(false);
 
@@ -42,6 +43,8 @@ const Register = () => {
     setIsValidPassword(passwordValid);
     setIsValidPasswordMatch(password === passwordMatch);
   }, [password, passwordMatch, passwordValidation]);
+
+  const registerScreenHandler = () => loginScreen();
 
   const userNameChangeHandler = (event) => setUserName(event.target.value);
   const userNameFocusHandler = () =>
@@ -71,33 +74,30 @@ const Register = () => {
 
     console.log(registerFormInput);
 
-    setUserName("");
-    setUserEmail("");
-    setPassword("");
-    setPasswordMatch("");
+    setUserName('');
+    setUserEmail('');
+    setPassword('');
+    setPasswordMatch('');
   };
 
   return (
-    <section className={styles["register"]}>
-      <h1 className={styles["register-title"]}>Sign Up</h1>
-      <form
-        onSubmit={RegisterSubmitHandler}
-        className={styles["register-form"]}
-      >
+    <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
+      <h1 className="text-sm font-bold">Sign Up</h1>
+      <form onSubmit={RegisterSubmitHandler} className="flex flex-col gap-y-4">
         <FormInput
-          label={"Username"}
+          placeholder={'Username'}
           isValidInput={isValidUserName}
           isFocusInput={isUserNameFocus}
           input={userName}
           ref={userNameRef}
-          autoComplete={"off"}
+          autoComplete={'off'}
           type="text"
           onChange={userNameChangeHandler}
           onFocus={userNameFocusHandler}
           onBlur={userNameFocusHandler}
         />
         <FormInput
-          label={"Email"}
+          placeholder={'Email'}
           isValidInput={isValidUserEmail}
           isFocusInput={isUserEmailFocus}
           input={userEmail}
@@ -107,7 +107,7 @@ const Register = () => {
           onBlur={userEmailFocusHandler}
         />
         <FormInput
-          label={"Password"}
+          placeholder={'Password'}
           isValidInput={isValidPassword}
           isFocusInput={isPasswordFocus}
           input={password}
@@ -117,7 +117,7 @@ const Register = () => {
           onBlur={passwordFocusHandler}
         />
         <FormInput
-          label={"Confirm"}
+          placeholder={'Confirm'}
           isValidInput={isValidPasswordMatch}
           isFocusInput={isPasswordMatchFocus}
           input={passwordMatch}
@@ -128,7 +128,7 @@ const Register = () => {
         />
 
         <button
-          className={styles["register-button"]}
+          className="rounded-md bg-primary-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed disabled:bg-primary-80"
           disabled={
             !isValidUserName ||
             !isValidUserEmail ||
@@ -138,11 +138,18 @@ const Register = () => {
               : false
           }
         >
-          Sign Up
+          Create Account
         </button>
       </form>
-      <p className={styles["register-already"]}>
-        Already registered ? <Link to={"/login"}>Sign In</Link>
+      <p className="text-center text-sm">
+        Already have an account?{' '}
+        <Link
+          to={'/login'}
+          className="font-semibold text-primary-100 underline"
+          onClick={registerScreenHandler}
+        >
+          Log In
+        </Link>
       </p>
     </section>
   );

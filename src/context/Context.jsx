@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export const TodoContext = createContext({
   todos: [],
@@ -13,4 +13,9 @@ export const AuthContext = createContext({
   isAuthenticated: false,
   login: (token) => {},
   logout: () => {},
+});
+
+export const LoginFormContext = createContext({
+  onLoginScreen: true,
+  loginScreen: () => {},
 });

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { formatDistance } from "date-fns";
+import React, { useState } from 'react';
+import { formatDistance } from 'date-fns';
 
-import { MdDeleteOutline, MdCheckCircle, MdEdit } from "react-icons/md";
+import { MdDeleteOutline, MdCheckCircle, MdEdit } from 'react-icons/md';
 
-import useTodos from "../../hooks/useTodos";
+import useTodos from '../../hooks/useTodos';
 
 const DashboardCard = ({ title, message, date, id, todo }) => {
   const [todoCompleted, setTodoCompleted] = useState(false);
@@ -28,8 +28,8 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
 
   return (
     <div
-      className={`flex flex-col gap-y-3 rounded-lg bg-custom-white p-4 shadow-material-shadow ${
-        todoCompleted ? "ring-2 ring-custom-green" : ""
+      className={`bg-custom-white flex flex-col gap-y-3 rounded-lg p-4 shadow-material-shadow ${
+        todoCompleted ? 'ring-custom-green ring-2' : ''
       }`}
     >
       <div className="flex items-start justify-between gap-x-4">
@@ -37,11 +37,11 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
           {title}
         </h2>
         {todoCompleted ? (
-          <span className="mt-1 text-sm font-medium uppercase text-custom-green">
+          <span className="text-custom-green mt-1 text-sm font-medium uppercase">
             Completed!
           </span>
         ) : (
-          <span className="mt-1 whitespace-nowrap text-sm font-medium uppercase text-custom-orange">
+          <span className="text-custom-orange mt-1 whitespace-nowrap text-sm font-medium uppercase">
             In Progress
           </span>
         )}
@@ -55,7 +55,7 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
           <button onClick={todoCompletedHandler}>
             <MdCheckCircle
               className={`${
-                todoCompleted ? "text-custom-green" : "text-custom-orange"
+                todoCompleted ? 'text-custom-green' : 'text-custom-orange'
               }`}
             />
           </button>
@@ -64,7 +64,7 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
             className="cursor-pointer"
             onClick={todoEditHandler}
           >
-            <MdEdit className="text-2xl text-custom-green" />
+            <MdEdit className="text-custom-green text-2xl" />
           </label>
           <button onClick={todoDeleteHandler}>
             <MdDeleteOutline className="text-red-700" />
