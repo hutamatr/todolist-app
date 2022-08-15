@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { CgMenuRight, CgClose } from "react-icons/cg";
 
-import todoIcon from "../../assets/images/to-do-list.png";
-
 import ProfilePicture from "./ProfilePicture";
 import useAuth from "../../hooks/useAuth";
+
+import todoIcon from "../../assets/images/todo-list-icon.webp";
 
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);

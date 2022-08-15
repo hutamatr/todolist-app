@@ -11,7 +11,7 @@ const Layout = () => {
       <header className="fixed top-0 w-full">
         <Navigation />
       </header>
-      <main className="relative mx-auto mt-16 max-w-5xl px-4">
+      <main className="mx-auto mt-16 max-w-5xl px-4">
         {location === "/" ? (
           <Navigate to={"/dashboard"} state={{ from: location }} replace />
         ) : (

@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-import todoListImage from "../../assets/images/todo-list-image.webp";
+import todoListImage from "../../assets/images/todo-list-banner.webp";
 
 const LayoutWithOutNav = () => {
   return (

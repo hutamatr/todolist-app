@@ -5,8 +5,34 @@ import DashboardCard from "../components/Dashboard/DashboardCard";
 import DashboardForm from "../components/Dashboard/DashboardForm";
 import useTodos from "../hooks/useTodos";
 
+import todoListEmpty from "../assets/images/todo-list-empty.webp";
+
 const Dashboard = () => {
   const { todos } = useTodos();
+
+  const dashboardContent =
+    todos.length === 0 ? (
+      <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
+        <img
+          src={todoListEmpty}
+          alt=""
+          className="max-w-[4rem] md:max-w-[6rem]"
+        />
+        <p className="text-center text-lg font-medium">
+          Todo you add appear here
+        </p>
+      </div>
+    ) : (
+      <ul className="grid grid-cols-1 gap-y-4">
+        {todos.map((todo, index) => {
+          return (
+            <li key={index}>
+              <DashboardCard {...todo} todo={todo} />
+            </li>
+          );
+        })}
+      </ul>
+    );
 
   return (
     <>
@@ -21,15 +47,7 @@ const Dashboard = () => {
             New +
           </label>
         </div>
-        <ul className="grid grid-cols-1 gap-y-4">
-          {todos.map((todo, index) => {
-            return (
-              <li key={index}>
-                <DashboardCard {...todo} todo={todo} />
-              </li>
-            );
-          })}
-        </ul>
+        {dashboardContent}
       </section>
       <DashboardForm />
     </>
