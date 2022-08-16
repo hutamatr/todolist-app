@@ -27,7 +27,7 @@ const Login = () => {
     emailRef.current.focus();
   }, []);
 
-  const loginScreenHandler = () => loginScreen();
+  const loginScreenHandler = () => loginScreen(true);
 
   const emailInputHandler = (event) => setEmail(event.target.value);
   const passwordInputHandler = (event) => setPassword(event.target.value);

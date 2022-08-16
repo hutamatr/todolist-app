@@ -24,7 +24,7 @@ const Navigation = () => {
         <h1>todo-list.</h1>
       </Link>
       <div className="flex flex-row gap-x-6">
-        <ProfilePicture classSection={'block sm:hidden'} />
+        {/* <ProfilePicture classSection={'block sm:hidden'} /> */}
         <button className="sm:hidden" onClick={menuViewHandler}>
           {viewMenu ? (
             <CgClose className="text-xl" />

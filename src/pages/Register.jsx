@@ -44,7 +44,7 @@ const Register = () => {
     setIsValidPasswordMatch(password === passwordMatch);
   }, [password, passwordMatch, passwordValidation]);
 
-  const registerScreenHandler = () => loginScreen();
+  const registerScreenHandler = () => loginScreen(false);
 
   const userNameChangeHandler = (event) => setUserName(event.target.value);
   const userNameFocusHandler = () =>
@@ -117,7 +117,7 @@ const Register = () => {
           onBlur={passwordFocusHandler}
         />
         <FormInput
-          placeholder={'Confirm'}
+          placeholder={'Confirm Password'}
           isValidInput={isValidPasswordMatch}
           isFocusInput={isPasswordMatchFocus}
           input={passwordMatch}

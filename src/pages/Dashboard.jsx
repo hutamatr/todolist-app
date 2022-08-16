@@ -38,14 +38,14 @@ const Dashboard = () => {
     <>
       <section className="flex flex-col gap-y-6 py-6">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-custom-orange text-xl">Dashboard</h1>
-          <label
+          <h1 className="font-bold">Dashboard</h1>
+          {/* <label
             className="bg-custom-white btn-sm flex cursor-pointer flex-row items-center gap-x-2 rounded-lg font-semibold shadow-material-shadow"
             htmlFor="my-modal-6"
           >
             <FcTodoList className="text-xl" />
             New +
-          </label>
+          </label> */}
         </div>
         {dashboardContent}
       </section>

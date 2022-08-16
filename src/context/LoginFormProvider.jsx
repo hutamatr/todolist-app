@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { LoginFormContext } from './Context';
 
 const LoginFormProvider = ({ children }) => {
-  const [isLoginScreen, setIsLoginScreen] = useState(true);
+  const [isLoginScreen, setIsLoginScreen] = useState(null);
 
-  const loginScreenHandler = () => {
-    setIsLoginScreen((prevState) => !prevState);
+  const loginScreenHandler = (value) => {
+    setIsLoginScreen(value);
   };
   const value = {
     onLoginScreen: isLoginScreen,
