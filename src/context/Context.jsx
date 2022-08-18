@@ -4,6 +4,7 @@ export const TodoContext = createContext({
   todos: [],
   todoEdit: {},
   addTodo: (todoItem) => {},
+  updateTodo: (todoItem) => {},
   deleteTodo: (id) => {},
   editTodo: (todoItem) => {},
 });
@@ -17,5 +18,5 @@ export const AuthContext = createContext({
 
 export const LoginFormContext = createContext({
   onLoginScreen: true,
-  loginScreen: () => {},
+  loginScreen: (value) => {},
 });

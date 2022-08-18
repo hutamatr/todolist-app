@@ -13,12 +13,16 @@ module.exports = {
         'neutral-300': '#DEDEDE',
         'neutral-200': '#EDEDED',
         'neutral-100': '#F7F7F7',
-        'primary-100': '#FF844B',
-        'primary-80': '#FF9D6F',
-        'primary-50': '#FFC1A5',
-        'primary-10': '#FFF3ED',
-        'sub-primary-10': '#DBFFDF',
-        'sub-primary-100': '#5BE26A'
+        'orange-100': '#FF844B',
+        'orange-80': '#FF9D6F',
+        'orange-50': '#FFC1A5',
+        'orange-10': '#FFF3ED',
+        'green-100': '#5BE26A',
+        'green-10': '#DBFFDF',
+        'blue-100': '#6599FE',
+        'blue-10': '#EBF7FA',
+        'red-100': '#FE6565',
+        'red-10': '#FFF6E0',
       },
       boxShadow: {
         'material-shadow':

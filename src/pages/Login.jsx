@@ -68,7 +68,7 @@ const Login = () => {
           />
 
           <button
-            className="rounded-md bg-primary-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed disabled:bg-primary-80"
+            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
             disabled={!isValidEmail || !isValidPassword ? true : false}
           >
             Log In
@@ -78,7 +78,7 @@ const Login = () => {
           Don't have an account?{' '}
           <Link
             to={'/register'}
-            className="font-semibold text-primary-100 underline"
+            className="text-primary-100 font-semibold underline"
             onClick={loginScreenHandler}
           >
             Sign Up

@@ -128,7 +128,7 @@ const Register = () => {
         />
 
         <button
-          className="rounded-md bg-primary-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed disabled:bg-primary-80"
+          className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
           disabled={
             !isValidUserName ||
             !isValidUserEmail ||
@@ -145,7 +145,7 @@ const Register = () => {
         Already have an account?{' '}
         <Link
           to={'/login'}
-          className="font-semibold text-primary-100 underline"
+          className="text-primary-100 font-semibold underline"
           onClick={registerScreenHandler}
         >
           Log In

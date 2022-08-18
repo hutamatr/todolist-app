@@ -10,21 +10,20 @@ import todoIcon from '../../assets/images/todo-list-icon.webp';
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
 
-  const menuIsActive = ({ isActive }) =>
-    isActive ? 'rounded p-1 text-custom-orange ring-2 ring-custom-green' : '';
+  // const menuIsActive = ({ isActive }) => (isActive ? '' : '');
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
+  const logoutHandler = () => logout();
+
   return (
-    <nav className="bg-custom-white relative mx-auto flex max-w-5xl flex-row items-center justify-between p-4 sm:static">
+    <nav className="relative z-[9999] mx-auto flex max-w-5xl flex-row items-center justify-between bg-white p-4 sm:static">
       <Link to={'/'} replace={true} className="flex items-center gap-x-3">
         <img src={todoIcon} alt="" className="w-10" />
-        <h1>todo-list.</h1>
       </Link>
       <div className="flex flex-row gap-x-6">
-        {/* <ProfilePicture classSection={'block sm:hidden'} /> */}
         <button className="sm:hidden" onClick={menuViewHandler}>
           {viewMenu ? (
             <CgClose className="text-xl" />
@@ -34,21 +33,35 @@ const Navigation = () => {
         </button>
       </div>
       <ul
-        className={`bg-custom-white absolute top-16 flex h-[calc(100vh-3rem)] w-full flex-col items-center justify-center gap-y-4 text-center duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:gap-x-8 sm:bg-transparent sm:py-0 ${
-          viewMenu ? 'left-0' : 'translate-x-full'
+        className={`absolute top-16 flex w-[35%] flex-col items-start justify-center gap-y-4 rounded-md bg-white p-4 text-center text-sm font-semibold text-neutral-500 shadow-md duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:items-center sm:gap-x-8 sm:bg-transparent sm:py-0 sm:shadow-none ${
+          viewMenu ? 'right-4' : '-right-full'
         }`}
       >
+        <ProfilePicture classSection={'block sm:hidden'} />
         {isAuthenticated && (
           <li>
-            <NavLink to={'dashboard'} className={menuIsActive}>
-              Dashboard
-            </NavLink>
+            <NavLink to={'dashboard'}>Dashboard</NavLink>
           </li>
         )}
         {isAuthenticated && (
           <li>
-            <NavLink to={'category'} className={menuIsActive}>
-              Category
+            <NavLink to={'category'}>Category</NavLink>
+          </li>
+        )}
+        {isAuthenticated && (
+          <li>
+            <NavLink to={'profile'}>Profile</NavLink>
+          </li>
+        )}
+        {isAuthenticated && (
+          <li>
+            <NavLink
+              to={'/login'}
+              replace
+              onClick={logoutHandler}
+              className="text-red-100"
+            >
+              Logout
             </NavLink>
           </li>
         )}

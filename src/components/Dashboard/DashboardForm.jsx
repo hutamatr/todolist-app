@@ -16,7 +16,7 @@ const DashboardForm = () => {
   });
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
-  const { addTodos, todoEdit, editTodo } = useTodos();
+  const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
   const titleRef = useRef();
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const DashboardForm = () => {
         date: newTodoInput.date,
       };
 
-      addTodos(updatedTodo);
+      updateTodo(updatedTodo);
     } else {
       const newTodo = {
         id: generateID(),
@@ -89,7 +89,7 @@ const DashboardForm = () => {
         date: newTodoInput.date,
       };
 
-      addTodos(newTodo);
+      addTodo(newTodo);
     }
     setNewTodoInput({
       title: '',

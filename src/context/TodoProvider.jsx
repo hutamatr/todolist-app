@@ -1,16 +1,23 @@
 import React, { useReducer } from 'react';
 
 import { TodoContext } from './Context';
-// import { todoData } from "../utils/dummy-todos";
+import { todoData } from '../utils/dummy-todos';
 
 const initTodo = {
-  todos: [],
+  todos: [...todoData],
   todoEdit: {},
 };
 
 const todosReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
+      const addedTodos = [action.payload, ...state.todos];
+
+      return {
+        ...state,
+        todos: addedTodos,
+      };
+    case 'UPDATE_TODO':
       const existingTodoItemIndex = state.todos.findIndex(
         (todo) => todo.id === action.payload.id
       );
@@ -21,10 +28,7 @@ const todosReducer = (state, action) => {
       if (existingTodoItem) {
         updatedTodos = [...state.todos];
         updatedTodos[existingTodoItemIndex] = action.payload;
-      } else {
-        updatedTodos = [action.payload, ...state.todos];
       }
-
       return {
         ...state,
         todos: updatedTodos,
@@ -54,8 +58,12 @@ const todosReducer = (state, action) => {
 const TodoProvider = ({ children }) => {
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
 
-  const addTodosHandler = (todoItem) => {
+  const addTodoHandler = (todoItem) => {
     dispatchTodo({ type: 'ADD_TODO', payload: todoItem });
+  };
+
+  const updateTodoHandler = (todoItem) => {
+    dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem });
   };
 
   const deleteTodoHandler = (todoId) => {
@@ -69,7 +77,8 @@ const TodoProvider = ({ children }) => {
   const value = {
     todos: todoState.todos,
     todoEdit: todoState.todoEdit,
-    addTodos: addTodosHandler,
+    addTodo: addTodoHandler,
+    updateTodo: updateTodoHandler,
     deleteTodo: deleteTodoHandler,
     editTodo: editTodoHandler,
   };

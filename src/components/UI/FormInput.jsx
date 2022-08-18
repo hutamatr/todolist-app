@@ -4,8 +4,6 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 import RegisterNote from '../Register/RegisterNote';
 
-// import styles from "./form-input.module.css";
-
 const FormInput = forwardRef(
   (
     {
