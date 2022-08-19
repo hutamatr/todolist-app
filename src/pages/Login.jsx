@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import FormInput from "../components/UI/FormInput";
-import validation from "../utils/validation";
+import FormInput from '../components/UI/FormInput';
+import validation from '../utils/validation';
+import { LoginFormContext } from '../context/Context';
 
 const Login = () => {
   const emailRef = useRef();
   const { emailValidation, passwordValidation } = validation();
+  const { loginScreen } = useContext(LoginFormContext);
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
 
   useEffect(() => {
@@ -24,6 +26,8 @@ const Login = () => {
   useEffect(() => {
     emailRef.current.focus();
   }, []);
+
+  const loginScreenHandler = () => loginScreen(true);
 
   const emailInputHandler = (event) => setEmail(event.target.value);
   const passwordInputHandler = (event) => setPassword(event.target.value);
@@ -38,44 +42,50 @@ const Login = () => {
 
     console.log(loginInput);
 
-    setEmail("");
-    setPassword("");
+    setEmail('');
+    setPassword('');
   };
 
   return (
-    <section className="flex flex-col gap-y-3 rounded bg-custom-white p-4">
-      <h1 className="text-center text-3xl text-custom-orange">Sign In</h1>
-      <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
-        <FormInput
-          label={"Email"}
-          input={email}
-          type="email"
-          ref={emailRef}
-          onChange={emailInputHandler}
-          isValidInput={isValidEmail}
-        />
-        <FormInput
-          label={"Password"}
-          input={password}
-          type="password"
-          onChange={passwordInputHandler}
-          isValidInput={isValidPassword}
-        />
+    <>
+      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
+        <h1 className="text-sm font-bold">Log In</h1>
+        <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-4">
+          <FormInput
+            placeholder={'Email'}
+            input={email}
+            type="email"
+            ref={emailRef}
+            onChange={emailInputHandler}
+            isValidInput={isValidEmail}
+          />
+          <FormInput
+            placeholder={'Password'}
+            input={password}
+            type="password"
+            onChange={passwordInputHandler}
+            isValidInput={isValidPassword}
+          />
 
-        <button
-          className={`mx-auto rounded bg-custom-green px-4 py-2 text-custom-white duration-300 hover:bg-custom-orange disabled:cursor-not-allowed disabled:opacity-70`}
-          disabled={!isValidEmail || !isValidPassword ? true : false}
-        >
-          Sign In
-        </button>
-      </form>
-      <p className="flex flex-row gap-x-1 text-custom-green sm:gap-x-2">
-        Don't have an account?
-        <Link to={"/register"} className="text-custom-orange underline">
-          Sign Up
-        </Link>
-      </p>
-    </section>
+          <button
+            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
+            disabled={!isValidEmail || !isValidPassword ? true : false}
+          >
+            Log In
+          </button>
+        </form>
+        <p className="text-center text-sm">
+          Don't have an account?{' '}
+          <Link
+            to={'/register'}
+            className="text-primary-100 font-semibold underline"
+            onClick={loginScreenHandler}
+          >
+            Sign Up
+          </Link>
+        </p>
+      </section>
+    </>
   );
 };
 

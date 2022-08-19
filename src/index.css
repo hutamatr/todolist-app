@@ -1,54 +1,33 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --primary-white: #ffffff;
-  --primary-black: #3f3f3f;
-  --primary-orange: #ff7c5f;
-  --primary-green: #107263;
-  --primary-yellow: #ffde62;
-}
-
-* {
-  box-sizing: border-box;
-}
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  padding: 0;
-  margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Manrope', sans-serif;
+  color: #44454a;
 }
 
-ul {
-  list-style: none;
+::-webkit-scrollbar {
+  width: 0.65rem;
 }
 
-a {
-  text-decoration: none;
+::-webkit-scrollbar:hover {
+  width: 1rem;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+::-webkit-scrollbar-track {
+  border-radius: 1rem;
+  background: #ededed;
 }
 
-input {
-  outline: none;
-}
-
-button,
-input {
-  border: none;
-  outline: none;
-}
-
-button {
-  cursor: pointer;
+::-webkit-scrollbar-thumb {
+  background: #ff9d6f;
+  border-radius: 1rem;
+  border: 3px solid #ededed;
 }

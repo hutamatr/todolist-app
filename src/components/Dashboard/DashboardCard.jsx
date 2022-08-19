@@ -1,22 +1,35 @@
-import React, { useState } from "react";
-import { formatDistance } from "date-fns";
+import React, { useState } from 'react';
+import { formatDistance } from 'date-fns';
 
-import { MdDeleteOutline, MdCheckCircle, MdEdit } from "react-icons/md";
+import { ReactComponent as Clock } from '../../assets/icons/uil_clock.svg';
+import { ReactComponent as Edit } from '../../assets/icons/uil_edit-alt.svg';
+import { ReactComponent as Trash } from '../../assets/icons/uil_trash-alt.svg';
+import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
 
-import useTodos from "../../hooks/useTodos";
+import useTodos from '../../hooks/useTodos';
 
 const DashboardCard = ({ title, message, date, id, todo }) => {
   const [todoCompleted, setTodoCompleted] = useState(false);
 
-  const { deleteTodo, editTodo } = useTodos();
+  const { updateTodo, deleteTodo, editTodo, todos } = useTodos();
 
   const formattedDate = formatDistance(new Date(date), new Date(), {
     addSuffix: true,
     includeSeconds: true,
   });
 
-  const todoCompletedHandler = () =>
+  const newDate = new Date(date).toLocaleDateString();
+
+  const todoCompletedHandler = (todoId) => {
     setTodoCompleted((prevState) => !prevState);
+    let completedTodo;
+    for (const todo of todos) {
+      if (todo.id === todoId) {
+        completedTodo = { ...todo, isCompleted: !todoCompleted };
+      }
+    }
+    updateTodo(completedTodo);
+  };
 
   const todoDeleteHandler = () => {
     deleteTodo(id);
@@ -27,48 +40,45 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
   };
 
   return (
-    <div
-      className={`flex flex-col gap-y-3 rounded-lg bg-custom-white p-4 shadow-material-shadow ${
-        todoCompleted ? "ring-2 ring-custom-green" : ""
-      }`}
-    >
-      <div className="flex items-start justify-between gap-x-4">
-        <h2 className="max-h-12 overflow-auto break-all text-lg font-semibold">
+    <div className="flex rounded-lg shadow-md">
+      <span
+        className={`w-4 rounded-l-lg ${
+          todoCompleted ? 'bg-green-100' : 'bg-blue-100'
+        }`}
+      ></span>
+      <div className="flex w-full flex-col gap-y-3 rounded-r-lg bg-white p-4">
+        <h2 className="text-md max-h-12 overflow-auto break-all font-semibold">
           {title}
         </h2>
-        {todoCompleted ? (
-          <span className="mt-1 text-sm font-medium uppercase text-custom-green">
-            Completed!
-          </span>
-        ) : (
-          <span className="mt-1 whitespace-nowrap text-sm font-medium uppercase text-custom-orange">
-            In Progress
-          </span>
-        )}
-      </div>
-      <p className="max-h-24 overflow-auto break-words">{message}</p>
-      <div className="flex flex-row items-center justify-between">
-        <>
-          <span className="text-xs">{formattedDate}</span>
-        </>
-        <div className="flex items-center gap-x-3 text-3xl">
-          <button onClick={todoCompletedHandler}>
-            <MdCheckCircle
-              className={`${
-                todoCompleted ? "text-custom-green" : "text-custom-orange"
-              }`}
-            />
-          </button>
-          <label
-            htmlFor="my-modal-6"
-            className="cursor-pointer"
-            onClick={todoEditHandler}
-          >
-            <MdEdit className="text-2xl text-custom-green" />
-          </label>
-          <button onClick={todoDeleteHandler}>
-            <MdDeleteOutline className="text-red-700" />
-          </button>
+
+        <p className="max-h-24 overflow-auto break-words text-sm">{message}</p>
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex items-center justify-center gap-x-1">
+            <Clock className="w-4" fill="#707175" />
+            <span className="text-[.65rem]">
+              {newDate} - {formattedDate}
+            </span>
+          </div>
+          <div className="flex items-center gap-x-3 text-3xl">
+            <label
+              htmlFor="my-modal-6"
+              className="cursor-pointer"
+              onClick={todoEditHandler}
+            >
+              <Edit className="w-4" fill="#707175" />
+            </label>
+            <button onClick={todoDeleteHandler}>
+              <Trash className="w-4" fill="#FE6565" />
+            </button>
+            <button onClick={todoCompletedHandler.bind(this, id)}>
+              <Check
+                className={`w-4 rounded-md ${
+                  todoCompleted ? 'bg-green-100' : 'bg-neutral-400'
+                }`}
+                fill="#fff"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>

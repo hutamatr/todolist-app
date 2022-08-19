@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import { MdCheckCircleOutline } from "react-icons/md";
+import { MdCheckCircleOutline } from 'react-icons/md';
 
 const Alert = ({ children, onAlertShow }) => {
   return (
     <div
       className={`alert alert-success absolute m-4 max-w-fit shadow-lg duration-300 ${
-        onAlertShow ? "bottom-0" : ""
+        onAlertShow ? 'bottom-0' : ''
       }`}
     >
       <div>
