@@ -6,7 +6,7 @@ import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFi
 import useTodos from '../hooks/useTodos';
 
 import emptyTodo from '../assets/images/Calendar.webp';
-import add from '../assets/icons/uil_plus.svg';
+import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 
 const Dashboard = () => {
   const { todos } = useTodos();
@@ -41,7 +41,10 @@ const Dashboard = () => {
           htmlFor="my-modal-6"
           className="fixed bottom-0 right-0 my-6 mx-4 cursor-pointer rounded-lg bg-orange-100 p-2"
         >
-          <img src={add} alt="" className="w-8" />
+          <Plus
+            className="h-8 w-8 duration-500 hover:rotate-90"
+            fill="#F7F7F7"
+          />
         </label>
       </section>
       <DashboardForm />

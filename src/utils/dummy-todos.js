@@ -9,6 +9,7 @@ export const todoData = [
     message: 'Eat in the morning',
     date: date,
     isCompleted: false,
+    category: null,
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export const todoData = [
     message: 'Sleep at night',
     date: date,
     isCompleted: false,
+    category: null,
   },
   {
     id: 3,
@@ -23,5 +25,6 @@ export const todoData = [
     message: 'Learning in school',
     date: date,
     isCompleted: false,
+    category: null,
   },
 ];

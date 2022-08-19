@@ -9,6 +9,14 @@ export const TodoContext = createContext({
   editTodo: (todoItem) => {},
 });
 
+export const CategoryContext = createContext({
+  categories: [],
+  addCategory: (category) => {},
+  updateCategory: (categoty) => {},
+  deleteCategory: (id) => {},
+  editCategory: (category) => {},
+});
+
 export const AuthContext = createContext({
   authToken: null,
   isAuthenticated: false,

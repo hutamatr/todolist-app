@@ -58,6 +58,8 @@ const todosReducer = (state, action) => {
 const TodoProvider = ({ children }) => {
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
 
+  console.table(todoState.todos);
+
   const addTodoHandler = (todoItem) => {
     dispatchTodo({ type: 'ADD_TODO', payload: todoItem });
   };

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MdCancel } from 'react-icons/md';
+
+import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 
 import Modal from '../UI/Modal';
 import useTodos from '../../hooks/useTodos';
@@ -9,15 +10,28 @@ const generateID = () => {
 };
 
 const DashboardForm = () => {
+  const titleRef = useRef();
+  const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
+
   const [newTodoInput, setNewTodoInput] = useState({
     title: '',
     message: '',
     date: '',
   });
   const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [category, setCategory] = useState('');
 
-  const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
-  const titleRef = useRef();
+  const categoryList = [
+    'Coursework',
+    'Workout',
+    'Coding Web',
+    'Plant',
+    'List August',
+    'test-1',
+    'test-2',
+    'test-3',
+    'test-4',
+  ];
 
   useEffect(() => {
     titleRef.current.focus();
@@ -51,7 +65,7 @@ const DashboardForm = () => {
     }));
   };
 
-  const cancelEditHandler = () => {
+  const todoCancelHandler = () => {
     setNewTodoInput({
       title: '',
       message: '',
@@ -59,6 +73,12 @@ const DashboardForm = () => {
     });
     editTodo({});
   };
+
+  const categoryHandler = (value) => {
+    setCategory(value);
+  };
+
+  const addCategoryHandler = () => {};
 
   const newTodoSubmitHandler = (event) => {
     event.preventDefault();
@@ -78,6 +98,8 @@ const DashboardForm = () => {
         title: newTodoInput.title,
         message: newTodoInput.message,
         date: newTodoInput.date,
+        isCompleted: todoEdit.isCompleted,
+        category: category ? category : todoEdit.category,
       };
 
       updateTodo(updatedTodo);
@@ -87,6 +109,8 @@ const DashboardForm = () => {
         title: newTodoInput.title,
         message: newTodoInput.message,
         date: newTodoInput.date,
+        isCompleted: false,
+        category: category,
       };
 
       addTodo(newTodo);
@@ -101,19 +125,28 @@ const DashboardForm = () => {
 
   return (
     <Modal>
-      <label htmlFor="my-modal-6" onClick={cancelEditHandler}>
-        <MdCancel className="text-custom-orange absolute top-3 right-6 cursor-pointer text-3xl" />
-      </label>
-      <form onSubmit={newTodoSubmitHandler} className="flex flex-col gap-y-3">
-        <label htmlFor="todo-title">Title</label>
+      <h1 className="mb-4 font-bold">Create List</h1>
+      <form onSubmit={newTodoSubmitHandler} className="flex flex-col gap-y-4">
+        <label
+          htmlFor="todo-title"
+          className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+        >
+          Title
+        </label>
         <input
           type="text"
           ref={titleRef}
           onChange={titleChangeHandler}
           value={newTodoInput.title}
-          className="ring-custom-black rounded-md p-2 ring-1"
+          placeholder="what do you want to do..."
+          className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
         />
-        <label htmlFor="todo-message">Todo</label>
+        <label
+          htmlFor="todo-message"
+          className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+        >
+          Todo
+        </label>
         <textarea
           name="todo-message"
           id="todo-message"
@@ -121,25 +154,64 @@ const DashboardForm = () => {
           rows="5"
           onChange={messageChangeHandler}
           value={newTodoInput.message}
-          className="ring-custom-black rounded-md p-2 outline-none ring-1"
+          placeholder="tell me more detail about your task..."
+          className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
         ></textarea>
+        <label
+          htmlFor="date"
+          className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+        >
+          Deadline
+        </label>
         <input
           type="date"
           onChange={dateChangeHandler}
           value={newTodoInput.date}
-          className="ring-custom-black max-w-min rounded-md p-1 ring-1"
+          placeholder="mm/dd/yyyy"
+          className="max-w-fit rounded bg-neutral-200 p-2 outline-none"
         />
-
-        <button
-          className="bg-custom-green text-custom-white hover:bg-custom-orange mx-auto max-w-fit rounded-md px-4 py-1 duration-300 disabled:cursor-not-allowed"
-          disabled={isInputEmpty ? true : false}
-        >
+        <label htmlFor="category" className="text-sm">
+          Category
+        </label>
+        <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
+          {categoryList.map((category, index) => {
+            return (
+              <li key={index}>
+                <button
+                  type="button"
+                  className="w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100"
+                  onClick={categoryHandler.bind(this, category)}
+                >
+                  {category}
+                </button>
+              </li>
+            );
+          })}
+          <button
+            className="flex w-full items-center justify-center gap-x-1 rounded border-2 border-dashed border-neutral-400 bg-neutral-200 py-3 text-xs"
+            type="button"
+            onClick={addCategoryHandler}
+          >
+            <Plus fill="#707175" /> Add Category
+          </button>
+        </ul>
+        <button>
           <label
             htmlFor="my-modal-6"
-            className="cursor-pointer disabled:cursor-not-allowed"
-            disabled={isInputEmpty ? true : false}
+            className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:bg-orange-50"
+            disabled={isInputEmpty}
           >
-            {todoEdit.id ? 'Update' : 'Submit'}
+            {todoEdit.id ? 'Update List' : 'Create List'}
+          </label>
+        </button>
+
+        <button type="button" onClick={todoCancelHandler}>
+          <label
+            htmlFor="my-modal-6"
+            className="block cursor-pointer rounded p-2 font-semibold text-orange-100 disabled:bg-orange-50"
+            disabled={isInputEmpty}
+          >
+            Cancel
           </label>
         </button>
       </form>

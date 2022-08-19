@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { CgMenuRight, CgClose } from 'react-icons/cg';
+
+import { ReactComponent as Menu } from '../../assets/icons/uil_bars.svg';
+import { ReactComponent as Close } from '../../assets/icons/uil_times.svg';
 
 import ProfilePicture from './ProfilePicture';
 import useAuth from '../../hooks/useAuth';
@@ -26,9 +28,9 @@ const Navigation = () => {
       <div className="flex flex-row gap-x-6">
         <button className="sm:hidden" onClick={menuViewHandler}>
           {viewMenu ? (
-            <CgClose className="text-xl" />
+            <Close className="h-6 w-6" fill="#44454A" />
           ) : (
-            <CgMenuRight className="text-xl" />
+            <Menu className="h-6 w-6" fill="#44454A" />
           )}
         </button>
       </div>

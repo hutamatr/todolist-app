@@ -1,6 +1,8 @@
 import React, { forwardRef, useState } from 'react';
-import { MdCheck } from 'react-icons/md';
-import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
+
+import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
+import { ReactComponent as Eye } from '../../assets/icons/uil_eye.svg';
+import { ReactComponent as EyeSlash } from '../../assets/icons/uil_eye-slash.svg';
 
 import RegisterNote from '../Register/RegisterNote';
 
@@ -29,10 +31,10 @@ const FormInput = forwardRef(
         <div
           className={`flex flex-row items-center justify-between rounded-md bg-neutral-200 ${
             isValidInput && input
-              ? 'bg-sub-primary-10 ring-1 ring-sub-primary-100'
+              ? 'bg-green-10 ring-1 ring-green-100'
               : !input
               ? ''
-              : 'bg-primary-50 ring-1 ring-primary-100'
+              : 'bg-orange-50 ring-1 ring-orange-100'
           }`}
         >
           <input
@@ -46,30 +48,32 @@ const FormInput = forwardRef(
             onFocus={onFocus}
             onBlur={onBlur}
             placeholder={placeholder}
-            className={`w-full rounded-md bg-neutral-200 p-2 text-sm font-medium placeholder:text-xs ${
+            className={`w-full rounded-md bg-neutral-200 p-2 text-sm font-medium outline-none placeholder:text-xs ${
               isValidInput && input
-                ? 'bg-sub-primary-10'
+                ? 'bg-green-10'
                 : !input
                 ? ''
-                : 'bg-primary-50'
+                : 'bg-orange-50'
             }`}
           />
           {isValidInput && input && placeholder !== 'Password' && (
-            <MdCheck className="mr-2" />
+            <Check className="mr-2 w-max" fill="#5BE26A" />
           )}
           {type === 'password' &&
             placeholder !== 'Confirm Password' &&
             input && (
               <>
                 {isPassView ? (
-                  <AiOutlineEye
+                  <Eye
                     className="mr-2 cursor-pointer"
                     onClick={viewPasswordHandler}
+                    fill="#5B5B60"
                   />
                 ) : (
-                  <AiOutlineEyeInvisible
+                  <EyeSlash
                     className="mr-2 cursor-pointer"
                     onClick={viewPasswordHandler}
+                    fill="#5B5B60"
                   />
                 )}
               </>

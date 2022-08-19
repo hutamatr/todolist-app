@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { formatDistance } from 'date-fns';
 
-import time from '../../assets/icons/uil_clock.svg';
-import trash from '../../assets/icons/uil_trash-alt.svg';
-import check from '../../assets/icons/uil_check.webp';
-import edit from '../../assets/icons/uil_edit-alt.svg';
+import { ReactComponent as Clock } from '../../assets/icons/uil_clock.svg';
+import { ReactComponent as Edit } from '../../assets/icons/uil_edit-alt.svg';
+import { ReactComponent as Trash } from '../../assets/icons/uil_trash-alt.svg';
+import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
 
 import useTodos from '../../hooks/useTodos';
 
 const DashboardCard = ({ title, message, date, id, todo }) => {
   const [todoCompleted, setTodoCompleted] = useState(false);
 
-  const { deleteTodo, editTodo, todos } = useTodos();
+  const { updateTodo, deleteTodo, editTodo, todos } = useTodos();
 
   const formattedDate = formatDistance(new Date(date), new Date(), {
     addSuffix: true,
@@ -21,16 +21,14 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
   const newDate = new Date(date).toLocaleDateString();
 
   const todoCompletedHandler = (todoId) => {
-    console.log(todoId);
     setTodoCompleted((prevState) => !prevState);
-    const completedTodo = todos.map((todo) => {
-      if (todoId === todo.id) {
-        return { ...todo, isCompleted: !todoCompleted };
+    let completedTodo;
+    for (const todo of todos) {
+      if (todo.id === todoId) {
+        completedTodo = { ...todo, isCompleted: !todoCompleted };
       }
-      return todo;
-    });
-
-    console.log('completedTodo', completedTodo);
+    }
+    updateTodo(completedTodo);
   };
 
   const todoDeleteHandler = () => {
@@ -56,7 +54,7 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
         <p className="max-h-24 overflow-auto break-words text-sm">{message}</p>
         <div className="flex flex-row items-center justify-between">
           <div className="flex items-center justify-center gap-x-1">
-            <img src={time} alt="" className="w-4" />
+            <Clock className="w-4" fill="#707175" />
             <span className="text-[.65rem]">
               {newDate} - {formattedDate}
             </span>
@@ -67,18 +65,17 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
               className="cursor-pointer"
               onClick={todoEditHandler}
             >
-              <img src={edit} alt="edit" className="w-4" />
+              <Edit className="w-4" fill="#707175" />
             </label>
             <button onClick={todoDeleteHandler}>
-              <img src={trash} alt="delete" className="w-4" />
+              <Trash className="w-4" fill="#FE6565" />
             </button>
             <button onClick={todoCompletedHandler.bind(this, id)}>
-              <img
-                src={check}
-                alt="done"
+              <Check
                 className={`w-4 rounded-md ${
-                  todoCompleted ? 'bg-green-100' : 'ring-1 ring-green-100'
+                  todoCompleted ? 'bg-green-100' : 'bg-neutral-400'
                 }`}
+                fill="#fff"
               />
             </button>
           </div>

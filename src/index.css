@@ -12,3 +12,22 @@ body {
   font-family: 'Manrope', sans-serif;
   color: #44454a;
 }
+
+::-webkit-scrollbar {
+  width: 0.65rem;
+}
+
+::-webkit-scrollbar:hover {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 1rem;
+  background: #ededed;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff9d6f;
+  border-radius: 1rem;
+  border: 3px solid #ededed;
+}
