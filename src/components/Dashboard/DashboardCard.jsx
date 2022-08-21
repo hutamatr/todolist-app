@@ -6,7 +6,7 @@ import { ReactComponent as Edit } from '../../assets/icons/uil_edit-alt.svg';
 import { ReactComponent as Trash } from '../../assets/icons/uil_trash-alt.svg';
 import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
 
-import useTodos from '../../hooks/useTodos';
+import { useTodos } from '../../hooks/useStoreContext';
 
 const DashboardCard = ({ title, message, date, id, todo }) => {
   const [todoCompleted, setTodoCompleted] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/UI/FormInput';
 import validation from '../utils/validation';
@@ -7,6 +7,7 @@ import { LoginFormContext } from '../context/Context';
 
 const Login = () => {
   const emailRef = useRef();
+  const navigate = useNavigate();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
@@ -41,6 +42,7 @@ const Login = () => {
     };
 
     console.log(loginInput);
+    navigate('/dashboard', { replace: true });
 
     setEmail('');
     setPassword('');

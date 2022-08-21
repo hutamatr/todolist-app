@@ -5,7 +5,7 @@ import { ReactComponent as Menu } from '../../assets/icons/uil_bars.svg';
 import { ReactComponent as Close } from '../../assets/icons/uil_times.svg';
 
 import ProfilePicture from './ProfilePicture';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useStoreContext';
 
 import todoIcon from '../../assets/images/todo-list-icon.webp';
 

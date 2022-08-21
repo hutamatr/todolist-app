@@ -1,12 +1,12 @@
 import React from 'react';
 
+import emptyTodo from '../assets/images/Calendar.webp';
+import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
+
 import DashboardCard from '../components/Dashboard/DashboardCard';
 import DashboardForm from '../components/Dashboard/DashboardForm';
 import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
-import useTodos from '../hooks/useTodos';
-
-import emptyTodo from '../assets/images/Calendar.webp';
-import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
+import { useTodos } from '../hooks/useStoreContext';
 
 const Dashboard = () => {
   const { todos } = useTodos();

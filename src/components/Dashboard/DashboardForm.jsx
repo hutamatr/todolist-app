@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 
+import { categoryData } from '../../utils/dummy-todos';
+import { useTodos } from '../../hooks/useStoreContext';
 import Modal from '../UI/Modal';
-import useTodos from '../../hooks/useTodos';
 
 const generateID = () => {
   return Date.now();
@@ -20,18 +22,6 @@ const DashboardForm = () => {
   });
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const [category, setCategory] = useState('');
-
-  const categoryList = [
-    'Coursework',
-    'Workout',
-    'Coding Web',
-    'Plant',
-    'List August',
-    'test-1',
-    'test-2',
-    'test-3',
-    'test-4',
-  ];
 
   useEffect(() => {
     titleRef.current.focus();
@@ -77,8 +67,6 @@ const DashboardForm = () => {
   const categoryHandler = (value) => {
     setCategory(value);
   };
-
-  const addCategoryHandler = () => {};
 
   const newTodoSubmitHandler = (event) => {
     event.preventDefault();
@@ -174,26 +162,27 @@ const DashboardForm = () => {
           Category
         </label>
         <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
-          {categoryList.map((category, index) => {
+          {categoryData.map((category) => {
             return (
-              <li key={index}>
+              <li key={category.id}>
                 <button
                   type="button"
                   className="w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100"
-                  onClick={categoryHandler.bind(this, category)}
+                  onClick={categoryHandler.bind(this, category.name)}
                 >
-                  {category}
+                  {category.name}
                 </button>
               </li>
             );
           })}
-          <button
-            className="flex w-full items-center justify-center gap-x-1 rounded border-2 border-dashed border-neutral-400 bg-neutral-200 py-3 text-xs"
-            type="button"
-            onClick={addCategoryHandler}
-          >
-            <Plus fill="#707175" /> Add Category
-          </button>
+          <Link to={'/category'}>
+            <button
+              className="flex w-full items-center justify-center gap-x-1 rounded border-2 border-dashed border-neutral-400 bg-neutral-200 py-3 text-xs"
+              type="button"
+            >
+              <Plus fill="#707175" /> Add Category
+            </button>
+          </Link>
         </ul>
         <button>
           <label

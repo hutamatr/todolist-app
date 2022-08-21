@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Category from './pages/Category';
 import NotFound from './pages/NotFound';
 import RequireAuth from './components/Auth/RequireAuth';
+import CategoryDetails from './pages/CategoryDetails';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route element={<RequireAuth />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="category" element={<Category />} />
+          <Route path="category/:categoryId" element={<CategoryDetails />} />
         </Route>
       </Route>
     </Routes>
