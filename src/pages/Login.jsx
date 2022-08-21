@@ -42,7 +42,7 @@ const Login = () => {
     };
 
     console.log(loginInput);
-    navigate('/dashboard', { replace: true });
+    navigate('/home', { replace: true });
 
     setEmail('');
     setPassword('');
@@ -52,7 +52,7 @@ const Login = () => {
     <>
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
         <h1 className="text-sm font-bold">Log In</h1>
-        <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-4">
+        <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
           <FormInput
             placeholder={'Email'}
             input={email}
@@ -80,7 +80,7 @@ const Login = () => {
           Don't have an account?{' '}
           <Link
             to={'/register'}
-            className="text-primary-100 font-semibold underline"
+            className="font-semibold text-orange-100 underline"
             onClick={loginScreenHandler}
           >
             Sign Up

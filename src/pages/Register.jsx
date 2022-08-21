@@ -75,7 +75,7 @@ const Register = () => {
 
     console.log(registerFormInput);
 
-    navigate('/dashboard', { replace: true });
+    navigate('/home', { replace: true });
 
     setUserName('');
     setUserEmail('');
@@ -86,7 +86,7 @@ const Register = () => {
   return (
     <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
       <h1 className="text-sm font-bold">Sign Up</h1>
-      <form onSubmit={RegisterSubmitHandler} className="flex flex-col gap-y-4">
+      <form onSubmit={RegisterSubmitHandler} className="flex flex-col gap-y-2">
         <FormInput
           placeholder={'Username'}
           isValidInput={isValidUserName}
@@ -148,7 +148,7 @@ const Register = () => {
         Already have an account?{' '}
         <Link
           to={'/login'}
-          className="text-primary-100 font-semibold underline"
+          className="font-semibold text-orange-100 underline"
           onClick={registerScreenHandler}
         >
           Log In

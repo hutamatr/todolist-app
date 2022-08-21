@@ -32,7 +32,7 @@ const LayoutWithOutNav = () => {
 
   return (
     <main className="hero mx-auto min-h-screen bg-neutral-100 bg-ellipse-image bg-contain bg-right-top bg-no-repeat">
-      <section className="hero-content flex-col gap-y-8 px-8 lg:flex-row-reverse">
+      <section className="hero-content max-w-full flex-col gap-y-8 px-8 lg:flex-row-reverse">
         {imageContent}
         <Outlet />
       </section>
