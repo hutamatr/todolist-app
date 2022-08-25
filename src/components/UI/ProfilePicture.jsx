@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ProfilePicture = ({ classSection, classPhoto }) => {
+const ProfilePicture = ({ classPhoto }) => {
   return (
-    <section
-      className={`avatar btn btn-ghost btn-circle static ${classPhoto} ${classSection}`}
-    >
+    <section className={`avatar btn-circle btn-ghost static ${classPhoto}`}>
       <Link to={'profile'}>
         <img
           src="https://placeimg.com/80/80/people"

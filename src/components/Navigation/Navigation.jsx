@@ -40,10 +40,7 @@ const Navigation = () => {
           viewMenu ? 'right-4' : '-right-full'
         }`}
       >
-        <ProfilePicture
-          classSection={'block sm:hidden'}
-          classPhoto={'btn-sm'}
-        />
+        <ProfilePicture classPhoto={'btn-sm block sm:hidden'} />
         {isAuthenticated && (
           <li>
             <NavLink
@@ -100,10 +97,7 @@ const Navigation = () => {
             </NavLink>
           </li>
         )}
-        <ProfilePicture
-          classSection={'hidden sm:block'}
-          classPhoto={'btn-sm'}
-        />
+        <ProfilePicture classPhoto={'btn-sm hidden sm:block'} />
       </ul>
     </nav>
   );

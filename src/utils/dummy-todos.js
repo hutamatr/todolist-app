@@ -35,6 +35,12 @@ export const todoData = [
   },
 ];
 
+export const userData = {
+  username: 'johnDoe',
+  email: 'john@gmail.com',
+  password: 'John1234',
+};
+
 export const categoryData = [
   {
     id: 1,

@@ -11,6 +11,9 @@ import { useTodos } from '../hooks/useStoreContext';
 const Dashboard = () => {
   const { todos } = useTodos();
 
+  const todosInProgress = todos.filter((todo) => !todo.isCompleted);
+  const todosCompleted = todos.filter((todo) => todo.isCompleted);
+
   const dashboardContent =
     todos.length === 0 ? (
       <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">

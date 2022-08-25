@@ -12,7 +12,7 @@ export const TodoContext = createContext({
 export const CategoryContext = createContext({
   categories: [],
   addCategory: (category) => {},
-  updateCategory: (categoty) => {},
+  updateCategory: (category) => {},
   deleteCategory: (id) => {},
   editCategory: (category) => {},
 });
