@@ -17,6 +17,13 @@ export const CategoryContext = createContext({
   editCategory: (category) => {},
 });
 
+export const FilterContext = createContext({
+  isTodoInProgress: false,
+  isTodoCompleted: false,
+  inProgress: () => {},
+  completed: () => {},
+});
+
 export const AuthContext = createContext({
   authToken: null,
   isAuthenticated: false,

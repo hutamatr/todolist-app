@@ -8,7 +8,14 @@ import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
 
 import { useTodos } from '../../hooks/useStoreContext';
 
-const DashboardCard = ({ title, message, date, id, todo, isCompleted }) => {
+const DashboardCard = ({
+  title,
+  message,
+  date,
+  id,
+  isCompleted,
+  onTodoEdit,
+}) => {
   const { updateTodo, deleteTodo, editTodo, todos } = useTodos();
 
   const formattedDate = formatDistance(new Date(date), new Date(), {
@@ -33,7 +40,7 @@ const DashboardCard = ({ title, message, date, id, todo, isCompleted }) => {
   };
 
   const todoEditHandler = () => {
-    editTodo(todo);
+    editTodo(onTodoEdit);
   };
 
   return (

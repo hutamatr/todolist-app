@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ReactComponent as Spinner } from '../../../assets/icons/uil_spinner-alt.svg';
 import { ReactComponent as Check } from '../../../assets/icons/uil_check.svg';
 import { ReactComponent as Stopwatch } from '../../../assets/icons/uil_stopwatch.svg';
 
 import DashboardSort from './DashboardSort';
+import { useFilter } from '../../../hooks/useStoreContext';
 
 const DashboardFilter = () => {
-  const [isTodoInprogress, setIsTodoInProgress] = useState(false);
-  const [isTodoCompleted, setIsTodoCompleted] = useState(false);
+  const { isTodoInProgress, isTodoCompleted, inProgress, completed } =
+    useFilter();
 
   const viewTodosCompletedHandler = () => {
-    setIsTodoInProgress((prevState) => !prevState);
+    inProgress((prevState) => !prevState);
   };
 
   const viewTodosNotCompletedHandler = () => {
-    setIsTodoCompleted((prevState) => !prevState);
+    completed((prevState) => !prevState);
   };
 
   return (
@@ -23,14 +24,14 @@ const DashboardFilter = () => {
       <div className="flex gap-x-1">
         <button
           className={`flex items-center justify-center gap-x-1 rounded-md p-1 text-xs ${
-            isTodoInprogress ? 'bg-neutral-300' : 'bg-blue-10'
+            isTodoInProgress ? 'bg-neutral-300' : 'bg-blue-10'
           }`}
           onClick={viewTodosCompletedHandler}
         >
           <Spinner className="w-3" fill="#6599FE" />
           <span
             className={`${
-              isTodoInprogress ? 'text-neutral-500' : 'text-blue-100'
+              isTodoInProgress ? 'text-neutral-500' : 'text-blue-100'
             }`}
           >
             In Progress
@@ -51,10 +52,7 @@ const DashboardFilter = () => {
             Done
           </span>
         </button>
-        <button
-          className="flex items-center justify-center gap-x-1 rounded-md bg-red-10 p-1 text-xs"
-          onClick={viewTodosCompletedHandler}
-        >
+        <button className="flex items-center justify-center gap-x-1 rounded-md bg-red-10 p-1 text-xs">
           <Stopwatch className="w-3" fill="#FE6565" />
           <span className="text-red-100">Overtime</span>
         </button>
