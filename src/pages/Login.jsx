@@ -4,10 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import FormInput from '../components/UI/FormInput';
 import validation from '../utils/validation';
 import { LoginFormContext } from '../context/Context';
+import useAxios from '../hooks/useAxios';
+import { useAuth } from '../hooks/useStoreContext';
 
 const Login = () => {
   const emailRef = useRef();
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const { requestHttp } = useAxios();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
@@ -41,8 +45,17 @@ const Login = () => {
       password,
     };
 
-    console.log(loginInput);
-    navigate('/home', { replace: true });
+    requestHttp(
+      {
+        method: 'POST',
+        url: '/accounts/login',
+        dataReq: loginInput,
+      },
+      (data) => {
+        login(data.data?.token);
+        navigate('/home', { replace: true });
+      }
+    );
 
     setEmail('');
     setPassword('');

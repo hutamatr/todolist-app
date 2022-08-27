@@ -35,6 +35,7 @@ const Home = () => {
                     ? 'bg-red-10 ring-red-100'
                     : ''
                 }`}
+                key={index}
               >
                 <item.icon className="h-6 w-6" fill={item.color} />
                 <span

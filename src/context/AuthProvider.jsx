@@ -2,34 +2,53 @@ import React, { useReducer } from 'react';
 
 import { AuthContext } from './Context';
 
-const initState = {
-  authToken: null,
-  isAuthenticated: true, // default is false
+const getStorageToken = () => {
+  const localStorageToken = localStorage.getItem('auth_token');
+  return {
+    localStorageToken,
+  };
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      localStorage.setItem('auth_token', JSON.stringify(action.payload.token));
+      localStorage.setItem('auth_token', action.payload);
+      let isAuth;
+      if (action.payload) {
+        isAuth = !!action.payload;
+      }
       return {
         ...state,
-        authToken: action.payload.token,
-        isAuthenticated: true,
+        authToken: action.payload,
+        isAuthenticated: isAuth,
       };
     case 'LOGOUT':
       localStorage.removeItem('auth_token');
       return {
         ...state,
-        isAuthenticated: false,
         authToken: null,
+        isAuthenticated: false,
       };
     default:
-      return initState;
+      const { localStorageToken } = getStorageToken();
+      return {
+        authToken: localStorageToken,
+        isAuthenticated: !!localStorageToken,
+      };
   }
 };
 
 const AuthProvider = ({ children }) => {
-  const [authState, dispatchAuth] = useReducer(authReducer, initState);
+  const storageTokenData = getStorageToken();
+  let storageToken;
+  if (storageTokenData) {
+    storageToken = storageTokenData.localStorageToken;
+  }
+
+  const [authState, dispatchAuth] = useReducer(authReducer, {
+    authToken: storageToken,
+    isAuthenticated: !!storageToken,
+  });
 
   const loginHandler = (newToken) => {
     dispatchAuth({ type: 'LOGIN', payload: newToken });

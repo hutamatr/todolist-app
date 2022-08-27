@@ -25,7 +25,7 @@ export const FilterContext = createContext({
 });
 
 export const AuthContext = createContext({
-  authToken: null,
+  authToken: '',
   isAuthenticated: false,
   login: (token) => {},
   logout: () => {},
