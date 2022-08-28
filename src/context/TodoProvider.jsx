@@ -1,10 +1,10 @@
 import React, { useReducer } from 'react';
 
 import { TodoContext } from './Context';
-import { todoData } from '../utils/dummy-todos';
+// import { todoData } from '../utils/dummy-todos';
 
 const initTodo = {
-  todos: [...todoData],
+  todos: [],
   todoEdit: {},
 };
 

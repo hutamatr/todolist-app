@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import emptyTodo from '../assets/images/Calendar.webp';
 import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
@@ -6,11 +6,31 @@ import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 import DashboardCard from '../components/Dashboard/DashboardCard';
 import DashboardForm from '../components/Dashboard/DashboardForm';
 import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
-import { useTodos, useFilter } from '../hooks/useStoreContext';
+import { useTodos, useFilter, useAuth } from '../hooks/useStoreContext';
+import useAxios from '../hooks/useAxios';
 
 const Dashboard = () => {
-  const { todos } = useTodos();
+  const { todos, addTodo } = useTodos();
+  const { authToken } = useAuth();
   const { isTodoInProgress, isTodoCompleted } = useFilter();
+  const { requestHttp } = useAxios();
+
+  useEffect(() => {
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/todos?offset=2&limit=2',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        console.log(data.data);
+        addTodo(data.data);
+      }
+    );
+  }, [authToken, requestHttp, addTodo]);
 
   const todosInProgress = todos.filter((todo) => !todo.isCompleted);
   const todosCompleted = todos.filter((todo) => todo.isCompleted);

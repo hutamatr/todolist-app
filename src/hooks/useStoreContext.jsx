@@ -4,20 +4,15 @@ import {
   TodoContext,
   CategoryContext,
   FilterContext,
+  LoginFormContext,
 } from '../context/Context';
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
-export const useTodos = () => {
-  return useContext(TodoContext);
-};
+export const useTodos = () => useContext(TodoContext);
 
-export const useCategory = () => {
-  return useContext(CategoryContext);
-};
+export const useCategory = () => useContext(CategoryContext);
 
-export const useFilter = () => {
-  return useContext(FilterContext);
-};
+export const useFilter = () => useContext(FilterContext);
+
+export const useLoginForm = () => useContext(LoginFormContext);

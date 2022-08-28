@@ -12,14 +12,14 @@ const getStorageToken = () => {
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      localStorage.setItem('auth_token', action.payload);
+      const authToken = action.payload;
+      localStorage.setItem('auth_token', authToken);
       let isAuth;
-      if (action.payload) {
-        isAuth = !!action.payload;
-      }
+      if (authToken) isAuth = !!authToken;
+
       return {
         ...state,
-        authToken: action.payload,
+        authToken: authToken,
         isAuthenticated: isAuth,
       };
     case 'LOGOUT':
@@ -39,15 +39,15 @@ const authReducer = (state, action) => {
 };
 
 const AuthProvider = ({ children }) => {
-  const storageTokenData = getStorageToken();
-  let storageToken;
-  if (storageTokenData) {
-    storageToken = storageTokenData.localStorageToken;
-  }
+  const { localStorageToken } = getStorageToken();
+  // let storageToken;
+  // if (storageTokenData) {
+  //   storageToken = storageTokenData.localStorageToken;
+  // }
 
   const [authState, dispatchAuth] = useReducer(authReducer, {
-    authToken: storageToken,
-    isAuthenticated: !!storageToken,
+    authToken: localStorageToken,
+    isAuthenticated: !!localStorageToken,
   });
 
   const loginHandler = (newToken) => {
@@ -59,6 +59,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const value = {
+    authToken: authState.authToken,
     isAuthenticated: authState.isAuthenticated,
     login: loginHandler,
     logout: logoutHandler,

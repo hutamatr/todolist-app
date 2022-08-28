@@ -53,6 +53,7 @@ const Login = () => {
       },
       (data) => {
         login(data.data?.token);
+        console.log(data);
         navigate('/home', { replace: true });
       }
     );
