@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { formatDistance } from 'date-fns';
 
 import { ReactComponent as Clock } from '../../assets/icons/uil_clock.svg';
@@ -6,11 +6,16 @@ import { ReactComponent as Edit } from '../../assets/icons/uil_edit-alt.svg';
 import { ReactComponent as Trash } from '../../assets/icons/uil_trash-alt.svg';
 import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
 
-import useTodos from '../../hooks/useTodos';
+import { useTodos } from '../../hooks/useStoreContext';
 
-const DashboardCard = ({ title, message, date, id, todo }) => {
-  const [todoCompleted, setTodoCompleted] = useState(false);
-
+const DashboardCard = ({
+  title,
+  message,
+  date,
+  id,
+  isCompleted,
+  onTodoEdit,
+}) => {
   const { updateTodo, deleteTodo, editTodo, todos } = useTodos();
 
   const formattedDate = formatDistance(new Date(date), new Date(), {
@@ -20,12 +25,11 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
 
   const newDate = new Date(date).toLocaleDateString();
 
-  const todoCompletedHandler = (todoId) => {
-    setTodoCompleted((prevState) => !prevState);
+  const todoCompletedHandler = () => {
     let completedTodo;
     for (const todo of todos) {
-      if (todo.id === todoId) {
-        completedTodo = { ...todo, isCompleted: !todoCompleted };
+      if (todo.id === id) {
+        completedTodo = { ...todo, isCompleted: !isCompleted };
       }
     }
     updateTodo(completedTodo);
@@ -36,14 +40,14 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
   };
 
   const todoEditHandler = () => {
-    editTodo(todo);
+    editTodo(onTodoEdit);
   };
 
   return (
     <div className="flex rounded-lg shadow-md">
       <span
         className={`w-4 rounded-l-lg ${
-          todoCompleted ? 'bg-green-100' : 'bg-blue-100'
+          isCompleted ? 'bg-green-100' : 'bg-blue-100'
         }`}
       ></span>
       <div className="flex w-full flex-col gap-y-3 rounded-r-lg bg-white p-4">
@@ -70,10 +74,10 @@ const DashboardCard = ({ title, message, date, id, todo }) => {
             <button onClick={todoDeleteHandler}>
               <Trash className="w-4" fill="#FE6565" />
             </button>
-            <button onClick={todoCompletedHandler.bind(this, id)}>
+            <button onClick={todoCompletedHandler}>
               <Check
                 className={`w-4 rounded-md ${
-                  todoCompleted ? 'bg-green-100' : 'bg-neutral-400'
+                  isCompleted ? 'bg-green-100' : 'bg-neutral-400'
                 }`}
                 fill="#fff"
               />

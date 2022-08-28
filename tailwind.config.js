@@ -23,6 +23,7 @@ module.exports = {
         'blue-10': '#EBF7FA',
         'red-100': '#FE6565',
         'red-10': '#FFF6E0',
+        'purple-100': '#C659ED',
       },
       boxShadow: {
         'material-shadow':

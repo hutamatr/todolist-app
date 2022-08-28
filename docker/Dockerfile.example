@@ -1,0 +1,8 @@
+FROM node:lts-alpine
+COPY . . 
+RUN npm install -g \
+    serve \
+    react-scripts
+EXPOSE 3050
+CMD yarn start
+#CMD ["serve", "-s", "build", "-l", "3000"]

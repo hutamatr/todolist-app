@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/UI/FormInput';
 import validation from '../utils/validation';
 import { LoginFormContext } from '../context/Context';
+import useAxios from '../hooks/useAxios';
+import { useAuth } from '../hooks/useStoreContext';
 
 const Login = () => {
   const emailRef = useRef();
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { requestHttp } = useAxios();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
@@ -40,7 +45,18 @@ const Login = () => {
       password,
     };
 
-    console.log(loginInput);
+    requestHttp(
+      {
+        method: 'POST',
+        url: '/accounts/login',
+        dataReq: loginInput,
+      },
+      (data) => {
+        login(data.data?.token);
+        console.log(data);
+        navigate('/home', { replace: true });
+      }
+    );
 
     setEmail('');
     setPassword('');
@@ -50,7 +66,7 @@ const Login = () => {
     <>
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
         <h1 className="text-sm font-bold">Log In</h1>
-        <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-4">
+        <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
           <FormInput
             placeholder={'Email'}
             input={email}
@@ -78,7 +94,7 @@ const Login = () => {
           Don't have an account?{' '}
           <Link
             to={'/register'}
-            className="text-primary-100 font-semibold underline"
+            className="font-semibold text-orange-100 underline"
             onClick={loginScreenHandler}
           >
             Sign Up

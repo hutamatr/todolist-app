@@ -4,8 +4,8 @@ import { NavLink, Link } from 'react-router-dom';
 import { ReactComponent as Menu } from '../../assets/icons/uil_bars.svg';
 import { ReactComponent as Close } from '../../assets/icons/uil_times.svg';
 
-import ProfilePicture from './ProfilePicture';
-import useAuth from '../../hooks/useAuth';
+import ProfilePicture from '../UI/ProfilePicture';
+import { useAuth } from '../../hooks/useStoreContext';
 
 import todoIcon from '../../assets/images/todo-list-icon.webp';
 
@@ -14,7 +14,8 @@ const Navigation = () => {
 
   const { isAuthenticated, logout } = useAuth();
 
-  // const menuIsActive = ({ isActive }) => (isActive ? '' : '');
+  const menuIsActive = ({ isActive }) =>
+    isActive ? 'border-b-2 border-b-orange-100' : '';
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
@@ -39,20 +40,49 @@ const Navigation = () => {
           viewMenu ? 'right-4' : '-right-full'
         }`}
       >
-        <ProfilePicture classSection={'block sm:hidden'} />
+        <ProfilePicture classPhoto={'btn-sm block sm:hidden'} />
         {isAuthenticated && (
           <li>
-            <NavLink to={'dashboard'}>Dashboard</NavLink>
+            <NavLink
+              to={'home'}
+              className={menuIsActive}
+              onClick={menuViewHandler}
+            >
+              Home
+            </NavLink>
           </li>
         )}
         {isAuthenticated && (
           <li>
-            <NavLink to={'category'}>Category</NavLink>
+            <NavLink
+              to={'dashboard'}
+              className={menuIsActive}
+              onClick={menuViewHandler}
+            >
+              Dashboard
+            </NavLink>
           </li>
         )}
         {isAuthenticated && (
           <li>
-            <NavLink to={'profile'}>Profile</NavLink>
+            <NavLink
+              to={'category'}
+              className={menuIsActive}
+              onClick={menuViewHandler}
+            >
+              Category
+            </NavLink>
+          </li>
+        )}
+        {isAuthenticated && (
+          <li>
+            <NavLink
+              to={'profile'}
+              className={menuIsActive}
+              onClick={menuViewHandler}
+            >
+              Profile
+            </NavLink>
           </li>
         )}
         {isAuthenticated && (
@@ -67,7 +97,7 @@ const Navigation = () => {
             </NavLink>
           </li>
         )}
-        <ProfilePicture classSection={'hidden sm:block'} />
+        <ProfilePicture classPhoto={'btn-sm hidden sm:block'} />
       </ul>
     </nav>
   );

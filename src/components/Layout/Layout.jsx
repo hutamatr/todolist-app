@@ -13,7 +13,7 @@ const Layout = () => {
       </header>
       <main className="mx-auto mt-16 min-h-screen max-w-5xl px-4">
         {location === '/' ? (
-          <Navigate to={'/dashboard'} state={{ from: location }} replace />
+          <Navigate to={'/home'} state={{ from: location }} replace />
         ) : (
           <Outlet />
         )}

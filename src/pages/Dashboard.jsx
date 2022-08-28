@@ -1,18 +1,48 @@
-import React from 'react';
-
-import DashboardCard from '../components/Dashboard/DashboardCard';
-import DashboardForm from '../components/Dashboard/DashboardForm';
-import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
-import useTodos from '../hooks/useTodos';
+import React, { useEffect } from 'react';
 
 import emptyTodo from '../assets/images/Calendar.webp';
 import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 
+import DashboardCard from '../components/Dashboard/DashboardCard';
+import DashboardForm from '../components/Dashboard/DashboardForm';
+import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
+import { useTodos, useFilter, useAuth } from '../hooks/useStoreContext';
+import useAxios from '../hooks/useAxios';
+
 const Dashboard = () => {
-  const { todos } = useTodos();
+  const { todos, addTodo } = useTodos();
+  const { authToken } = useAuth();
+  const { isTodoInProgress, isTodoCompleted } = useFilter();
+  const { requestHttp } = useAxios();
+
+  useEffect(() => {
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/todos?offset=2&limit=2',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        console.log(data.data);
+        addTodo(data.data);
+      }
+    );
+  }, [authToken, requestHttp, addTodo]);
+
+  const todosInProgress = todos.filter((todo) => !todo.isCompleted);
+  const todosCompleted = todos.filter((todo) => todo.isCompleted);
+
+  const todosData = isTodoCompleted
+    ? todosInProgress
+    : isTodoInProgress
+    ? todosCompleted
+    : todos;
 
   const dashboardContent =
-    todos.length === 0 ? (
+    todosData.length === 0 ? (
       <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
         <img src={emptyTodo} alt="" className="max-w-[5rem] md:max-w-[6rem]" />
         <p className="text-center text-lg font-medium">
@@ -21,10 +51,10 @@ const Dashboard = () => {
       </div>
     ) : (
       <ul className="grid grid-cols-1 gap-y-4">
-        {todos.map((todo, index) => {
+        {todosData.map((todo, index) => {
           return (
             <li key={index}>
-              <DashboardCard {...todo} todo={todo} />
+              <DashboardCard {...todo} onTodoEdit={todo} />
             </li>
           );
         })}

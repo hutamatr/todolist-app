@@ -5,10 +5,13 @@ import Layout from './components/Layout/Layout';
 import LayoutWithOutNav from './components/Layout/LayoutWithOutNav';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
 import Category from './pages/Category';
 import NotFound from './pages/NotFound';
 import RequireAuth from './components/Auth/RequireAuth';
+import CategoryDetails from './pages/CategoryDetails';
 
 const App = () => {
   return (
@@ -20,8 +23,11 @@ const App = () => {
       </Route>
       <Route path="/" element={<Layout />}>
         <Route element={<RequireAuth />}>
+          <Route path="home" element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="category" element={<Category />} />
+          <Route path="category/:categoryId" element={<CategoryDetails />} />
         </Route>
       </Route>
     </Routes>

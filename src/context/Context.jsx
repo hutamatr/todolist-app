@@ -12,13 +12,20 @@ export const TodoContext = createContext({
 export const CategoryContext = createContext({
   categories: [],
   addCategory: (category) => {},
-  updateCategory: (categoty) => {},
+  updateCategory: (category) => {},
   deleteCategory: (id) => {},
   editCategory: (category) => {},
 });
 
+export const FilterContext = createContext({
+  isTodoInProgress: false,
+  isTodoCompleted: false,
+  inProgress: () => {},
+  completed: () => {},
+});
+
 export const AuthContext = createContext({
-  authToken: null,
+  authToken: '',
   isAuthenticated: false,
   login: (token) => {},
   logout: () => {},

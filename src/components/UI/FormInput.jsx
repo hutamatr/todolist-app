@@ -79,13 +79,7 @@ const FormInput = forwardRef(
               </>
             )}
         </div>
-        <div
-          className={`${
-            isFocusInput && input && !isValidInput ? 'block' : 'hidden'
-          }`}
-        >
-          <RegisterNote placeholder={placeholder} />
-        </div>
+        <RegisterNote placeholder={placeholder} />
       </>
     );
   }

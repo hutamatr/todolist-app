@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 
-const BASE_URL = '';
+const BASE_URL = 'http://localhost:8000/api/v1';
 
 const useAxios = () => {
   const [error, setError] = useState({
@@ -11,14 +11,20 @@ const useAxios = () => {
 
   const requestHttp = useCallback(async (requestConfig, setRequestData) => {
     try {
+      const { method, url, dataReq, headers } = requestConfig;
       const response = await axios({
-        method: requestConfig.method,
-        url: `${BASE_URL}${requestConfig.url}`,
-        data: requestConfig.data ? requestConfig.data : null,
-        headers: requestConfig.headers ? requestConfig.headers : {},
+        method: method,
+        url: BASE_URL + url,
+        data: dataReq ? dataReq : null,
+        headers: headers
+          ? headers
+          : {
+              'Content-type': 'application/json',
+            },
       });
 
       const data = await response.data;
+
       setRequestData(data);
     } catch (error) {
       if (!error.response) {

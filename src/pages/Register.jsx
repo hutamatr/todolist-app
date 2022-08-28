@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import validation from '../utils/validation';
 import FormInput from '../components/UI/FormInput';
-import { LoginFormContext } from '../context/Context';
+import { useLoginForm, useAuth } from '../hooks/useStoreContext';
+import useAxios from '../hooks/useAxios';
 
 const Register = () => {
   const userNameRef = useRef();
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { loginScreen } = useLoginForm();
+  const { requestHttp } = useAxios();
   const { userNameValidation, emailValidation, passwordValidation } =
     validation();
-  const { loginScreen } = useContext(LoginFormContext);
 
   const [userName, setUserName] = useState('');
   const [isValidUserName, setIsValidUserName] = useState(false);
@@ -72,7 +76,17 @@ const Register = () => {
       password: password,
     };
 
-    console.log(registerFormInput);
+    requestHttp(
+      {
+        method: 'POST',
+        url: '/accounts/register',
+        dataReq: registerFormInput,
+      },
+      (data) => {
+        login(data.data?.token);
+        navigate('/home', { replace: true });
+      }
+    );
 
     setUserName('');
     setUserEmail('');
@@ -83,7 +97,7 @@ const Register = () => {
   return (
     <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
       <h1 className="text-sm font-bold">Sign Up</h1>
-      <form onSubmit={RegisterSubmitHandler} className="flex flex-col gap-y-4">
+      <form onSubmit={RegisterSubmitHandler} className="flex flex-col gap-y-2">
         <FormInput
           placeholder={'Username'}
           isValidInput={isValidUserName}
@@ -145,7 +159,7 @@ const Register = () => {
         Already have an account?{' '}
         <Link
           to={'/login'}
-          className="text-primary-100 font-semibold underline"
+          className="font-semibold text-orange-100 underline"
           onClick={registerScreenHandler}
         >
           Log In
