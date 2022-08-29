@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
@@ -8,6 +8,11 @@ import CategoryForm from '../components/Category/CategoryForm';
 
 const Category = () => {
   const { categories } = useCategory();
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
+
+  const showCategoryFormHandler = () => {
+    setShowCategoryForm((prevState) => !prevState);
+  };
 
   return (
     <>
@@ -31,15 +36,19 @@ const Category = () => {
               </li>
             );
           })}
-          <label
-            htmlFor="my-modal-6"
+          <button
+            type="button"
+            onClick={showCategoryFormHandler}
             className="flex w-full cursor-pointer flex-col items-center justify-center gap-y-1 rounded border-2 border-dashed border-orange-100 text-sm font-semibold text-orange-100"
           >
             <Plus fill="#FF844B" className="h-5 w-5" /> Add Category
-          </label>
+          </button>
         </ul>
       </section>
-      <CategoryForm />
+      <CategoryForm
+        onShowCategoryForm={showCategoryForm}
+        onSetShowCategoryForm={setShowCategoryForm}
+      />
     </>
   );
 };

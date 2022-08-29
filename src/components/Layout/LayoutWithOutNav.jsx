@@ -31,8 +31,8 @@ const LayoutWithOutNav = () => {
     : imageFunc(Document, 'Never miss any precious ✨ moments by listing it');
 
   return (
-    <main className="hero mx-auto min-h-screen bg-neutral-100 bg-ellipse-image bg-contain bg-right-top bg-no-repeat">
-      <section className="hero-content max-w-full flex-col gap-y-8 px-8 lg:flex-row-reverse">
+    <main className="mx-auto min-h-screen bg-neutral-100 bg-ellipse-image bg-contain bg-right-top bg-no-repeat">
+      <section className="fixed left-0 right-0 top-0 bottom-0 flex max-w-full flex-col items-center justify-center gap-y-8 px-8 lg:flex-row-reverse lg:gap-x-6">
         {imageContent}
         <Outlet />
       </section>

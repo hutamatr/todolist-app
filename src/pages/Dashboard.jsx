@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
 import emptyTodo from '../assets/images/Calendar.webp';
 import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
@@ -6,40 +6,25 @@ import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 import DashboardCard from '../components/Dashboard/DashboardCard';
 import DashboardForm from '../components/Dashboard/DashboardForm';
 import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
-import { useTodos, useFilter, useAuth } from '../hooks/useStoreContext';
-import useAxios from '../hooks/useAxios';
+import { useFilter, useTodos } from '../hooks/useStoreContext';
 
 const Dashboard = () => {
-  const { todos, addTodo } = useTodos();
-  const { authToken } = useAuth();
+  const { todos } = useTodos();
   const { isTodoInProgress, isTodoCompleted } = useFilter();
-  const { requestHttp } = useAxios();
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    requestHttp(
-      {
-        method: 'GET',
-        url: '/todos?offset=2&limit=2',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-      (data) => {
-        console.log(data.data);
-        addTodo(data.data);
-      }
-    );
-  }, [authToken, requestHttp, addTodo]);
-
-  const todosInProgress = todos.filter((todo) => !todo.isCompleted);
-  const todosCompleted = todos.filter((todo) => todo.isCompleted);
+  const todosInProgress = todos.filter((todo) => !todo.is_completed);
+  const todosCompleted = todos.filter((todo) => todo.is_completed);
 
   const todosData = isTodoCompleted
     ? todosInProgress
     : isTodoInProgress
     ? todosCompleted
     : todos;
+
+  const modalCloseHandler = () => {
+    setShowModal((prevState) => !prevState);
+  };
 
   const dashboardContent =
     todosData.length === 0 ? (
@@ -54,7 +39,11 @@ const Dashboard = () => {
         {todosData.map((todo, index) => {
           return (
             <li key={index}>
-              <DashboardCard {...todo} onTodoEdit={todo} />
+              <DashboardCard
+                {...todo}
+                onTodoEdit={todo}
+                onSetShowModal={setShowModal}
+              />
             </li>
           );
         })}
@@ -67,17 +56,18 @@ const Dashboard = () => {
         <h1 className="font-bold">Dashboard</h1>
         <DashboardFilter />
         {dashboardContent}
-        <label
-          htmlFor="my-modal-6"
+        <button
+          type="button"
+          onClick={modalCloseHandler}
           className="fixed bottom-0 right-0 my-6 mx-4 cursor-pointer rounded-lg bg-orange-100 p-2"
         >
           <Plus
             className="h-8 w-8 duration-500 hover:rotate-90"
             fill="#F7F7F7"
           />
-        </label>
+        </button>
       </section>
-      <DashboardForm />
+      <DashboardForm onShowModal={showModal} onSetShowModal={setShowModal} />
     </>
   );
 };

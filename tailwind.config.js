@@ -34,14 +34,4 @@ module.exports = {
       },
     },
   },
-  plugins: [require('daisyui')],
-  daisyui: {
-    styled: true,
-    themes: false,
-    base: true,
-    utils: true,
-    rtl: false,
-    prefix: '',
-    darkTheme: 'dark',
-  },
 };

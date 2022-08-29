@@ -28,8 +28,6 @@ const CategoryProvider = ({ children }) => {
     initCategory
   );
 
-  console.log(categoryState.categories);
-
   const addCategoryHandler = (categoryItem) => {
     dispatchCategory({ type: 'ADD_CATEGORY', payload: categoryItem });
   };

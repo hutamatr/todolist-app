@@ -4,8 +4,14 @@ import notice from '../assets/images/Notice.webp';
 
 import ProfilePicture from '../components/UI/ProfilePicture';
 import filterIconName from '../utils/filterIconName';
+import { useTodos } from '../hooks/useStoreContext';
 
 const Home = () => {
+  const { todos } = useTodos();
+
+  const todosInProgress = todos.filter((todo) => !todo.is_completed).length;
+  const todosIsDone = todos.filter((todo) => todo.is_completed).length;
+
   return (
     <section className="flex min-h-screen flex-col gap-y-6 py-6">
       <div className="flex items-center justify-start gap-x-4">
@@ -19,7 +25,7 @@ const Home = () => {
         <div className="flex max-w-full flex-col gap-y-3 rounded-md bg-purple-100 p-6">
           <img src={notice} alt="" className="max-w-[3rem]" />
           <h2 className="text-xl font-semibold text-white">
-            You have 7 list to do
+            You have {todos.length} list to do
           </h2>
         </div>
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -50,6 +56,13 @@ const Home = () => {
                   }`}
                 >
                   {item.name}
+                </span>
+                <span>
+                  {index === 0
+                    ? todosInProgress
+                    : index === 1
+                    ? todosIsDone
+                    : null}
                 </span>
               </li>
             );

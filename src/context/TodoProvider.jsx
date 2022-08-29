@@ -1,6 +1,9 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 import { TodoContext } from './Context';
+import { useAuth } from '../hooks/useStoreContext';
+import useAxios from '../hooks/useAxios';
+
 // import { todoData } from '../utils/dummy-todos';
 
 const initTodo = {
@@ -10,6 +13,11 @@ const initTodo = {
 
 const todosReducer = (state, action) => {
   switch (action.type) {
+    case 'INIT_TODO':
+      return {
+        ...state,
+        todos: action.payload,
+      };
     case 'ADD_TODO':
       const addedTodos = [action.payload, ...state.todos];
 
@@ -56,9 +64,25 @@ const todosReducer = (state, action) => {
 };
 
 const TodoProvider = ({ children }) => {
+  const { requestHttp } = useAxios();
+  const { authToken } = useAuth();
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
 
-  console.table(todoState.todos);
+  useEffect(() => {
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/todos?offset=1&limit=10',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        dispatchTodo({ type: 'INIT_TODO', payload: data.data });
+      }
+    );
+  }, [authToken, requestHttp]);
 
   const addTodoHandler = (todoItem) => {
     dispatchTodo({ type: 'ADD_TODO', payload: todoItem });

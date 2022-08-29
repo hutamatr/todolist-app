@@ -1,22 +1,30 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-const ModalCard = ({ children }) => {
+const ModalBackdrop = ({ onCloseModalHandler }) => {
   return (
-    <>
-      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
-      <div className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box relative !rounded-b-none !rounded-t-lg sm:!rounded-lg">
-          {children}
-        </div>
-      </div>
-    </>
+    <div
+      className="fixed top-0 left-0 z-20 min-h-full w-full bg-slate-900/75"
+      onClick={onCloseModalHandler}
+    />
   );
 };
 
-const Modal = ({ children }) => {
+const ModalCard = ({ children }) => {
+  return (
+    <section className="fixed left-0 right-0 bottom-0 z-30 mx-auto flex max-h-[90vh] max-w-lg flex-col overflow-y-scroll rounded-md bg-slate-50 p-6 shadow sm:top-1/4 sm:max-h-[60vh]">
+      {children}
+    </section>
+  );
+};
+
+const Modal = ({ children, onCloseModalHandler }) => {
   return (
     <>
+      {createPortal(
+        <ModalBackdrop onCloseModalHandler={onCloseModalHandler} />,
+        document.getElementById('modal-backdrop')
+      )}
       {createPortal(
         <ModalCard children={children} />,
         document.getElementById('modal-card')

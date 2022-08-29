@@ -4,11 +4,7 @@ const DashboardSort = () => {
   const onSortedTodo = true;
   return (
     <form className="text-xs">
-      <select
-        name="sort"
-        id="sort"
-        className="select-xs max-w-xs rounded-md px-2"
-      >
+      <select name="sort" id="sort" className="max-w-xs rounded-md px-2">
         {onSortedTodo ? (
           <>
             <option value="newest">Newest first</option>
