@@ -4,8 +4,6 @@ import { TodoContext } from './Context';
 import { useAuth } from '../hooks/useStoreContext';
 import useAxios from '../hooks/useAxios';
 
-// import { todoData } from '../utils/dummy-todos';
-
 const initTodo = {
   todos: [],
   todoEdit: {},

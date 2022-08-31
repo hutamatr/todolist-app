@@ -4,10 +4,14 @@ import { useCategory } from '../../hooks/useStoreContext';
 import Modal from '../UI/Modal';
 
 const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
-  const [categoryName, setCategoryName] = useState('');
-  const [isInputEmpty, setIsInputEmpty] = useState(false);
-
   const { addCategory } = useCategory();
+  const [categoryName, setCategoryName] = useState('');
+
+  let isInputEmpty = false;
+
+  if (categoryName) {
+    isInputEmpty = true;
+  }
 
   const categoryNameChangeHandler = (event) => {
     setCategoryName(event.target.value);
@@ -20,10 +24,6 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
   const categorySubmitHandler = (event) => {
     event.preventDefault();
-
-    if (categoryName.length === 0) {
-      return setIsInputEmpty(true);
-    }
 
     const newCategory = {
       id: Date.now(),
@@ -60,24 +60,19 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
               placeholder="Write your category name..."
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
             ></textarea>
-            <button>
-              <label
-                htmlFor="my-modal-6"
-                className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:bg-orange-50"
-                disabled={isInputEmpty}
-              >
-                Create Category
-              </label>
+            <button
+              className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:bg-orange-50"
+              disabled={!isInputEmpty}
+            >
+              Create Category
             </button>
 
-            <button type="button" onClick={categoryCancelHandler}>
-              <label
-                htmlFor="my-modal-6"
-                className="block cursor-pointer rounded p-2 font-semibold text-orange-100 disabled:bg-orange-50"
-                disabled={isInputEmpty}
-              >
-                Cancel
-              </label>
+            <button
+              type="button"
+              onClick={categoryCancelHandler}
+              className="block cursor-pointer rounded p-2 font-semibold text-orange-100 disabled:bg-orange-50"
+            >
+              Cancel
             </button>
           </form>
         </Modal>

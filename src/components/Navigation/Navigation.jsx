@@ -24,7 +24,7 @@ const Navigation = () => {
   return (
     <nav className="relative z-[9999] mx-auto flex max-w-5xl flex-row items-center justify-between bg-white p-4 sm:static">
       <Link to={'/'} replace={true} className="flex items-center gap-x-3">
-        <img src={todoIcon} alt="" className="w-10" />
+        <img src={todoIcon} alt="" className="w-10" loading="lazy" />
       </Link>
       <div className="flex flex-row gap-x-6">
         <button className="sm:hidden" onClick={menuViewHandler}>

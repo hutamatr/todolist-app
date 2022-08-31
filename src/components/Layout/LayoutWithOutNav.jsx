@@ -17,7 +17,8 @@ const LayoutWithOutNav = () => {
         <img
           src={image}
           alt="TODO-LIST"
-          className="max-w-[10rem] md:max-w-[12rem]"
+          className="max-w-[8rem] md:max-w-[12rem]"
+          loading="lazy"
         />
         <figcaption className="text-center text-xl font-bold text-neutral-500 md:text-lg">
           {description}
@@ -32,7 +33,7 @@ const LayoutWithOutNav = () => {
 
   return (
     <main className="mx-auto min-h-screen bg-neutral-100 bg-ellipse-image bg-contain bg-right-top bg-no-repeat">
-      <section className="fixed left-0 right-0 top-0 bottom-0 flex max-w-full flex-col items-center justify-center gap-y-8 px-8 lg:flex-row-reverse lg:gap-x-6">
+      <section className="fixed left-0 right-0 top-0 bottom-0 flex max-w-full flex-col items-center justify-center gap-y-4 p-6 lg:flex-row-reverse lg:gap-x-6">
         {imageContent}
         <Outlet />
       </section>

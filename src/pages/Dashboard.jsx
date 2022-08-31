@@ -22,14 +22,19 @@ const Dashboard = () => {
     ? todosCompleted
     : todos;
 
-  const modalCloseHandler = () => {
+  const modalShowHandler = () => {
     setShowModal((prevState) => !prevState);
   };
 
   const dashboardContent =
     todosData.length === 0 ? (
       <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
-        <img src={emptyTodo} alt="" className="max-w-[5rem] md:max-w-[6rem]" />
+        <img
+          src={emptyTodo}
+          alt=""
+          className="max-w-[5rem] md:max-w-[6rem]"
+          loading="lazy"
+        />
         <p className="text-center text-lg font-medium">
           Todo you add appear here
         </p>
@@ -58,7 +63,7 @@ const Dashboard = () => {
         {dashboardContent}
         <button
           type="button"
-          onClick={modalCloseHandler}
+          onClick={modalShowHandler}
           className="fixed bottom-0 right-0 my-6 mx-4 cursor-pointer rounded-lg bg-orange-100 p-2"
         >
           <Plus

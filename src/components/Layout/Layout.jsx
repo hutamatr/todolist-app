@@ -4,7 +4,7 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
 const Layout = () => {
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
 
   return (
     <>
@@ -12,8 +12,8 @@ const Layout = () => {
         <Navigation />
       </header>
       <main className="mx-auto mt-16 min-h-screen max-w-5xl px-4">
-        {location === '/' ? (
-          <Navigate to={'/home'} state={{ from: location }} replace />
+        {pathname === '/' ? (
+          <Navigate to={'/home'} state={{ from: pathname }} replace />
         ) : (
           <Outlet />
         )}

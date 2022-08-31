@@ -27,7 +27,11 @@ const Category = () => {
                     type="button"
                     className={`flex h-full w-full flex-col items-start justify-end gap-y-3 rounded-md bg-green-100 p-4`}
                   >
-                    <img src={category.image} alt="category-img" />
+                    <img
+                      src={category.image}
+                      alt="category-img"
+                      loading="lazy"
+                    />
                     <span className="font-semibold text-white">
                       {category.name}
                     </span>

@@ -9,6 +9,7 @@ const ProfilePicture = ({ classPhoto }) => {
           src="https://placeimg.com/80/80/people"
           alt=""
           className="w-10 rounded-full"
+          loading="lazy"
         />
       </Link>
     </section>

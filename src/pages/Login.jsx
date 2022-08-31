@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/UI/FormInput';
+import Alert from '../components/UI/Alert';
 import validation from '../utils/validation';
-import { LoginFormContext } from '../context/Context';
 import useAxios from '../hooks/useAxios';
+import { LoginFormContext } from '../context/Context';
 import { useAuth } from '../hooks/useStoreContext';
 
 const Login = () => {
   const emailRef = useRef();
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { requestHttp } = useAxios();
+  const { requestHttp, error, setError, loading, success, setSuccess } =
+    useAxios();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
@@ -20,6 +22,11 @@ const Login = () => {
 
   const [password, setPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
+
+  // const [success, setSuccess] = useState({
+  //   isSuccess: false,
+  //   successMessage: '',
+  // });
 
   useEffect(() => {
     const emailValid = emailValidation.test(email);
@@ -33,7 +40,6 @@ const Login = () => {
   }, []);
 
   const loginScreenHandler = () => loginScreen(true);
-
   const emailInputHandler = (event) => setEmail(event.target.value);
   const passwordInputHandler = (event) => setPassword(event.target.value);
 
@@ -53,9 +59,13 @@ const Login = () => {
       },
       (data) => {
         login(data.data?.token);
-        console.log(data);
+        // setSuccess({
+        //   isSuccess: true,
+        //   successMessage: 'Login Successfully!',
+        // });
         navigate('/home', { replace: true });
-      }
+      },
+      'Login Successfully!'
     );
 
     setEmail('');
@@ -64,6 +74,24 @@ const Login = () => {
 
   return (
     <>
+      {error.isError && (
+        <Alert
+          className={'alert-error'}
+          children={error.errorMessage}
+          onError={error}
+          onSetError={setError}
+          icons="error"
+        />
+      )}
+      {success.isSuccess && (
+        <Alert
+          className={'alert-success'}
+          children={success.successMessage}
+          onSuccess={success}
+          onSetSuccess={setSuccess}
+          icons="success"
+        />
+      )}
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
         <h1 className="text-sm font-bold">Log In</h1>
         <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
@@ -87,7 +115,7 @@ const Login = () => {
             className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
             disabled={!isValidEmail || !isValidPassword ? true : false}
           >
-            Log In
+            {loading.isLoading ? loading.loadingMessage : 'Sign In'}
           </button>
         </form>
         <p className="text-center text-sm">

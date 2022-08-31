@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 
 import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 
+import Modal from '../UI/Modal';
+import Alert from '../UI/Alert';
+import useAxios from '../../hooks/useAxios';
 import { categoryData } from '../../utils/dummy-todos';
 import { useTodos, useAuth } from '../../hooks/useStoreContext';
-import useAxios from '../../hooks/useAxios';
-import Modal from '../UI/Modal';
 
 const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const { authToken } = useAuth();
-  const { requestHttp } = useAxios();
+  const { requestHttp, error, setError, loading, success, setSuccess } =
+    useAxios();
   const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
 
   const [titleInput, setTitleInput] = useState('');
@@ -74,7 +76,22 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
       console.log(updatedTodo);
 
-      // updateTodo(updatedTodo);
+      requestHttp(
+        {
+          method: 'PUT',
+          url: `/todos/${todoEdit.id}`,
+          dataReq: JSON.stringify(updatedTodo),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+        },
+        (data) => {
+          console.log(data);
+          // updateTodo(data.data);
+        },
+        'Edit todo Successfully'
+      );
     } else {
       const newTodo = {
         title: titleInput,
@@ -96,7 +113,8 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         },
         (data) => {
           addTodo(data.data);
-        }
+        },
+        'Create todo Successfully'
       );
     }
 
@@ -109,6 +127,24 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
   return (
     <>
+      {error.isError && (
+        <Alert
+          className={'alert-error'}
+          children={error.errorMessage}
+          onError={error}
+          onSetError={setError}
+          icons="error"
+        />
+      )}
+      {success.isSuccess && (
+        <Alert
+          className={'alert-success'}
+          children={success.successMessage}
+          onSuccess={success}
+          onSetSuccess={setSuccess}
+          icons="success"
+        />
+      )}
       {onShowModal && (
         <Modal onCloseModalHandler={() => onSetShowModal(false)}>
           <h1 className="mb-4 font-bold">

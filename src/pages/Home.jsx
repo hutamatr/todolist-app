@@ -23,7 +23,7 @@ const Home = () => {
       </div>
       <div className="flex flex-col gap-y-4">
         <div className="flex max-w-full flex-col gap-y-3 rounded-md bg-purple-100 p-6">
-          <img src={notice} alt="" className="max-w-[3rem]" />
+          <img src={notice} alt="" className="max-w-[3rem]" loading="lazy" />
           <h2 className="text-xl font-semibold text-white">
             You have {todos.length} list to do
           </h2>

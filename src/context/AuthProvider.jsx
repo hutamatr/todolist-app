@@ -40,10 +40,6 @@ const authReducer = (state, action) => {
 
 const AuthProvider = ({ children }) => {
   const { localStorageToken } = getStorageToken();
-  // let storageToken;
-  // if (storageTokenData) {
-  //   storageToken = storageTokenData.localStorageToken;
-  // }
 
   const [authState, dispatchAuth] = useReducer(authReducer, {
     authToken: localStorageToken,
