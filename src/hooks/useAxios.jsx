@@ -13,69 +13,55 @@ const useAxios = () => {
     loadingMessage: '',
   });
 
-  const [success, setSuccess] = useState({
-    isSuccess: false,
-    successMessage: '',
-  });
-
-  const requestHttp = useCallback(
-    async (requestConfig, setRequestData, successData) => {
-      setLoading({
-        isLoading: true,
-        loadingMessage: 'Loading...',
+  const requestHttp = useCallback(async (requestConfig, setRequestData) => {
+    setLoading({
+      isLoading: true,
+      loadingMessage: 'Loading...',
+    });
+    try {
+      const { method, url, dataRequest, headers } = requestConfig;
+      const response = await axios({
+        method: method,
+        url: BASE_URL + url,
+        data: dataRequest ? dataRequest : null,
+        headers: headers
+          ? headers
+          : {
+              'Content-type': 'application/json',
+            },
       });
-      try {
-        const { method, url, dataReq, headers } = requestConfig;
-        const response = await axios({
-          method: method,
-          url: BASE_URL + url,
-          data: dataReq ? dataReq : null,
-          headers: headers
-            ? headers
-            : {
-                'Content-type': 'application/json',
-              },
-        });
 
-        const data = await response.data;
-
-        setRequestData(data);
-        setSuccess({
-          isSuccess: true,
-          successMessage: successData,
-        });
-      } catch (error) {
-        console.log(error.response);
-        if (!error.response) {
-          setError({
-            isError: true,
-            errorMessage: 'No Server Response!',
-          });
-        } else {
-          setError({
-            isError: true,
-            errorMessage: 'Login Failed!',
-          });
-        }
+      if (response.status !== 200) {
+        throw new Error(response.data?.error);
       }
-      setLoading({
-        isLoading: false,
-        loadingMessage: '',
-      });
-      setSuccess({
-        isSuccess: false,
-        successMessage: '',
-      });
-    },
-    []
-  );
+
+      const data = await response.data;
+
+      setRequestData(data);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        setError({
+          isError: true,
+          errorMessage: error.message,
+        });
+      } else {
+        setError({
+          isError: true,
+          errorMessage: error.message,
+        });
+      }
+    }
+    setLoading({
+      isLoading: false,
+      loadingMessage: '',
+    });
+  }, []);
 
   return {
     requestHttp,
     error,
     setError,
-    success,
-    setSuccess,
     loading,
   };
 };

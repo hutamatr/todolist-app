@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 
 import { AuthContext } from './Context';
 
@@ -40,23 +40,43 @@ const authReducer = (state, action) => {
 
 const AuthProvider = ({ children }) => {
   const { localStorageToken } = getStorageToken();
+  const [loginSuccess, setLoginSuccess] = useState({
+    isSuccess: false,
+    successMessage: '',
+  });
+  const [logoutSuccess, setLogoutSuccess] = useState({
+    isSuccess: false,
+    successMessage: '',
+  });
 
   const [authState, dispatchAuth] = useReducer(authReducer, {
     authToken: localStorageToken,
     isAuthenticated: !!localStorageToken,
   });
 
-  const loginHandler = (newToken) => {
-    dispatchAuth({ type: 'LOGIN', payload: newToken });
+  const loginHandler = (loginAccess) => {
+    dispatchAuth({ type: 'LOGIN', payload: loginAccess?.data?.token });
+    setLoginSuccess({
+      isSuccess: loginAccess?.status,
+      successMessage: loginAccess?.message,
+    });
   };
 
-  const logoutHandler = () => {
+  const logoutHandler = (logoutAccess) => {
     dispatchAuth({ type: 'LOGOUT' });
+    setLogoutSuccess({
+      isSuccess: logoutAccess.isSuccess,
+      successMessage: logoutAccess.successMessage,
+    });
   };
 
   const value = {
     authToken: authState.authToken,
     isAuthenticated: authState.isAuthenticated,
+    loginSuccess,
+    setLoginSuccess,
+    logoutSuccess,
+    setLogoutSuccess,
     login: loginHandler,
     logout: logoutHandler,
   };

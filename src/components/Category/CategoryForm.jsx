@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 
-import { useCategory } from '../../hooks/useStoreContext';
 import Modal from '../UI/Modal';
+import Alert from '../UI/Alert';
+import useAxios from '../../hooks/useAxios';
+import { useCategory, useAuth } from '../../hooks/useStoreContext';
 
 const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
   const { addCategory } = useCategory();
+  const { authToken } = useAuth();
+  const { requestHttp, error, setError } = useAxios();
   const [categoryName, setCategoryName] = useState('');
 
   let isInputEmpty = false;
@@ -26,12 +30,26 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
     event.preventDefault();
 
     const newCategory = {
-      id: Date.now(),
       name: categoryName,
       image: null,
     };
 
-    addCategory(newCategory);
+    requestHttp(
+      {
+        method: 'POST',
+        url: '',
+        dataRequest: newCategory,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        console.log(data);
+      }
+    );
+
+    // addCategory(newCategory);
 
     onSetShowCategoryForm(false);
     setCategoryName('');
@@ -39,6 +57,24 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
   return (
     <>
+      {error.isError && (
+        <Alert
+          className={'alert-error'}
+          children={error.errorMessage}
+          onError={error.isError}
+          onSetError={setError}
+          icons="error"
+        />
+      )}
+      {/* {success.isSuccess && (
+        <Alert
+          className={'alert-success'}
+          children={success.successMessage}
+          onSuccess={success.isSuccess}
+          onSetSuccess={setSuccess}
+          icons="success"
+        />
+      )} */}
       {onShowCategoryForm && (
         <Modal>
           <h1 className="mb-4 font-bold">Create Category</h1>

@@ -3,6 +3,10 @@ import { createContext } from 'react';
 export const TodoContext = createContext({
   todos: [],
   todoEdit: {},
+  totalTodos: 0,
+  addTodoSuccess: {},
+  setAddTodoSuccess: () => {},
+  getAllTodo: (todosItems) => {},
   addTodo: (todoItem) => {},
   updateTodo: (todoItem) => {},
   deleteTodo: (id) => {},
@@ -27,6 +31,10 @@ export const FilterContext = createContext({
 export const AuthContext = createContext({
   authToken: '',
   isAuthenticated: false,
+  loginSuccess: {},
+  setLoginSuccess: () => {},
+  logoutSuccess: {},
+  setLogoutSuccess: () => {},
   login: (token) => {},
   logout: () => {},
 });

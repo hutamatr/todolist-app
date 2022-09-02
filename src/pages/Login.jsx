@@ -11,9 +11,8 @@ import { useAuth } from '../hooks/useStoreContext';
 const Login = () => {
   const emailRef = useRef();
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const { requestHttp, error, setError, loading, success, setSuccess } =
-    useAxios();
+  const { login, logoutSuccess, setLogoutSuccess } = useAuth();
+  const { requestHttp, error, setError, loading } = useAxios();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
@@ -22,11 +21,6 @@ const Login = () => {
 
   const [password, setPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
-
-  // const [success, setSuccess] = useState({
-  //   isSuccess: false,
-  //   successMessage: '',
-  // });
 
   useEffect(() => {
     const emailValid = emailValidation.test(email);
@@ -55,17 +49,12 @@ const Login = () => {
       {
         method: 'POST',
         url: '/accounts/login',
-        dataReq: loginInput,
+        dataRequest: loginInput,
       },
       (data) => {
-        login(data.data?.token);
-        // setSuccess({
-        //   isSuccess: true,
-        //   successMessage: 'Login Successfully!',
-        // });
+        login(data);
         navigate('/home', { replace: true });
-      },
-      'Login Successfully!'
+      }
     );
 
     setEmail('');
@@ -76,19 +65,19 @@ const Login = () => {
     <>
       {error.isError && (
         <Alert
-          className={'alert-error'}
+          className="alert-error"
           children={error.errorMessage}
-          onError={error}
+          onError={error.isError}
           onSetError={setError}
           icons="error"
         />
       )}
-      {success.isSuccess && (
+      {logoutSuccess.isSuccess && (
         <Alert
-          className={'alert-success'}
-          children={success.successMessage}
-          onSuccess={success}
-          onSetSuccess={setSuccess}
+          className="alert-success"
+          children={logoutSuccess.successMessage}
+          onSuccess={logoutSuccess.isSuccess}
+          onSetSuccess={setLogoutSuccess}
           icons="success"
         />
       )}

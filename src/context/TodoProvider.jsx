@@ -1,20 +1,22 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useCallback, useState } from 'react';
 
 import { TodoContext } from './Context';
-import { useAuth } from '../hooks/useStoreContext';
-import useAxios from '../hooks/useAxios';
 
 const initTodo = {
   todos: [],
   todoEdit: {},
+  totalTodos: 0,
 };
 
 const todosReducer = (state, action) => {
   switch (action.type) {
     case 'INIT_TODO':
+      const allTodos = action.payload.todos;
+      const totalTodos = action.payload.total;
       return {
         ...state,
-        todos: action.payload,
+        todos: allTodos,
+        total: totalTodos,
       };
     case 'ADD_TODO':
       const addedTodos = [action.payload, ...state.todos];
@@ -62,28 +64,22 @@ const todosReducer = (state, action) => {
 };
 
 const TodoProvider = ({ children }) => {
-  const { requestHttp } = useAxios();
-  const { authToken } = useAuth();
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
+  const [addTodoSuccess, setAddTodoSuccess] = useState({
+    isSuccess: false,
+    successMessage: '',
+  });
 
-  useEffect(() => {
-    requestHttp(
-      {
-        method: 'GET',
-        url: '/todos?offset=1&limit=10',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-      (data) => {
-        dispatchTodo({ type: 'INIT_TODO', payload: data.data });
-      }
-    );
-  }, [authToken, requestHttp]);
+  const getAllTodoHandler = useCallback((todosItems) => {
+    dispatchTodo({ type: 'INIT_TODO', payload: todosItems });
+  }, []);
 
   const addTodoHandler = (todoItem) => {
-    dispatchTodo({ type: 'ADD_TODO', payload: todoItem });
+    dispatchTodo({ type: 'ADD_TODO', payload: todoItem?.data });
+    setAddTodoSuccess({
+      isSuccess: todoItem?.status,
+      successMessage: todoItem?.message,
+    });
   };
 
   const updateTodoHandler = (todoItem) => {
@@ -101,6 +97,10 @@ const TodoProvider = ({ children }) => {
   const value = {
     todos: todoState.todos,
     todoEdit: todoState.todoEdit,
+    totalTodos: todoState.total,
+    addTodoSuccess,
+    setAddTodoSuccess,
+    getAllTodo: getAllTodoHandler,
     addTodo: addTodoHandler,
     updateTodo: updateTodoHandler,
     deleteTodo: deleteTodoHandler,

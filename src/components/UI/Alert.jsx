@@ -38,7 +38,7 @@ const Alert = ({
 
   return (
     <div
-      className={`alert fixed top-4 max-w-xs flex-row shadow-lg ${className}`}
+      className={`alert fixed top-0 left-0 m-4 max-w-fit flex-row rounded-lg shadow-lg ${className}`}
     >
       <div>
         {icons === 'success' && (
@@ -47,7 +47,7 @@ const Alert = ({
         {icons === 'error' && (
           <MdErrorOutline className="h-6 w-6 flex-shrink-0 stroke-current" />
         )}
-        <span className="font-medium">{children}</span>
+        <span className="text-sm font-medium">{children}</span>
       </div>
     </div>
   );

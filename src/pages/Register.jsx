@@ -88,7 +88,7 @@ const Register = () => {
       {
         method: 'POST',
         url: '/accounts/register',
-        dataReq: registerFormInput,
+        dataRequest: registerFormInput,
       },
       (data) => {
         login(data.data?.token);

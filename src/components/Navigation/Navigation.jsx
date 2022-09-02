@@ -19,7 +19,12 @@ const Navigation = () => {
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
-  const logoutHandler = () => logout();
+  const logoutHandler = () => {
+    logout({
+      isSuccess: true,
+      successMessage: 'Logout Successfully',
+    });
+  };
 
   return (
     <nav className="relative z-[9999] mx-auto flex max-w-5xl flex-row items-center justify-between bg-white p-4 sm:static">

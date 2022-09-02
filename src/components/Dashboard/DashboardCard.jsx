@@ -28,20 +28,18 @@ const DashboardCard = ({
     includeSeconds: true,
   });
 
-  console.log(todos);
-
   const todoCompletedHandler = () => {
     let completedTodo;
     for (const todo of todos) {
       if (todo.id === id) {
-        completedTodo = { ...todo, is_completed: !is_completed };
+        completedTodo = { ...todo, isCompleted: !is_completed };
       }
     }
     requestHttp(
       {
         method: 'PUT',
         url: `/todos/${id}`,
-        dataReq: JSON.stringify(completedTodo),
+        dataRequest: completedTodo,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
@@ -53,18 +51,17 @@ const DashboardCard = ({
   };
 
   const todoDeleteHandler = () => {
-    deleteTodo(id);
     requestHttp(
       {
         method: 'DELETE',
         url: `/todos/${id}`,
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
       (data) => console.log(data)
     );
+    deleteTodo(id);
   };
 
   const todoEditHandler = () => {

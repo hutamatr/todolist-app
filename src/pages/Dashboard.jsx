@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import emptyTodo from '../assets/images/Calendar.webp';
 import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
@@ -6,12 +6,32 @@ import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 import DashboardCard from '../components/Dashboard/DashboardCard';
 import DashboardForm from '../components/Dashboard/DashboardForm';
 import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
-import { useFilter, useTodos } from '../hooks/useStoreContext';
+import Alert from '../components/UI/Alert';
+import useAxios from '../hooks/useAxios';
+import { useFilter, useTodos, useAuth } from '../hooks/useStoreContext';
 
 const Dashboard = () => {
-  const { todos } = useTodos();
+  const { todos, getAllTodo, addTodoSuccess, setAddTodoSuccess } = useTodos();
+  const { authToken } = useAuth();
+  const { requestHttp } = useAxios();
   const { isTodoInProgress, isTodoCompleted } = useFilter();
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/todos?offset=0&limit=10',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        getAllTodo(data.data);
+      }
+    );
+  }, [authToken, requestHttp, getAllTodo]);
 
   const todosInProgress = todos.filter((todo) => !todo.is_completed);
   const todosCompleted = todos.filter((todo) => todo.is_completed);
@@ -57,6 +77,15 @@ const Dashboard = () => {
 
   return (
     <>
+      {addTodoSuccess.isSuccess && (
+        <Alert
+          className="alert-success"
+          children={addTodoSuccess.successMessage}
+          onSuccess={addTodoSuccess.isSuccess}
+          onSetSuccess={setAddTodoSuccess}
+          icons="success"
+        />
+      )}
       <section className="flex min-h-screen flex-col gap-y-6 py-6">
         <h1 className="font-bold">Dashboard</h1>
         <DashboardFilter />

@@ -11,8 +11,7 @@ import { useTodos, useAuth } from '../../hooks/useStoreContext';
 
 const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const { authToken } = useAuth();
-  const { requestHttp, error, setError, loading, success, setSuccess } =
-    useAxios();
+  const { requestHttp, error, setError } = useAxios();
   const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
 
   const [titleInput, setTitleInput] = useState('');
@@ -80,7 +79,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         {
           method: 'PUT',
           url: `/todos/${todoEdit.id}`,
-          dataReq: JSON.stringify(updatedTodo),
+          dataRequest: updatedTodo,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken}`,
@@ -89,8 +88,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         (data) => {
           console.log(data);
           // updateTodo(data.data);
-        },
-        'Edit todo Successfully'
+        }
       );
     } else {
       const newTodo = {
@@ -105,16 +103,16 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         {
           method: 'POST',
           url: '/todos',
-          dataReq: JSON.stringify(newTodo),
+          dataRequest: newTodo,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
         },
         (data) => {
-          addTodo(data.data);
-        },
-        'Create todo Successfully'
+          console.log(data);
+          addTodo(data);
+        }
       );
     }
 
@@ -131,18 +129,9 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         <Alert
           className={'alert-error'}
           children={error.errorMessage}
-          onError={error}
+          onError={error.isError}
           onSetError={setError}
           icons="error"
-        />
-      )}
-      {success.isSuccess && (
-        <Alert
-          className={'alert-success'}
-          children={success.successMessage}
-          onSuccess={success}
-          onSetSuccess={setSuccess}
-          icons="success"
         />
       )}
       {onShowModal && (
@@ -161,6 +150,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               Title
             </label>
             <input
+              required
               type="text"
               onChange={titleChangeHandler}
               value={titleInput || ''}
@@ -174,6 +164,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               Todo
             </label>
             <textarea
+              required
               name="todo-description"
               id="todo-description"
               cols="30"
@@ -190,6 +181,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               Deadline
             </label>
             <input
+              required
               type="date"
               onChange={deadLineChangeHandler}
               value={deadLineInput || ''}
