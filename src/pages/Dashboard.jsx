@@ -11,13 +11,19 @@ import useAxios from '../hooks/useAxios';
 import { useFilter, useTodos, useAuth } from '../hooks/useStoreContext';
 
 const Dashboard = () => {
-  const { todos, getAllTodo, addTodoSuccess, setAddTodoSuccess } = useTodos();
+  const {
+    todos,
+    getAllTodo,
+    alertTodo: addTodoSuccess,
+    setAlertTodo: setAddTodoSuccess,
+  } = useTodos();
   const { authToken } = useAuth();
   const { requestHttp } = useAxios();
   const { isTodoInProgress, isTodoCompleted } = useFilter();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    window.scrollTo({ behavior: 'smooth', top: 0 });
     requestHttp(
       {
         method: 'GET',
@@ -28,6 +34,7 @@ const Dashboard = () => {
         },
       },
       (data) => {
+        console.log(data);
         getAllTodo(data.data);
       }
     );

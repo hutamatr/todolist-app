@@ -4,21 +4,24 @@ export const TodoContext = createContext({
   todos: [],
   todoEdit: {},
   totalTodos: 0,
-  addTodoSuccess: {},
-  setAddTodoSuccess: () => {},
-  getAllTodo: (todosItems) => {},
-  addTodo: (todoItem) => {},
-  updateTodo: (todoItem) => {},
-  deleteTodo: (id) => {},
-  editTodo: (todoItem) => {},
+  alertTodo: {},
+  setAlertTodo: () => {},
+  getAllTodo: () => {},
+  addTodo: () => {},
+  updateTodo: () => {},
+  deleteTodo: () => {},
+  editTodo: () => {},
 });
 
 export const CategoryContext = createContext({
   categories: [],
-  addCategory: (category) => {},
-  updateCategory: (category) => {},
-  deleteCategory: (id) => {},
-  editCategory: (category) => {},
+  alertCategory: {},
+  setAlertCategory: () => {},
+  getAllCategory: () => {},
+  addCategory: () => {},
+  updateCategory: () => {},
+  deleteCategory: () => {},
+  editCategory: () => {},
 });
 
 export const FilterContext = createContext({
@@ -35,11 +38,18 @@ export const AuthContext = createContext({
   setLoginSuccess: () => {},
   logoutSuccess: {},
   setLogoutSuccess: () => {},
-  login: (token) => {},
+  login: () => {},
   logout: () => {},
 });
 
 export const LoginFormContext = createContext({
   onLoginScreen: true,
-  loginScreen: (value) => {},
+  loginScreen: () => {},
+});
+
+export const UserContext = createContext({
+  username: '',
+  email: '',
+  image: '',
+  getUserDetails: () => {},
 });

@@ -65,7 +65,7 @@ const todosReducer = (state, action) => {
 
 const TodoProvider = ({ children }) => {
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
-  const [addTodoSuccess, setAddTodoSuccess] = useState({
+  const [alertTodo, setAlertTodo] = useState({
     isSuccess: false,
     successMessage: '',
   });
@@ -76,18 +76,26 @@ const TodoProvider = ({ children }) => {
 
   const addTodoHandler = (todoItem) => {
     dispatchTodo({ type: 'ADD_TODO', payload: todoItem?.data });
-    setAddTodoSuccess({
+    setAlertTodo({
       isSuccess: todoItem?.status,
       successMessage: todoItem?.message,
     });
   };
 
   const updateTodoHandler = (todoItem) => {
-    dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem });
+    dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem?.data });
+    setAlertTodo({
+      isSuccess: todoItem?.status,
+      successMessage: todoItem?.message,
+    });
   };
 
-  const deleteTodoHandler = (todoId) => {
+  const deleteTodoHandler = (todoDelete, todoId) => {
     dispatchTodo({ type: 'REMOVE_TODO', payload: todoId });
+    setAlertTodo({
+      isSuccess: todoDelete?.status,
+      successMessage: todoDelete?.message,
+    });
   };
 
   const editTodoHandler = (todoItem) => {
@@ -98,8 +106,8 @@ const TodoProvider = ({ children }) => {
     todos: todoState.todos,
     todoEdit: todoState.todoEdit,
     totalTodos: todoState.total,
-    addTodoSuccess,
-    setAddTodoSuccess,
+    alertTodo,
+    setAlertTodo,
     getAllTodo: getAllTodoHandler,
     addTodo: addTodoHandler,
     updateTodo: updateTodoHandler,

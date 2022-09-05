@@ -31,13 +31,12 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
     const newCategory = {
       name: categoryName,
-      image: null,
     };
 
     requestHttp(
       {
         method: 'POST',
-        url: '',
+        url: '/categories',
         dataRequest: newCategory,
         headers: {
           'Content-Type': 'application/json',
@@ -46,6 +45,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
       },
       (data) => {
         console.log(data);
+        addCategory(data);
       }
     );
 
@@ -66,15 +66,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
           icons="error"
         />
       )}
-      {/* {success.isSuccess && (
-        <Alert
-          className={'alert-success'}
-          children={success.successMessage}
-          onSuccess={success.isSuccess}
-          onSetSuccess={setSuccess}
-          icons="success"
-        />
-      )} */}
+
       {onShowCategoryForm && (
         <Modal>
           <h1 className="mb-4 font-bold">Create Category</h1>
@@ -97,7 +89,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
             ></textarea>
             <button
-              className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:bg-orange-50"
+              className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"
               disabled={!isInputEmpty}
             >
               Create Category

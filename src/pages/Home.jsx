@@ -6,11 +6,12 @@ import ProfilePicture from '../components/UI/ProfilePicture';
 import Alert from '../components/UI/Alert';
 import filterIconName from '../utils/filterIconName';
 import useAxios from '../hooks/useAxios';
-import { useTodos, useAuth } from '../hooks/useStoreContext';
+import { useTodos, useAuth, useUser } from '../hooks/useStoreContext';
 
 const Home = () => {
   const { todos, totalTodos, getAllTodo } = useTodos();
   const { authToken, loginSuccess, setLoginSuccess } = useAuth();
+  const { getUserDetails, username, image } = useUser();
   const { requestHttp } = useAxios();
 
   useEffect(() => {
@@ -24,10 +25,24 @@ const Home = () => {
         },
       },
       (data) => {
+        console.log(data);
         getAllTodo(data.data);
       }
     );
-  }, [authToken, requestHttp, getAllTodo]);
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/accounts/profile',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        getUserDetails(data.data?.user);
+      }
+    );
+  }, [authToken, requestHttp, getAllTodo, getUserDetails]);
 
   const todosInProgress = todos.filter((todo) => !todo.is_completed).length;
   const todosIsDone = todos.filter((todo) => todo.is_completed).length;
@@ -47,7 +62,7 @@ const Home = () => {
         <div className="flex items-center justify-start gap-x-4">
           <ProfilePicture classPhoto={'btn'} />
           <div className="flex flex-col">
-            <h1 className="font-bold">Hello, John!</h1>
+            <h1 className="font-bold">Hello, {username}!</h1>
             <p className="text-xs">what do you want to do today?</p>
           </div>
         </div>
@@ -75,7 +90,7 @@ const Home = () => {
                 >
                   <item.icon className="h-6 w-6" fill={item.color} />
                   <span
-                    className={`text-sm font-medium ${
+                    className={`text-base font-bold ${
                       index === 0
                         ? 'text-blue-100'
                         : index === 1
@@ -87,12 +102,23 @@ const Home = () => {
                   >
                     {item.name}
                   </span>
-                  <span>
+                  <span
+                    className={`text-xs font-semibold ${
+                      index === 0
+                        ? 'text-blue-100'
+                        : index === 1
+                        ? 'text-green-100'
+                        : index === 2
+                        ? 'text-red-100'
+                        : ''
+                    }`}
+                  >
                     {index === 0
                       ? todosInProgress
                       : index === 1
                       ? todosIsDone
-                      : null}
+                      : 0}{' '}
+                    list todo
                   </span>
                 </li>
               );

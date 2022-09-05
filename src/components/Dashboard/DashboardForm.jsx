@@ -6,12 +6,13 @@ import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 import Modal from '../UI/Modal';
 import Alert from '../UI/Alert';
 import useAxios from '../../hooks/useAxios';
-import { categoryData } from '../../utils/dummy-todos';
-import { useTodos, useAuth } from '../../hooks/useStoreContext';
+
+import { useTodos, useAuth, useCategory } from '../../hooks/useStoreContext';
 
 const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const { authToken } = useAuth();
   const { requestHttp, error, setError } = useAxios();
+  const { categories, getAllCategory } = useCategory();
   const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
 
   const [titleInput, setTitleInput] = useState('');
@@ -21,12 +22,29 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const [category, setCategory] = useState('');
 
   useEffect(() => {
+    const date = new Date(todoEdit.deadline);
     if (todoEdit.id) {
       setTitleInput(todoEdit.title);
       setDescriptionInput(todoEdit.description);
-      setDeadLineInput(todoEdit.deadLine);
+      setDeadLineInput(date.toISOString().substring(0, 10));
     }
   }, [todoEdit]);
+
+  useEffect(() => {
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/categories',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        getAllCategory(data.data?.categories);
+      }
+    );
+  }, [authToken, requestHttp, getAllCategory]);
 
   let isInputEmpty = false;
 
@@ -73,8 +91,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         categoryId: category ? category : todoEdit.categoryId,
       };
 
-      console.log(updatedTodo);
-
       requestHttp(
         {
           method: 'PUT',
@@ -87,16 +103,16 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         },
         (data) => {
           console.log(data);
-          // updateTodo(data.data);
+          updateTodo(data);
         }
       );
     } else {
       const newTodo = {
         title: titleInput,
         description: descriptionInput,
-        deadLine: date,
-        isCompleted: false,
-        categoryId: category,
+        deadline: date,
+        is_completed: false,
+        category_id: category,
       };
 
       requestHttp(
@@ -191,12 +207,18 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               Category
             </label>
             <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
-              {categoryData.map((category) => {
+              {categories.map((category) => {
+                // console.log(todoEdit.category_id, category.id);
                 return (
                   <li key={category.id}>
                     <button
                       type="button"
-                      className="w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100"
+                      onFocus={() => todoEdit.category_id === category.id}
+                      className={`w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100 ${
+                        todoEdit.category_id === category.id
+                          ? 'bg-orange-10 text-orange-100 ring-orange-100'
+                          : ''
+                      }`}
                       onClick={categoryHandler.bind(this, category.id)}
                     >
                       {category.name}

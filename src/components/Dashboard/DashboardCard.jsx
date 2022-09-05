@@ -32,8 +32,9 @@ const DashboardCard = ({
     let completedTodo;
     for (const todo of todos) {
       if (todo.id === id) {
-        completedTodo = { ...todo, isCompleted: !is_completed };
+        completedTodo = { ...todo, is_completed: !is_completed };
       }
+      console.log(completedTodo);
     }
     requestHttp(
       {
@@ -45,9 +46,11 @@ const DashboardCard = ({
           Authorization: `Bearer ${authToken}`,
         },
       },
-      (data) => console.log(data)
+      (data) => {
+        console.log(data);
+        updateTodo(completedTodo);
+      }
     );
-    updateTodo(completedTodo);
   };
 
   const todoDeleteHandler = () => {
@@ -59,9 +62,10 @@ const DashboardCard = ({
           Authorization: `Bearer ${authToken}`,
         },
       },
-      (data) => console.log(data)
+      (data) => {
+        deleteTodo(data, id);
+      }
     );
-    deleteTodo(id);
   };
 
   const todoEditHandler = () => {

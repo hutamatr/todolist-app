@@ -14,11 +14,11 @@ const useAxios = () => {
   });
 
   const requestHttp = useCallback(async (requestConfig, setRequestData) => {
-    setLoading({
-      isLoading: true,
-      loadingMessage: 'Loading...',
-    });
     try {
+      setLoading({
+        isLoading: true,
+        loadingMessage: 'Loading...',
+      });
       const { method, url, dataRequest, headers } = requestConfig;
       const response = await axios({
         method: method,
@@ -31,26 +31,14 @@ const useAxios = () => {
             },
       });
 
-      if (response.status !== 200) {
-        throw new Error(response.data?.error);
-      }
-
       const data = await response.data;
 
       setRequestData(data);
     } catch (error) {
-      console.log(error);
-      if (error instanceof Error) {
-        setError({
-          isError: true,
-          errorMessage: error.message,
-        });
-      } else {
-        setError({
-          isError: true,
-          errorMessage: error.message,
-        });
-      }
+      setError({
+        isError: true,
+        errorMessage: error.message,
+      });
     }
     setLoading({
       isLoading: false,

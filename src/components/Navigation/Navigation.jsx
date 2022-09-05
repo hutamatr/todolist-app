@@ -12,7 +12,7 @@ import todoIcon from '../../assets/images/todo-list-icon.webp';
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);
 
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
 
   const menuIsActive = ({ isActive }) =>
     isActive ? 'border-b-2 border-b-orange-100' : '';
@@ -46,63 +46,76 @@ const Navigation = () => {
         }`}
       >
         <ProfilePicture classPhoto={'btn-sm block sm:hidden'} />
-        {isAuthenticated && (
-          <li>
-            <NavLink
-              to={'home'}
-              className={menuIsActive}
-              onClick={menuViewHandler}
-            >
-              Home
-            </NavLink>
-          </li>
-        )}
-        {isAuthenticated && (
-          <li>
-            <NavLink
-              to={'dashboard'}
-              className={menuIsActive}
-              onClick={menuViewHandler}
-            >
-              Dashboard
-            </NavLink>
-          </li>
-        )}
-        {isAuthenticated && (
-          <li>
-            <NavLink
-              to={'category'}
-              className={menuIsActive}
-              onClick={menuViewHandler}
-            >
-              Category
-            </NavLink>
-          </li>
-        )}
-        {isAuthenticated && (
-          <li>
-            <NavLink
-              to={'profile'}
-              className={menuIsActive}
-              onClick={menuViewHandler}
-            >
-              Profile
-            </NavLink>
-          </li>
-        )}
-        {isAuthenticated && (
-          <li>
-            <NavLink
-              to={'/login'}
-              replace
-              onClick={logoutHandler}
-              className="text-red-100"
-            >
-              Logout
-            </NavLink>
-          </li>
-        )}
-        <ProfilePicture classPhoto={'btn-sm hidden sm:block'} />
+        <li>
+          <NavLink
+            to={'home'}
+            className={menuIsActive}
+            onClick={menuViewHandler}
+          >
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to={'dashboard'}
+            className={menuIsActive}
+            onClick={menuViewHandler}
+          >
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to={'category'}
+            className={menuIsActive}
+            onClick={menuViewHandler}
+          >
+            Category
+          </NavLink>
+        </li>
+        <li className="block sm:hidden">
+          <NavLink
+            to={'profile'}
+            className={menuIsActive}
+            onClick={menuViewHandler}
+          >
+            Profile
+          </NavLink>
+        </li>
+        <li className="block sm:hidden">
+          <NavLink
+            to={'login'}
+            replace
+            onClick={logoutHandler}
+            className="text-red-100"
+          >
+            Logout
+          </NavLink>
+        </li>
+        <div className="dropdown dropdown-end">
+          <ProfilePicture
+            classPhoto={'btn-sm hidden sm:block cursor-pointer'}
+            tabIndex={0}
+          />
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu menu-compact mt-3 w-52 rounded-md bg-base-100 p-2 shadow-lg"
+          >
+            <li>
+              <NavLink to={'profile'}>Profile</NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={'login'}
+                replace
+                onClick={logoutHandler}
+                className="text-red-100"
+              >
+                Logout
+              </NavLink>
+            </li>
+          </ul>
+        </div>
       </ul>
     </nav>
   );
