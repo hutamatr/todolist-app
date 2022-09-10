@@ -52,7 +52,8 @@ const Login = () => {
         dataRequest: loginInput,
       },
       (data) => {
-        login(data);
+        const expireDateLogin = new Date(new Date().getTime() + 3600 * 1000);
+        login(data, expireDateLogin.toISOString());
         navigate('/home', { replace: true });
       }
     );

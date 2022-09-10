@@ -7,6 +7,7 @@ import { ReactComponent as View } from '../assets/icons/uil_clipboard-notes.svg'
 
 import CategoryForm from '../components/Category/CategoryForm';
 import Alert from '../components/UI/Alert';
+import { randIcons } from '../utils/categoryIcons';
 import { useCategory, useAuth } from '../hooks/useStoreContext';
 import useAxios from '../hooks/useAxios';
 
@@ -34,7 +35,6 @@ const Category = () => {
         },
       },
       (data) => {
-        console.log(data);
         getAllCategory(data.data?.categories);
       }
     );
@@ -54,7 +54,6 @@ const Category = () => {
         },
       },
       (data) => {
-        console.log(data);
         deleteCategory(data, id);
       }
     );
@@ -85,14 +84,15 @@ const Category = () => {
             return (
               <li key={category.id}>
                 <div
-                  className={`min-h-16 flex w-full flex-col items-start justify-start gap-y-4 overflow-auto rounded-md bg-green-100 p-4`}
+                  className={`grid min-h-full w-full gap-y-2 overflow-auto rounded-md bg-green-100 p-4`}
                 >
-                  {/* <img
-                      src={category.image}
-                      alt="category-img"
-                      loading="lazy"
-                    /> */}
-                  <span className="text-md break-words font-medium text-neutral-700">
+                  <img
+                    src={randIcons()}
+                    className="w-8"
+                    alt="category-img"
+                    loading="lazy"
+                  />
+                  <span className="break-all font-medium text-neutral-700">
                     {category.name}
                   </span>
                   <div className="flex w-full flex-row items-center justify-end gap-x-2">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDistance } from 'date-fns';
+import moment from 'moment';
 
 import { ReactComponent as Clock } from '../../assets/icons/uil_clock.svg';
 import { ReactComponent as Edit } from '../../assets/icons/uil_edit-alt.svg';
@@ -14,6 +14,7 @@ const DashboardCard = ({
   title,
   description,
   deadline,
+  category,
   is_completed,
   onTodoEdit,
   onSetShowModal,
@@ -22,11 +23,8 @@ const DashboardCard = ({
   const { authToken } = useAuth();
   const { updateTodo, deleteTodo, editTodo, todos } = useTodos();
 
-  const newDate = new Date(deadline).toLocaleDateString();
-  const formattedDate = formatDistance(new Date(newDate), new Date(), {
-    addSuffix: true,
-    includeSeconds: true,
-  });
+  const newDate = moment(deadline).locale('id').format('LLL');
+  const formattedDate = moment(deadline).endOf().fromNow();
 
   const todoCompletedHandler = () => {
     let completedTodo;
@@ -34,7 +32,6 @@ const DashboardCard = ({
       if (todo.id === id) {
         completedTodo = { ...todo, is_completed: !is_completed };
       }
-      console.log(completedTodo);
     }
     requestHttp(
       {
@@ -81,9 +78,14 @@ const DashboardCard = ({
         }`}
       ></span>
       <div className="flex w-full flex-col gap-y-3 rounded-r-lg bg-white p-4">
-        <h2 className="text-md max-h-12 overflow-auto break-all font-semibold">
-          {title}
-        </h2>
+        <div className="flex flex-row items-center justify-between">
+          <h2 className="text-md max-h-12 overflow-auto break-all font-semibold">
+            {title}
+          </h2>
+          <span className="text-xs font-light text-neutral-800">
+            {category?.name || "don't have category"}
+          </span>
+        </div>
 
         <p className="max-h-24 overflow-auto break-words text-sm">
           {description}

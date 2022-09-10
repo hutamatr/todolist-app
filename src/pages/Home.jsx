@@ -11,7 +11,7 @@ import { useTodos, useAuth, useUser } from '../hooks/useStoreContext';
 const Home = () => {
   const { todos, totalTodos, getAllTodo } = useTodos();
   const { authToken, loginSuccess, setLoginSuccess } = useAuth();
-  const { getUserDetails, username, image } = useUser();
+  const { getUserDetails, username } = useUser();
   const { requestHttp } = useAxios();
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const Home = () => {
         },
       },
       (data) => {
-        console.log(data);
         getAllTodo(data.data);
       }
     );
@@ -60,7 +59,7 @@ const Home = () => {
       )}
       <section className="flex min-h-screen flex-col gap-y-6 py-6">
         <div className="flex items-center justify-start gap-x-4">
-          <ProfilePicture classPhoto={'btn'} />
+          <ProfilePicture classPhoto={'btn'} classAvatar="w-12" />
           <div className="flex flex-col">
             <h1 className="font-bold">Hello, {username}!</h1>
             <p className="text-xs">what do you want to do today?</p>

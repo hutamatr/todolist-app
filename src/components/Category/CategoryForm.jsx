@@ -4,6 +4,7 @@ import Modal from '../UI/Modal';
 import Alert from '../UI/Alert';
 import useAxios from '../../hooks/useAxios';
 import { useCategory, useAuth } from '../../hooks/useStoreContext';
+import { randIcons } from '../../utils/categoryIcons';
 
 const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
   const { addCategory } = useCategory();
@@ -18,7 +19,9 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
   }
 
   const categoryNameChangeHandler = (event) => {
-    setCategoryName(event.target.value);
+    setCategoryName((prevState) => {
+      return event.target.value.length <= 25 ? event.target.value : prevState;
+    });
   };
 
   const categoryCancelHandler = () => {
@@ -31,6 +34,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
     const newCategory = {
       name: categoryName,
+      icon: randIcons,
     };
 
     requestHttp(
@@ -44,12 +48,9 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
         },
       },
       (data) => {
-        console.log(data);
         addCategory(data);
       }
     );
-
-    // addCategory(newCategory);
 
     onSetShowCategoryForm(false);
     setCategoryName('');
@@ -74,12 +75,17 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
             onSubmit={categorySubmitHandler}
             className="flex flex-col gap-y-4"
           >
-            <label
-              htmlFor="category-name"
-              className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
-            >
-              Category Name
-            </label>
+            <div className="flex flex-row items-center justify-between">
+              <label
+                htmlFor="category-name"
+                className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+              >
+                Category Name
+              </label>
+              <span className="text-xs font-semibold">
+                {0 + categoryName.length}/25
+              </span>
+            </div>
             <textarea
               name="category-name"
               id="category-name"

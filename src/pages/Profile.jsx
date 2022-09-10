@@ -1,34 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ProfilePicture from '../components/UI/ProfilePicture';
-
-import { userData } from '../utils/dummy-todos';
+import { useUser, useAuth } from '../hooks/useStoreContext';
+import useAxios from '../hooks/useAxios';
 
 const Profile = () => {
+  const { username, email, getUserDetails } = useUser();
+  const { authToken } = useAuth();
+  const { requestHttp } = useAxios();
+
+  const [profileData, setProfileData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [editForm, setEditForm] = useState(false);
+
+  useEffect(() => {
+    setProfileData((prevState) => {
+      return {
+        ...prevState,
+        username: username,
+        email: email,
+      };
+    });
+
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/accounts/profile',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        console.log(data);
+        getUserDetails(data.data?.user);
+      }
+    );
+  }, [requestHttp, authToken, getUserDetails, email, username]);
+
   const inputForm = [
     {
       label: 'Username',
       type: 'text',
-      data: userData.username,
     },
     {
       label: 'Email Address',
       type: 'email',
-      data: userData.email,
     },
     {
       label: 'Password',
       type: 'password',
-      data: userData.password,
     },
   ];
-
-  const [profileData, setProfileData] = useState({
-    username: userData.text,
-    email: userData.email,
-    password: userData.password,
-  });
-  const [editForm, setEditForm] = useState(false);
 
   const userNameChangeHandler = (event) => {
     setProfileData((prevState) => {
@@ -50,6 +76,13 @@ const Profile = () => {
 
   const cancelEditHandler = () => {
     setEditForm(false);
+    setProfileData((prevState) => {
+      return {
+        ...prevState,
+        username: username,
+        email: email,
+      };
+    });
   };
 
   const formSubmitHandler = (event) => {
@@ -58,14 +91,36 @@ const Profile = () => {
     if (!editForm) {
       setEditForm((prevState) => !prevState);
     }
+
+    if (editForm) {
+      const updatedProfile = {
+        username: profileData.username,
+        email: profileData.email,
+      };
+
+      requestHttp(
+        {
+          method: 'PUT',
+          url: '/accounts/profile',
+          dataRequest: updatedProfile,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+        },
+        (data) => {
+          console.log(data);
+        }
+      );
+    }
   };
 
   return (
     <section className="mx-auto flex min-h-screen max-w-lg flex-col gap-y-6 py-6">
       <h1 className="font-bold">Profile</h1>
       <div className="flex flex-col items-center justify-center gap-y-3">
-        <ProfilePicture classPhoto={'btn-lg'} />
-        <span className="text-lg font-bold">@{userData.username}</span>
+        <ProfilePicture />
+        <span className="text-lg font-bold">@{username}</span>
       </div>
       <form onSubmit={formSubmitHandler} className="flex flex-col gap-y-6">
         {inputForm.map((input, index) => {
@@ -93,7 +148,7 @@ const Profile = () => {
                     ? 'text-neutral-900 focus:border-b-orange-100'
                     : 'text-neutral-500'
                 }`}
-                value={editForm ? newProfileData : input.data}
+                value={newProfileData}
                 readOnly={!editForm ? true : false}
                 onChange={
                   index === 0

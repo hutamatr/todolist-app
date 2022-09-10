@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import emptyTodo from '../assets/images/Calendar.webp';
 import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
@@ -6,9 +7,24 @@ import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 import DashboardCard from '../components/Dashboard/DashboardCard';
 import DashboardForm from '../components/Dashboard/DashboardForm';
 import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
+import DashboardSort from '../components/Dashboard/DashboardFilter/DashboardSort';
 import Alert from '../components/UI/Alert';
 import useAxios from '../hooks/useAxios';
 import { useFilter, useTodos, useAuth } from '../hooks/useStoreContext';
+
+const sortTodoByDate = (todos, ascending) => {
+  return todos.sort((todoA, todoB) => {
+    const { createdAt: dateA } = todoA;
+    const { createdAt: dateB } = todoB;
+    const newDateA = new Date(dateA);
+    const newDateB = new Date(dateB);
+    if (ascending) {
+      return newDateA - newDateB;
+    } else {
+      return newDateB - newDateA;
+    }
+  });
+};
 
 const Dashboard = () => {
   const {
@@ -20,10 +36,12 @@ const Dashboard = () => {
   const { authToken } = useAuth();
   const { requestHttp } = useAxios();
   const { isTodoInProgress, isTodoCompleted } = useFilter();
+  const { search } = useLocation();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
+    console.log('dashboard running');
     requestHttp(
       {
         method: 'GET',
@@ -40,14 +58,20 @@ const Dashboard = () => {
     );
   }, [authToken, requestHttp, getAllTodo]);
 
-  const todosInProgress = todos.filter((todo) => !todo.is_completed);
-  const todosCompleted = todos.filter((todo) => todo.is_completed);
+  const queryParams = new URLSearchParams(search);
+
+  const isSortedTodos = queryParams.get('sort') === 'asc';
+
+  const sortedTodos = sortTodoByDate(todos, isSortedTodos);
+
+  const todosInProgress = sortedTodos.filter((todo) => !todo.is_completed);
+  const todosCompleted = sortedTodos.filter((todo) => todo.is_completed);
 
   const todosData = isTodoCompleted
     ? todosInProgress
     : isTodoInProgress
     ? todosCompleted
-    : todos;
+    : sortedTodos;
 
   const modalShowHandler = () => {
     setShowModal((prevState) => !prevState);
@@ -95,7 +119,10 @@ const Dashboard = () => {
       )}
       <section className="flex min-h-screen flex-col gap-y-6 py-6">
         <h1 className="font-bold">Dashboard</h1>
-        <DashboardFilter />
+        <div className="flex flex-row items-center justify-between">
+          <DashboardFilter />
+          <DashboardSort onIsSortedTodos={isSortedTodos} />
+        </div>
         {dashboardContent}
         <button
           type="button"

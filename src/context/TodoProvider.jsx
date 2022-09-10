@@ -26,9 +26,9 @@ const todosReducer = (state, action) => {
         todos: addedTodos,
       };
     case 'UPDATE_TODO':
-      const existingTodoItemIndex = state.todos.findIndex(
-        (todo) => todo.id === action.payload.id
-      );
+      const existingTodoItemIndex = state.todos.findIndex((todo) => {
+        return todo.id === action.payload.id;
+      });
       const existingTodoItem = state.todos[existingTodoItemIndex];
 
       let updatedTodos = null;
@@ -83,7 +83,7 @@ const TodoProvider = ({ children }) => {
   };
 
   const updateTodoHandler = (todoItem) => {
-    dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem?.data });
+    dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem });
     setAlertTodo({
       isSuccess: todoItem?.status,
       successMessage: todoItem?.message,

@@ -4,15 +4,15 @@ import { NavLink, Link } from 'react-router-dom';
 import { ReactComponent as Menu } from '../../assets/icons/uil_bars.svg';
 import { ReactComponent as Close } from '../../assets/icons/uil_times.svg';
 
+import todoIcon from '../../assets/images/todo-list-icon.webp';
 import ProfilePicture from '../UI/ProfilePicture';
 import { useAuth } from '../../hooks/useStoreContext';
-
-import todoIcon from '../../assets/images/todo-list-icon.webp';
+import useAxios from '../../hooks/useAxios';
 
 const Navigation = () => {
+  const { requestHttp } = useAxios();
+  const { logout, authToken } = useAuth();
   const [viewMenu, setMenuView] = useState(false);
-
-  const { logout } = useAuth();
 
   const menuIsActive = ({ isActive }) =>
     isActive ? 'border-b-2 border-b-orange-100' : '';
@@ -20,6 +20,14 @@ const Navigation = () => {
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
   const logoutHandler = () => {
+    // requestHttp({
+    //   method: 'GET',
+    //   url: '/accounts/logout',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${authToken}`,
+    //   },
+    // });
     logout({
       isSuccess: true,
       successMessage: 'Logout Successfully',
@@ -45,7 +53,10 @@ const Navigation = () => {
           viewMenu ? 'right-4' : '-right-full'
         }`}
       >
-        <ProfilePicture classPhoto={'btn-sm block sm:hidden'} />
+        <ProfilePicture
+          classPhoto={'btn-sm block sm:hidden'}
+          classAvatar="w-10"
+        />
         <li>
           <NavLink
             to={'home'}
@@ -92,10 +103,11 @@ const Navigation = () => {
             Logout
           </NavLink>
         </li>
-        <div className="dropdown dropdown-end">
+        <div className="dropdown-end dropdown">
           <ProfilePicture
             classPhoto={'btn-sm hidden sm:block cursor-pointer'}
             tabIndex={0}
+            classAvatar="w-10"
           />
           <ul
             tabIndex={0}

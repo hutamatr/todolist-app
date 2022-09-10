@@ -1,7 +1,6 @@
 import React, { useReducer, useCallback, useState } from 'react';
 
 import { CategoryContext } from './Context';
-// import { categoryData } from '../utils/dummy-todos';
 
 const initCategory = {
   categories: [],
@@ -26,7 +25,6 @@ const categoryReducer = (state, action) => {
       const removedCategory = state.categories.filter(
         (category) => category.id !== action.payload
       );
-      console.log(removedCategory);
 
       return {
         ...state,
@@ -52,7 +50,6 @@ const CategoryProvider = ({ children }) => {
   }, []);
 
   const addCategoryHandler = (categoryItem) => {
-    console.log(categoryItem);
     dispatchCategory({ type: 'ADD_CATEGORY', payload: categoryItem?.data });
     setAlertCategory({
       isSuccess: categoryItem?.status,

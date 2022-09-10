@@ -35,9 +35,10 @@ const useAxios = () => {
 
       setRequestData(data);
     } catch (error) {
+      console.log(error);
       setError({
         isError: true,
-        errorMessage: error.message,
+        errorMessage: error.response?.data?.message,
       });
     }
     setLoading({

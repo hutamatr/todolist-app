@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 
@@ -22,11 +23,13 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const [category, setCategory] = useState('');
 
   useEffect(() => {
-    const date = new Date(todoEdit.deadline);
+    const date = moment(todoEdit.deadline)
+      .locale('id')
+      .format('YYYY-MM-DDTHH:mm');
     if (todoEdit.id) {
       setTitleInput(todoEdit.title);
       setDescriptionInput(todoEdit.description);
-      setDeadLineInput(date.toISOString().substring(0, 10));
+      setDeadLineInput(date);
     }
   }, [todoEdit]);
 
@@ -53,14 +56,19 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   }
 
   const titleChangeHandler = (event) => {
-    setTitleInput(event.target.value);
+    setTitleInput((prevState) => {
+      return event.target.value.length <= 50 ? event.target.value : prevState;
+    });
   };
 
   const descriptionChangeHandler = (event) => {
-    setDescriptionInput(event.target.value);
+    setDescriptionInput((prevState) => {
+      return event.target.value.length <= 300 ? event.target.value : prevState;
+    });
   };
 
   const deadLineChangeHandler = (event) => {
+    console.log(event.target.value)
     setDeadLineInput(event.target.value);
   };
 
@@ -72,8 +80,8 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
     editTodo({});
   };
 
-  const categoryHandler = (value) => {
-    setCategory(value);
+  const categoryHandler = (id) => {
+    setCategory(id);
   };
 
   const newTodoSubmitHandler = (event) => {
@@ -81,15 +89,17 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
     const date = new Date(deadLineInput).toISOString();
 
+    console.log(date);
+
     if (todoEdit.id) {
       const updatedTodo = {
-        id: todoEdit.id,
         title: titleInput,
         description: descriptionInput,
-        deadLine: date,
-        isCompleted: todoEdit.is_completed,
-        categoryId: category ? category : todoEdit.categoryId,
+        deadline: date,
+        ...todoEdit,
       };
+
+      console.log(updatedTodo);
 
       requestHttp(
         {
@@ -103,16 +113,17 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         },
         (data) => {
           console.log(data);
-          updateTodo(data);
+          // updateTodo(data);
         }
       );
-    } else {
+    }
+    if (!todoEdit.id) {
       const newTodo = {
         title: titleInput,
         description: descriptionInput,
         deadline: date,
         is_completed: false,
-        category_id: category,
+        category_id: +category,
       };
 
       requestHttp(
@@ -126,7 +137,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
           },
         },
         (data) => {
-          console.log(data);
           addTodo(data);
         }
       );
@@ -159,12 +169,17 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
             onSubmit={newTodoSubmitHandler}
             className="flex flex-col gap-y-4"
           >
-            <label
-              htmlFor="todo-title"
-              className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
-            >
-              Title
-            </label>
+            <div className="flex flex-row items-center justify-between">
+              <label
+                htmlFor="todo-title"
+                className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+              >
+                Title
+              </label>
+              <span className="text-xs font-semibold">
+                {0 + titleInput.length}/50
+              </span>
+            </div>
             <input
               required
               type="text"
@@ -173,12 +188,17 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               placeholder="what do you want to do..."
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
             />
-            <label
-              htmlFor="todo-description"
-              className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
-            >
-              Todo
-            </label>
+            <div className="flex flex-row items-center justify-between">
+              <label
+                htmlFor="todo-description"
+                className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+              >
+                Todo
+              </label>
+              <span className="text-xs font-semibold">
+                {0 + descriptionInput.length}/300
+              </span>
+            </div>
             <textarea
               required
               name="todo-description"
@@ -198,43 +218,48 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
             </label>
             <input
               required
-              type="date"
+              type="datetime-local"
               onChange={deadLineChangeHandler}
               value={deadLineInput || ''}
               className="max-w-fit rounded bg-neutral-200 p-2 outline-none"
             />
-            <label htmlFor="category" className="text-sm">
-              Category
-            </label>
-            <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
-              {categories.map((category) => {
-                // console.log(todoEdit.category_id, category.id);
-                return (
-                  <li key={category.id}>
+
+            {!todoEdit.id && (
+              <>
+                <label htmlFor="category" className="text-sm">
+                  Category
+                </label>
+                <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
+                  {categories.map((category) => {
+                    return (
+                      <li key={category.id}>
+                        <button
+                          type="button"
+                          onFocus={() => todoEdit.category_id === category.id}
+                          className={`w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100 ${
+                            todoEdit.category_id === category.id
+                              ? 'bg-orange-10 text-orange-100 ring-orange-100'
+                              : ''
+                          }`}
+                          onClick={categoryHandler.bind(this, category.id)}
+                        >
+                          {category.name}
+                        </button>
+                      </li>
+                    );
+                  })}
+                  <Link to={'/category'}>
                     <button
+                      className="flex w-full items-center justify-center gap-x-1 rounded border-2 border-dashed border-neutral-400 bg-neutral-200 py-3 text-xs"
                       type="button"
-                      onFocus={() => todoEdit.category_id === category.id}
-                      className={`w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100 ${
-                        todoEdit.category_id === category.id
-                          ? 'bg-orange-10 text-orange-100 ring-orange-100'
-                          : ''
-                      }`}
-                      onClick={categoryHandler.bind(this, category.id)}
                     >
-                      {category.name}
+                      <Plus fill="#707175" /> Add Category
                     </button>
-                  </li>
-                );
-              })}
-              <Link to={'/category'}>
-                <button
-                  className="flex w-full items-center justify-center gap-x-1 rounded border-2 border-dashed border-neutral-400 bg-neutral-200 py-3 text-xs"
-                  type="button"
-                >
-                  <Plus fill="#707175" /> Add Category
-                </button>
-              </Link>
-            </ul>
+                  </Link>
+                </ul>
+              </>
+            )}
+
             <button
               disabled={!isInputEmpty}
               className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"

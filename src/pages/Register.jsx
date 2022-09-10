@@ -91,7 +91,8 @@ const Register = () => {
         dataRequest: registerFormInput,
       },
       (data) => {
-        login(data.data?.token);
+        const expireDateLogin = new Date(new Date().getTime() + 3600 * 1000);
+        login(data.data?.token, expireDateLogin.toISOString());
         navigate('/home', { replace: true });
       }
     );
