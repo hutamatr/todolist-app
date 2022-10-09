@@ -41,7 +41,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
-    console.log('dashboard running');
     requestHttp(
       {
         method: 'GET',

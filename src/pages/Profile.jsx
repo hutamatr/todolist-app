@@ -35,7 +35,6 @@ const Profile = () => {
         },
       },
       (data) => {
-        console.log(data);
         getUserDetails(data.data?.user);
       }
     );

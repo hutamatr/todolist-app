@@ -35,7 +35,6 @@ const useAxios = () => {
 
       setRequestData(data);
     } catch (error) {
-      console.log(error);
       setError({
         isError: true,
         errorMessage: error.response?.data?.message,

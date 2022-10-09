@@ -68,7 +68,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   };
 
   const deadLineChangeHandler = (event) => {
-    console.log(event.target.value)
     setDeadLineInput(event.target.value);
   };
 
@@ -89,17 +88,13 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
     const date = new Date(deadLineInput).toISOString();
 
-    console.log(date);
-
     if (todoEdit.id) {
       const updatedTodo = {
+        ...todoEdit,
         title: titleInput,
         description: descriptionInput,
         deadline: date,
-        ...todoEdit,
       };
-
-      console.log(updatedTodo);
 
       requestHttp(
         {
@@ -112,18 +107,16 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
           },
         },
         (data) => {
-          console.log(data);
-          // updateTodo(data);
+          updateTodo(updatedTodo, data);
         }
       );
-    }
-    if (!todoEdit.id) {
+    } else {
       const newTodo = {
         title: titleInput,
         description: descriptionInput,
         deadline: date,
         is_completed: false,
-        category_id: +category,
+        category_id: category,
       };
 
       requestHttp(
@@ -184,7 +177,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               required
               type="text"
               onChange={titleChangeHandler}
-              value={titleInput || ''}
+              value={titleInput}
               placeholder="what do you want to do..."
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
             />
@@ -206,7 +199,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               cols="30"
               rows="5"
               onChange={descriptionChangeHandler}
-              value={descriptionInput || ''}
+              value={descriptionInput}
               placeholder="tell me more detail about your task..."
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
             ></textarea>
@@ -220,7 +213,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
               required
               type="datetime-local"
               onChange={deadLineChangeHandler}
-              value={deadLineInput || ''}
+              value={deadLineInput}
               className="max-w-fit rounded bg-neutral-200 p-2 outline-none"
             />
 

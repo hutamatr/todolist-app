@@ -82,11 +82,11 @@ const TodoProvider = ({ children }) => {
     });
   };
 
-  const updateTodoHandler = (todoItem) => {
+  const updateTodoHandler = (todoItem, responseUpdate) => {
     dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem });
     setAlertTodo({
-      isSuccess: todoItem?.status,
-      successMessage: todoItem?.message,
+      isSuccess: responseUpdate?.status,
+      successMessage: responseUpdate?.message,
     });
   };
 

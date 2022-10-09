@@ -44,8 +44,7 @@ const DashboardCard = ({
         },
       },
       (data) => {
-        console.log(data);
-        updateTodo(completedTodo);
+        updateTodo(completedTodo, data);
       }
     );
   };
@@ -82,9 +81,9 @@ const DashboardCard = ({
           <h2 className="text-md max-h-12 overflow-auto break-all font-semibold">
             {title}
           </h2>
-          <span className="text-xs font-light text-neutral-800">
+          {/* <span className="text-xs font-light text-neutral-800">
             {category?.name || "don't have category"}
-          </span>
+          </span> */}
         </div>
 
         <p className="max-h-24 overflow-auto break-words text-sm">
