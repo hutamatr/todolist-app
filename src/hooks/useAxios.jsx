@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/v1';
+const API = axios.create({ baseURL: 'http://localhost:8000/api/v1' });
 
 const useAxios = () => {
   const [error, setError] = useState({
@@ -20,10 +20,11 @@ const useAxios = () => {
         loadingMessage: 'Loading...',
       });
       const { method, url, dataRequest, headers } = requestConfig;
-      const response = await axios({
+      const response = await API({
         method: method,
-        url: BASE_URL + url,
+        url: url,
         data: dataRequest ? dataRequest : null,
+
         headers: headers
           ? headers
           : {
