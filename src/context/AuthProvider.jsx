@@ -2,13 +2,6 @@ import React, { useReducer, useState, useCallback, useEffect } from 'react';
 
 import { AuthContext } from './Context';
 
-// const getStorageToken = () => {
-//   const localStorageToken = localStorage.getItem('auth_token');
-//   return {
-//     localStorageToken,
-//   };
-// };
-
 const calculateAutoLogoutTime = (expireDate) => {
   const currentTimeInMilliseconds = new Date().getTime();
   const expireTimeInMilliseconds = new Date(expireDate).getTime();
@@ -57,7 +50,7 @@ const authReducer = (state, action) => {
     default:
       const localStorageToken = getStorageItems();
       return {
-        authToken: localStorageToken.authToken,
+        authToken: localStorageToken?.authToken,
         isAuthenticated: !!localStorageToken.authToken,
       };
   }

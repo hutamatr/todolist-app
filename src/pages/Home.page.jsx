@@ -20,7 +20,6 @@ const Home = () => {
         method: 'GET',
         url: '/todos',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
@@ -33,7 +32,6 @@ const Home = () => {
         method: 'GET',
         url: '/accounts/profile',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
@@ -43,8 +41,8 @@ const Home = () => {
     );
   }, [authToken, requestHttp, getAllTodo, getUserDetails]);
 
-  const todosInProgress = todos.filter((todo) => !todo.is_completed).length;
-  const todosIsDone = todos.filter((todo) => todo.is_completed).length;
+  const todosInProgress = todos?.filter((todo) => !todo.is_completed).length;
+  const todosIsDone = todos?.filter((todo) => todo.is_completed).length;
 
   return (
     <>

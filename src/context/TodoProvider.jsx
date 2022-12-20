@@ -11,15 +11,15 @@ const initTodo = {
 const todosReducer = (state, action) => {
   switch (action.type) {
     case 'INIT_TODO':
-      const allTodos = action.payload.todos;
-      const totalTodos = action.payload.total;
+      const allTodos = action.payload?.todos;
+      const totalTodos = action.payload?.total;
       return {
         ...state,
         todos: allTodos,
         total: totalTodos,
       };
     case 'ADD_TODO':
-      const addedTodos = [action.payload, ...state.todos];
+      const addedTodos = [action.payload, ...state?.todos];
 
       return {
         ...state,

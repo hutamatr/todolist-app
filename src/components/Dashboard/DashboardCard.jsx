@@ -39,7 +39,6 @@ const DashboardCard = ({
         url: `/todos/${id}`,
         dataRequest: completedTodo,
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
@@ -49,17 +48,20 @@ const DashboardCard = ({
     );
   };
 
-  const todoDeleteHandler = () => {
-    requestHttp(
+  const todoDeleteHandler = async (event) => {
+    event.preventDefault();
+    await requestHttp(
       {
         method: 'DELETE',
         url: `/todos/${id}`,
         headers: {
           Authorization: `Bearer ${authToken}`,
+          'Content-type': 'application/json',
         },
       },
       (data) => {
-        deleteTodo(data, id);
+        console.log(data);
+        // deleteTodo(data, id);
       }
     );
   };
@@ -81,9 +83,11 @@ const DashboardCard = ({
           <h2 className="text-md max-h-12 overflow-auto break-all font-semibold">
             {title}
           </h2>
-          {/* <span className="text-xs font-light text-neutral-800">
-            {category?.name || "don't have category"}
-          </span> */}
+          {/* {category.name && (
+            <span className="text-xs font-light text-neutral-800">
+              {category.name}
+            </span>
+          )} */}
         </div>
 
         <p className="max-h-24 overflow-auto break-words text-sm">

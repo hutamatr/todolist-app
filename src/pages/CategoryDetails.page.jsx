@@ -20,7 +20,6 @@ const CategoryDetails = () => {
         method: 'GET',
         url: `/categories/${categoryId}`,
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },

@@ -20,14 +20,18 @@ const Navigation = () => {
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
   const logoutHandler = () => {
-    // requestHttp({
-    //   method: 'GET',
-    //   url: '/accounts/logout',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${authToken}`,
-    //   },
-    // });
+    requestHttp(
+      {
+        method: 'GET',
+        url: '/accounts/logout',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      (data) => {
+        console.log(data);
+      }
+    );
     logout({
       isSuccess: true,
       successMessage: 'Logout Successfully',

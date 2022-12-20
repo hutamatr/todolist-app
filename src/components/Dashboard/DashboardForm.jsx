@@ -7,6 +7,7 @@ import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 import Modal from '../UI/Modal';
 import Alert from '../UI/Alert';
 import useAxios from '../../hooks/useAxios';
+import useInputState from '../../hooks/useInputState';
 
 import { useTodos, useAuth, useCategory } from '../../hooks/useStoreContext';
 
@@ -16,9 +17,16 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const { categories, getAllCategory } = useCategory();
   const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
 
-  const [titleInput, setTitleInput] = useState('');
-  const [descriptionInput, setDescriptionInput] = useState('');
-  const [deadLineInput, setDeadLineInput] = useState('');
+  // const [titleInput, setTitleInput] = useState('');
+  // const [descriptionInput, setDescriptionInput] = useState('');
+  // const [deadLineInput, setDeadLineInput] = useState('');
+  const { input, setInput, onChangeInputHandler } = useInputState({
+    titleInput: '',
+    descriptionInput: '',
+    deadLineInput: '',
+  });
+
+  const { titleInput, descriptionInput, deadLineInput } = input;
 
   const [category, setCategory] = useState('');
 
@@ -26,12 +34,18 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
     const date = moment(todoEdit.deadline)
       .locale('id')
       .format('YYYY-MM-DDTHH:mm');
+
     if (todoEdit.id) {
-      setTitleInput(todoEdit.title);
-      setDescriptionInput(todoEdit.description);
-      setDeadLineInput(date);
+      // setTitleInput(todoEdit.title);
+      // setDescriptionInput(todoEdit.description);
+      // setDeadLineInput(date);
+      setInput({
+        titleInput: todoEdit.title,
+        descriptionInput: todoEdit.description,
+        deadLineInput: date,
+      });
     }
-  }, [todoEdit]);
+  }, [todoEdit, setInput]);
 
   useEffect(() => {
     requestHttp(
@@ -39,7 +53,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         method: 'GET',
         url: '/categories',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
@@ -56,30 +69,50 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   }
 
   const titleChangeHandler = (event) => {
-    setTitleInput((prevState) => {
-      return event.target.value.length <= 50 ? event.target.value : prevState;
+    // setTitleInput((prevState) => {
+    //   return event.target.value.length <= 50 ? event.target.value : prevState;
+    // });
+    setInput((prevState) => {
+      return {
+        ...prevState,
+        titleInput:
+          event.target.value.length <= 50 ? event.target.value : prevState,
+      };
     });
   };
 
   const descriptionChangeHandler = (event) => {
-    setDescriptionInput((prevState) => {
-      return event.target.value.length <= 300 ? event.target.value : prevState;
+    // setDescriptionInput((prevState) => {
+    //   return event.target.value.length <= 300 ? event.target.value : prevState;
+    // });
+    setInput((prevState) => {
+      return {
+        ...prevState,
+        descriptionInput:
+          event.target.value.length <= 50 ? event.target.value : prevState,
+      };
     });
   };
 
-  const deadLineChangeHandler = (event) => {
-    setDeadLineInput(event.target.value);
-  };
+  // const deadLineChangeHandler = (event) => {
+  //   setDeadLineInput(event.target.value);
+  // };
 
   const todoCancelHandler = () => {
     onSetShowModal(false);
-    setTitleInput('');
-    setDescriptionInput('');
-    setDeadLineInput('');
+    // setTitleInput('');
+    // setDescriptionInput('');
+    // setDeadLineInput('');
+    setInput({
+      titleInput: '',
+      descriptionInput: '',
+      deadLineInput: '',
+    });
     editTodo({});
   };
 
   const categoryHandler = (id) => {
+    console.log({ id });
     setCategory(id);
   };
 
@@ -102,7 +135,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
           url: `/todos/${todoEdit.id}`,
           dataRequest: updatedTodo,
           headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
         },
@@ -125,20 +157,25 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
           url: '/todos',
           dataRequest: newTodo,
           headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
         },
         (data) => {
           addTodo(data);
+          console.log(data);
         }
       );
     }
 
     onSetShowModal(false);
-    setTitleInput('');
-    setDescriptionInput('');
-    setDeadLineInput('');
+    // setTitleInput('');
+    // setDescriptionInput('');
+    // setDeadLineInput('');
+    setInput({
+      titleInput: '',
+      descriptionInput: '',
+      deadLineInput: '',
+    });
     editTodo({});
   };
 
@@ -176,6 +213,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
             <input
               required
               type="text"
+              name="titleInput"
               onChange={titleChangeHandler}
               value={titleInput}
               placeholder="what do you want to do..."
@@ -212,7 +250,8 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
             <input
               required
               type="datetime-local"
-              onChange={deadLineChangeHandler}
+              name="deadLineInput"
+              onChange={onChangeInputHandler}
               value={deadLineInput}
               className="max-w-fit rounded bg-neutral-200 p-2 outline-none"
             />
@@ -223,7 +262,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                   Category
                 </label>
                 <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
-                  {categories.map((category) => {
+                  {categories?.map((category) => {
                     return (
                       <li key={category.id}>
                         <button

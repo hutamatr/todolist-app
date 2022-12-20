@@ -5,6 +5,7 @@ import FormInput from '../components/UI/FormInput';
 import Alert from '../components/UI/Alert';
 import validation from '../utils/validation';
 import useAxios from '../hooks/useAxios';
+import useInputState from '../hooks/useInputState';
 import { LoginFormContext } from '../context/Context';
 import { useAuth } from '../hooks/useStoreContext';
 
@@ -16,10 +17,17 @@ const Login = () => {
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
-  const [email, setEmail] = useState('');
-  const [isValidEmail, setIsValidEmail] = useState(false);
+  const {
+    input,
+    setInput: setLoginInput,
+    onChangeInputHandler,
+  } = useInputState({
+    email: '',
+    password: '',
+  });
 
-  const [password, setPassword] = useState('');
+  const { email, password } = input;
+  const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
 
   useEffect(() => {
@@ -34,8 +42,6 @@ const Login = () => {
   }, []);
 
   const loginScreenHandler = () => loginScreen(true);
-  const emailInputHandler = (event) => setEmail(event.target.value);
-  const passwordInputHandler = (event) => setPassword(event.target.value);
 
   const loginSubmitHandler = (event) => {
     event.preventDefault();
@@ -52,15 +58,16 @@ const Login = () => {
         dataRequest: loginInput,
       },
       (data) => {
-        console.log(data);
         const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
         login(data, expireDateLogin.toISOString());
         navigate('/home', { replace: true });
       }
     );
 
-    setEmail('');
-    setPassword('');
+    setLoginInput({
+      email: '',
+      password: '',
+    });
   };
 
   return (
@@ -91,22 +98,24 @@ const Login = () => {
             input={email}
             type="email"
             ref={emailRef}
-            onChange={emailInputHandler}
+            onChange={onChangeInputHandler}
             isValidInput={isValidEmail}
+            name="email"
           />
           <FormInput
             placeholder={'Password'}
             input={password}
             type="password"
-            onChange={passwordInputHandler}
+            onChange={onChangeInputHandler}
             isValidInput={isValidPassword}
+            name="password"
           />
 
           <button
-            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
+            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 font-light text-white disabled:cursor-not-allowed"
             disabled={!isValidEmail || !isValidPassword ? true : false}
           >
-            {loading.isLoading ? loading.loadingMessage : 'Sign In'}
+            {loading.isLoading ? `${loading.loadingMessage}` : 'Sign In'}
           </button>
         </form>
         <p className="text-center text-sm">

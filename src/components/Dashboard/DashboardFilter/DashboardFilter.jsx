@@ -4,7 +4,6 @@ import { ReactComponent as Spinner } from '../../../assets/icons/uil_spinner-alt
 import { ReactComponent as Check } from '../../../assets/icons/uil_check.svg';
 import { ReactComponent as Stopwatch } from '../../../assets/icons/uil_stopwatch.svg';
 
-// import DashboardSort from './DashboardSort';
 import { useFilter } from '../../../hooks/useStoreContext';
 
 const DashboardFilter = () => {

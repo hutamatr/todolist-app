@@ -30,7 +30,6 @@ const Category = () => {
         method: 'GET',
         url: '/categories',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
@@ -80,7 +79,7 @@ const Category = () => {
           >
             <Plus fill="#FF844B" className="h-5 w-5" /> Add Category
           </button>
-          {categories.map((category) => {
+          {categories?.map((category) => {
             return (
               <li key={category.id}>
                 <div

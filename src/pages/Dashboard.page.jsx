@@ -13,7 +13,7 @@ import useAxios from '../hooks/useAxios';
 import { useFilter, useTodos, useAuth } from '../hooks/useStoreContext';
 
 const sortTodoByDate = (todos, ascending) => {
-  return todos.sort((todoA, todoB) => {
+  return todos?.sort((todoA, todoB) => {
     const { createdAt: dateA } = todoA;
     const { createdAt: dateB } = todoB;
     const newDateA = new Date(dateA);
@@ -46,13 +46,13 @@ const Dashboard = () => {
         method: 'GET',
         url: '/todos?offset=0&limit=10',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
+          'Content-type': 'application/json',
         },
       },
       (data) => {
-        console.log(data);
         getAllTodo(data.data);
+        console.log(data);
       }
     );
   }, [authToken, requestHttp, getAllTodo]);
@@ -63,8 +63,8 @@ const Dashboard = () => {
 
   const sortedTodos = sortTodoByDate(todos, isSortedTodos);
 
-  const todosInProgress = sortedTodos.filter((todo) => !todo.is_completed);
-  const todosCompleted = sortedTodos.filter((todo) => todo.is_completed);
+  const todosInProgress = sortedTodos?.filter((todo) => !todo.is_completed);
+  const todosCompleted = sortedTodos?.filter((todo) => todo.is_completed);
 
   const todosData = isTodoCompleted
     ? todosInProgress
@@ -77,7 +77,7 @@ const Dashboard = () => {
   };
 
   const dashboardContent =
-    todosData.length === 0 ? (
+    todosData?.length === 0 ? (
       <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
         <img
           src={emptyTodo}
@@ -91,7 +91,7 @@ const Dashboard = () => {
       </div>
     ) : (
       <ul className="grid grid-cols-1 gap-y-4">
-        {todosData.map((todo, index) => {
+        {todosData?.map((todo, index) => {
           return (
             <li key={index}>
               <DashboardCard

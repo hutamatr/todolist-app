@@ -43,12 +43,12 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
         url: '/categories',
         dataRequest: newCategory,
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       },
       (data) => {
         addCategory(data);
+        // console.log(data);
       }
     );
 

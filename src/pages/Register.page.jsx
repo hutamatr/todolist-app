@@ -7,37 +7,51 @@ import FormInput from '../components/UI/FormInput';
 import Alert from '../components/UI/Alert';
 import validation from '../utils/validation';
 import useAxios from '../hooks/useAxios';
+import useInputState from '../hooks/useInputState';
 import { useLoginForm, useAuth } from '../hooks/useStoreContext';
 
 const Register = () => {
   const userNameRef = useRef();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, loginSuccess, setLoginSuccess } = useAuth();
   const { loginScreen } = useLoginForm();
   const { requestHttp, error, setError } = useAxios();
   const { userNameValidation, emailValidation, passwordValidation } =
     validation();
 
-  const [userName, setUserName] = useState('');
+  const {
+    input,
+    setInput: setRegisterInput,
+    onChangeInputHandler,
+  } = useInputState({
+    userName: '',
+    userEmail: '',
+    password: '',
+    passwordMatch: '',
+  });
+
+  const { userName, userEmail, password, passwordMatch } = input;
+
+  // const [userName, setUserName] = useState('');
   const [isValidUserName, setIsValidUserName] = useState(false);
   const [isUserNameFocus, setIsUserNameFocus] = useState(false);
 
-  const [userEmail, setUserEmail] = useState('');
+  // const [userEmail, setUserEmail] = useState('');
   const [isValidUserEmail, setIsValidUserEmail] = useState(false);
   const [isUserEmailFocus, setIsUserEmailFocus] = useState(false);
 
-  const [password, setPassword] = useState('');
+  // const [password, setPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isPasswordFocus, setIsPasswordFocus] = useState(false);
 
-  const [passwordMatch, setPasswordMatch] = useState('');
+  // const [passwordMatch, setPasswordMatch] = useState('');
   const [isValidPasswordMatch, setIsValidPasswordMatch] = useState(false);
   const [isPasswordMatchFocus, setIsPasswordMatchFocus] = useState(false);
 
-  const [success, setSuccess] = useState({
-    isSuccess: false,
-    successMessage: '',
-  });
+  // const [success, setSuccess] = useState({
+  //   isSuccess: false,
+  //   successMessage: '',
+  // });
 
   useEffect(() => {
     userNameRef.current.focus();
@@ -58,20 +72,20 @@ const Register = () => {
 
   const registerScreenHandler = () => loginScreen(false);
 
-  const userNameChangeHandler = (event) => setUserName(event.target.value);
+  // const userNameChangeHandler = (event) => setUserName(event.target.value);
   const userNameFocusHandler = () =>
     setIsUserNameFocus((prevState) => !prevState);
 
-  const userEmailChangeHandler = (event) => setUserEmail(event.target.value);
+  // const userEmailChangeHandler = (event) => setUserEmail(event.target.value);
   const userEmailFocusHandler = () =>
     setIsUserEmailFocus((prevState) => !prevState);
 
-  const passwordChangeHandler = (event) => setPassword(event.target.value);
+  // const passwordChangeHandler = (event) => setPassword(event.target.value);
   const passwordFocusHandler = () =>
     setIsPasswordFocus((prevState) => !prevState);
 
-  const passwordMatchChangeHandler = (event) =>
-    setPasswordMatch(event.target.value);
+  // const passwordMatchChangeHandler = (event) =>
+  //   setPasswordMatch(event.target.value);
   const passwordMatchFocusHandler = () =>
     setIsPasswordMatchFocus((prevState) => !prevState);
 
@@ -97,10 +111,17 @@ const Register = () => {
       }
     );
 
-    setUserName('');
-    setUserEmail('');
-    setPassword('');
-    setPasswordMatch('');
+    setRegisterInput({
+      userName: '',
+      userEmail: '',
+      password: '',
+      passwordMatch: '',
+    });
+
+    // setUserName('');
+    // setUserEmail('');
+    // setPassword('');
+    // setPasswordMatch('');
   };
 
   return (
@@ -116,12 +137,12 @@ const Register = () => {
           }
         />
       )}
-      {success.isSuccess && (
+      {loginSuccess.isSuccess && (
         <Alert
           className={'alert-success'}
-          children={success.successMessage}
-          onSuccess={success}
-          onSetSuccess={setSuccess}
+          children={loginSuccess.successMessage}
+          onSuccess={loginSuccess}
+          onSetSuccess={setLoginSuccess}
           icons={<MdDone className="h-6 w-6 flex-shrink-0 stroke-current" />}
         />
       )}
@@ -132,6 +153,7 @@ const Register = () => {
           className="flex flex-col gap-y-2"
         >
           <FormInput
+            name="userName"
             placeholder={'Username'}
             isValidInput={isValidUserName}
             isFocusInput={isUserNameFocus}
@@ -139,37 +161,40 @@ const Register = () => {
             ref={userNameRef}
             autoComplete={'off'}
             type="text"
-            onChange={userNameChangeHandler}
+            onChange={onChangeInputHandler}
             onFocus={userNameFocusHandler}
             onBlur={userNameFocusHandler}
           />
           <FormInput
+            name="userEmail"
             placeholder={'Email'}
             isValidInput={isValidUserEmail}
             isFocusInput={isUserEmailFocus}
             input={userEmail}
             type="email"
-            onChange={userEmailChangeHandler}
+            onChange={onChangeInputHandler}
             onFocus={userEmailFocusHandler}
             onBlur={userEmailFocusHandler}
           />
           <FormInput
+            name="password"
             placeholder={'Password'}
             isValidInput={isValidPassword}
             isFocusInput={isPasswordFocus}
             input={password}
             type="password"
-            onChange={passwordChangeHandler}
+            onChange={onChangeInputHandler}
             onFocus={passwordFocusHandler}
             onBlur={passwordFocusHandler}
           />
           <FormInput
+            name="passwordMatch"
             placeholder={'Confirm Password'}
             isValidInput={isValidPasswordMatch}
             isFocusInput={isPasswordMatchFocus}
             input={passwordMatch}
             type="password"
-            onChange={passwordMatchChangeHandler}
+            onChange={onChangeInputHandler}
             onFocus={passwordMatchFocusHandler}
             onBlur={passwordMatchFocusHandler}
           />

@@ -19,6 +19,7 @@ const FormInput = forwardRef(
       onChange,
       onFocus,
       onBlur,
+      name,
     },
     ref
   ) => {
@@ -41,6 +42,7 @@ const FormInput = forwardRef(
             required
             type={isPassView ? 'text' : type}
             id={id}
+            name={name}
             value={input}
             autoComplete={autoComplete ? autoComplete : null}
             ref={ref}

@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:8000/api/v1' });
+const API = axios.create({
+  baseURL: 'http://localhost:8010/proxy/api/v1',
+});
 
 const useAxios = () => {
   const [error, setError] = useState({
@@ -24,22 +26,31 @@ const useAxios = () => {
         method: method,
         url: url,
         data: dataRequest ? dataRequest : null,
-
-        headers: headers
-          ? headers
-          : {
-              'Content-type': 'application/json',
-            },
+        headers: {
+          ...headers,
+          // 'Access-Control-Allow-Origin': '*',
+          'Content-type': 'application/json',
+        },
       });
+
+      console.log(response);
 
       const data = await response.data;
 
       setRequestData(data);
     } catch (error) {
-      setError({
-        isError: true,
-        errorMessage: error.response?.data?.message,
-      });
+      console.log(error);
+      if (error.response.data) {
+        setError({
+          isError: true,
+          errorMessage: error.response?.data?.message,
+        });
+      } else {
+        setError({
+          isError: true,
+          errorMessage: error.message,
+        });
+      }
     }
     setLoading({
       isLoading: false,
