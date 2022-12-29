@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef } from 'react';
 
 import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
 import { ReactComponent as Eye } from '../../assets/icons/uil_eye.svg';
@@ -20,13 +20,11 @@ const FormInput = forwardRef(
       onFocus,
       onBlur,
       name,
+      onPasswordView,
+      onPasswordViewHandler,
     },
     ref
   ) => {
-    const [isPassView, setIsPassView] = useState(false);
-
-    const viewPasswordHandler = () => setIsPassView((prevState) => !prevState);
-
     return (
       <>
         <div
@@ -40,7 +38,7 @@ const FormInput = forwardRef(
         >
           <input
             required
-            type={isPassView ? 'text' : type}
+            type={onPasswordView ? 'text' : type}
             id={id}
             name={name}
             value={input}
@@ -58,28 +56,26 @@ const FormInput = forwardRef(
                 : 'bg-orange-50'
             }`}
           />
-          {isValidInput && input && placeholder !== 'Password' && (
-            <Check className="mr-2 w-max" fill="#5BE26A" />
+          {isValidInput && input && name !== 'password' && (
+            <Check className="mx-3 w-max" fill="#5BE26A" />
           )}
-          {type === 'password' &&
-            placeholder !== 'Confirm Password' &&
-            input && (
-              <>
-                {isPassView ? (
-                  <Eye
-                    className="mr-2 cursor-pointer"
-                    onClick={viewPasswordHandler}
-                    fill="#5B5B60"
-                  />
-                ) : (
-                  <EyeSlash
-                    className="mr-2 cursor-pointer"
-                    onClick={viewPasswordHandler}
-                    fill="#5B5B60"
-                  />
-                )}
-              </>
-            )}
+          {type === 'password' && name !== 'passwordMatch' && input && (
+            <>
+              {onPasswordView ? (
+                <Eye
+                  className="mx-3 cursor-pointer text-2xl"
+                  onClick={onPasswordViewHandler}
+                  fill="#5B5B60"
+                />
+              ) : (
+                <EyeSlash
+                  className="mx-3 cursor-pointer text-2xl"
+                  onClick={onPasswordViewHandler}
+                  fill="#5B5B60"
+                />
+              )}
+            </>
+          )}
         </div>
         <RegisterNote placeholder={placeholder} />
       </>

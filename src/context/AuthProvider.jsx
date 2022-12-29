@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useCallback, useEffect } from 'react';
+import React, { useReducer, useCallback, useEffect } from 'react';
 
 import { AuthContext } from './Context';
 
@@ -67,26 +67,10 @@ const AuthProvider = ({ children }) => {
     isAuthenticated: !!localStorageToken,
   });
 
-  const [loginSuccess, setLoginSuccess] = useState({
-    isSuccess: false,
-    successMessage: '',
-  });
-
-  const [logoutSuccess, setLogoutSuccess] = useState({
-    isSuccess: false,
-    successMessage: '',
-  });
-
   const logoutHandler = useCallback((logoutAccess) => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('expire_token');
     dispatchAuth({ type: 'LOGOUT' });
-    if (logoutAccess.isSuccess) {
-      setLogoutSuccess({
-        isSuccess: logoutAccess.isSuccess,
-        successMessage: logoutAccess.successMessage,
-      });
-    }
 
     if (logoutTimer) {
       clearTimeout(logoutTimer);
@@ -97,10 +81,6 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem('auth_token', loginAccess?.data?.token);
     localStorage.setItem('expire_token', expireDate);
     dispatchAuth({ type: 'LOGIN', payload: loginAccess?.data?.token });
-    setLoginSuccess({
-      isSuccess: loginAccess?.status,
-      successMessage: loginAccess?.message,
-    });
 
     const autoLogout = calculateAutoLogoutTime(expireDate);
     logoutTimer = setTimeout(logoutHandler, autoLogout);
@@ -115,10 +95,6 @@ const AuthProvider = ({ children }) => {
   const value = {
     authToken: authState.authToken,
     isAuthenticated: authState.isAuthenticated,
-    loginSuccess,
-    setLoginSuccess,
-    logoutSuccess,
-    setLogoutSuccess,
     login: loginHandler,
     logout: logoutHandler,
   };

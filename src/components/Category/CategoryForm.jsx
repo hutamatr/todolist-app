@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Modal from '../UI/Modal';
-import Alert from '../UI/Alert';
-import useAxios from '../../hooks/useAxios';
-import { useCategory, useAuth } from '../../hooks/useStoreContext';
+import useMutationTodos from '../../hooks/useMutationTodos';
 import { randIcons } from '../../utils/categoryIcons';
 
 const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
-  const { addCategory } = useCategory();
-  const { authToken } = useAuth();
-  const { requestHttp, error, setError } = useAxios();
+  const queryClient = useQueryClient();
   const [categoryName, setCategoryName] = useState('');
+
+  const { mutate: mutateCategory } = useMutationTodos(
+    { method: 'POST', url: '/categories' },
+    (data) => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success(data?.data.message);
+    },
+    (error) => {
+      toast.error(error);
+    }
+  );
 
   let isInputEmpty = false;
 
@@ -37,20 +46,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
       icon: randIcons,
     };
 
-    requestHttp(
-      {
-        method: 'POST',
-        url: '/categories',
-        dataRequest: newCategory,
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-      (data) => {
-        addCategory(data);
-        // console.log(data);
-      }
-    );
+    mutateCategory(newCategory);
 
     onSetShowCategoryForm(false);
     setCategoryName('');
@@ -58,16 +54,6 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
   return (
     <>
-      {error.isError && (
-        <Alert
-          className={'alert-error'}
-          children={error.errorMessage}
-          onError={error.isError}
-          onSetError={setError}
-          icons="error"
-        />
-      )}
-
       {onShowCategoryForm && (
         <Modal>
           <h1 className="mb-4 font-bold">Create Category</h1>

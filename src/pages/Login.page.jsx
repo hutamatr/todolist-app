@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, Toaster } from 'react-hot-toast';
 
 import FormInput from '../components/UI/FormInput';
-import Alert from '../components/UI/Alert';
 import validation from '../utils/validation';
-import useAxios from '../hooks/useAxios';
 import useInputState from '../hooks/useInputState';
+import usePasswordView from '../hooks/usePasswordView';
 import { LoginFormContext } from '../context/Context';
 import { useAuth } from '../hooks/useStoreContext';
+import useMutationTodos from '../hooks/useMutationTodos';
 
 const Login = () => {
   const emailRef = useRef();
   const navigate = useNavigate();
-  const { login, logoutSuccess, setLogoutSuccess } = useAuth();
-  const { requestHttp, error, setError, loading } = useAxios();
+  const { login } = useAuth();
+  const { isPasswordView, viewPasswordHandler } = usePasswordView();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
 
@@ -29,6 +30,21 @@ const Login = () => {
   const { email, password } = input;
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
+
+  const { mutate: mutateLogin, isLoading: isLoadingLogin } = useMutationTodos(
+    { method: 'POST', url: '/accounts/login' },
+    (data) => {
+      navigate('/home', { replace: true });
+      toast.success(data?.data.message);
+    },
+    (error) => {
+      toast.error(error);
+    },
+    (data) => {
+      const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
+      login(data?.data, expireDateLogin.toISOString());
+    }
+  );
 
   useEffect(() => {
     const emailValid = emailValidation.test(email);
@@ -51,18 +67,7 @@ const Login = () => {
       password,
     };
 
-    requestHttp(
-      {
-        method: 'POST',
-        url: '/accounts/login',
-        dataRequest: loginInput,
-      },
-      (data) => {
-        const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
-        login(data, expireDateLogin.toISOString());
-        navigate('/home', { replace: true });
-      }
-    );
+    mutateLogin(loginInput);
 
     setLoginInput({
       email: '',
@@ -72,24 +77,7 @@ const Login = () => {
 
   return (
     <>
-      {error.isError && (
-        <Alert
-          className="alert-error"
-          children={error.errorMessage}
-          onError={error.isError}
-          onSetError={setError}
-          icons="error"
-        />
-      )}
-      {logoutSuccess.isSuccess && (
-        <Alert
-          className="alert-success"
-          children={logoutSuccess.successMessage}
-          onSuccess={logoutSuccess.isSuccess}
-          onSetSuccess={setLogoutSuccess}
-          icons="success"
-        />
-      )}
+      <Toaster position="top-center" />
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
         <h1 className="text-sm font-bold">Log In</h1>
         <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
@@ -109,13 +97,15 @@ const Login = () => {
             onChange={onChangeInputHandler}
             isValidInput={isValidPassword}
             name="password"
+            onPasswordView={isPasswordView}
+            onPasswordViewHandler={viewPasswordHandler}
           />
 
           <button
             className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 font-light text-white disabled:cursor-not-allowed"
             disabled={!isValidEmail || !isValidPassword ? true : false}
           >
-            {loading.isLoading ? `${loading.loadingMessage}` : 'Sign In'}
+            {isLoadingLogin ? 'Loading...' : 'Sign In'}
           </button>
         </form>
         <p className="text-center text-sm">

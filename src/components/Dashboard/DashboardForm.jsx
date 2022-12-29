@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import moment from 'moment';
 
 import { ReactComponent as Plus } from '../../assets/icons/uil_plus.svg';
 
 import Modal from '../UI/Modal';
-import Alert from '../UI/Alert';
-import useAxios from '../../hooks/useAxios';
 import useInputState from '../../hooks/useInputState';
-
-import { useTodos, useAuth, useCategory } from '../../hooks/useStoreContext';
+import useQueryTodos from '../../hooks/useQueryTodos';
+import useMutationTodos from '../../hooks/useMutationTodos';
+import { useTodos } from '../../hooks/useStoreContext';
 
 const DashboardForm = ({ onShowModal, onSetShowModal }) => {
-  const { authToken } = useAuth();
-  const { requestHttp, error, setError } = useAxios();
-  const { categories, getAllCategory } = useCategory();
-  const { addTodo, updateTodo, todoEdit, editTodo } = useTodos();
+  const { todoEdit, editTodo } = useTodos();
+  const queryClient = useQueryClient();
 
-  // const [titleInput, setTitleInput] = useState('');
-  // const [descriptionInput, setDescriptionInput] = useState('');
-  // const [deadLineInput, setDeadLineInput] = useState('');
+  const [category, setCategory] = useState('');
   const { input, setInput, onChangeInputHandler } = useInputState({
     titleInput: '',
     descriptionInput: '',
@@ -28,7 +26,38 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
   const { titleInput, descriptionInput, deadLineInput } = input;
 
-  const [category, setCategory] = useState('');
+  const {
+    data: dataCategories,
+    isError: isErrorCategories,
+    isLoading: isLoadingCategories,
+    error: errorCategories,
+  } = useQueryTodos('categories', {
+    method: 'GET',
+    url: '/categories',
+  });
+
+  const { mutate: mutateNewTodo } = useMutationTodos(
+    { method: 'POST', url: '/todos' },
+    (data) => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      toast.success(data?.data.message);
+    },
+    (error) => {
+      toast.error(error);
+    }
+  );
+
+  const { mutate: mutateEditTodo } = useMutationTodos(
+    { method: 'PUT', url: `/todos/${todoEdit.id}` },
+    (data) => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      queryClient.invalidateQueries({ queryKey: ['categories-todos'] });
+      toast.success(data?.data.message);
+    },
+    (error) => {
+      toast.error(error);
+    }
+  );
 
   useEffect(() => {
     const date = moment(todoEdit.deadline)
@@ -36,9 +65,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
       .format('YYYY-MM-DDTHH:mm');
 
     if (todoEdit.id) {
-      // setTitleInput(todoEdit.title);
-      // setDescriptionInput(todoEdit.description);
-      // setDeadLineInput(date);
       setInput({
         titleInput: todoEdit.title,
         descriptionInput: todoEdit.description,
@@ -47,21 +73,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
     }
   }, [todoEdit, setInput]);
 
-  useEffect(() => {
-    requestHttp(
-      {
-        method: 'GET',
-        url: '/categories',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-      (data) => {
-        getAllCategory(data.data?.categories);
-      }
-    );
-  }, [authToken, requestHttp, getAllCategory]);
-
   let isInputEmpty = false;
 
   if (titleInput && descriptionInput && deadLineInput) {
@@ -69,9 +80,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   }
 
   const titleChangeHandler = (event) => {
-    // setTitleInput((prevState) => {
-    //   return event.target.value.length <= 50 ? event.target.value : prevState;
-    // });
     setInput((prevState) => {
       return {
         ...prevState,
@@ -82,9 +90,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   };
 
   const descriptionChangeHandler = (event) => {
-    // setDescriptionInput((prevState) => {
-    //   return event.target.value.length <= 300 ? event.target.value : prevState;
-    // });
     setInput((prevState) => {
       return {
         ...prevState,
@@ -94,15 +99,8 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
     });
   };
 
-  // const deadLineChangeHandler = (event) => {
-  //   setDeadLineInput(event.target.value);
-  // };
-
   const todoCancelHandler = () => {
     onSetShowModal(false);
-    // setTitleInput('');
-    // setDescriptionInput('');
-    // setDeadLineInput('');
     setInput({
       titleInput: '',
       descriptionInput: '',
@@ -112,7 +110,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   };
 
   const categoryHandler = (id) => {
-    console.log({ id });
     setCategory(id);
   };
 
@@ -129,19 +126,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         deadline: date,
       };
 
-      requestHttp(
-        {
-          method: 'PUT',
-          url: `/todos/${todoEdit.id}`,
-          dataRequest: updatedTodo,
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-        (data) => {
-          updateTodo(updatedTodo, data);
-        }
-      );
+      mutateEditTodo(updatedTodo);
     } else {
       const newTodo = {
         title: titleInput,
@@ -151,26 +136,10 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         category_id: category,
       };
 
-      requestHttp(
-        {
-          method: 'POST',
-          url: '/todos',
-          dataRequest: newTodo,
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-        (data) => {
-          addTodo(data);
-          console.log(data);
-        }
-      );
+      mutateNewTodo(newTodo);
     }
 
     onSetShowModal(false);
-    // setTitleInput('');
-    // setDescriptionInput('');
-    // setDeadLineInput('');
     setInput({
       titleInput: '',
       descriptionInput: '',
@@ -181,15 +150,6 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
   return (
     <>
-      {error.isError && (
-        <Alert
-          className={'alert-error'}
-          children={error.errorMessage}
-          onError={error.isError}
-          onSetError={setError}
-          icons="error"
-        />
-      )}
       {onShowModal && (
         <Modal onCloseModalHandler={() => onSetShowModal(false)}>
           <h1 className="mb-4 font-bold">
@@ -261,8 +221,17 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                 <label htmlFor="category" className="text-sm">
                   Category
                 </label>
+                {isErrorCategories && (
+                  <p className="text-center font-medium text-red-600">
+                    {errorCategories instanceof AxiosError &&
+                      errorCategories.response?.data.message}
+                  </p>
+                )}
+                {isLoadingCategories && (
+                  <p className="text-center font-medium">Loading...</p>
+                )}
                 <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
-                  {categories?.map((category) => {
+                  {dataCategories?.data.data.categories.map((category) => {
                     return (
                       <li key={category.id}>
                         <button
@@ -274,6 +243,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                               : ''
                           }`}
                           onClick={categoryHandler.bind(this, category.id)}
+                          required
                         >
                           {category.name}
                         </button>

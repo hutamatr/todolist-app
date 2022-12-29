@@ -1,22 +1,19 @@
 import React from 'react';
 import TodoProvider from './TodoProvider';
-import CategoryProvider from './CategoryProvider';
 import AuthProvider from './AuthProvider';
 import LoginFormProvider from './LoginFormProvider';
-import UserProvider from './UserProvider';
 import TodoFilterProvider from './TodoFilterProvider';
+import ModalProvider from './ModalProvider';
 
 const ContextProvider = ({ children }) => {
   return (
     <AuthProvider>
       <LoginFormProvider>
-        <UserProvider>
+        <ModalProvider>
           <TodoProvider>
-            <TodoFilterProvider>
-              <CategoryProvider>{children}</CategoryProvider>
-            </TodoFilterProvider>
+            <TodoFilterProvider>{children}</TodoFilterProvider>
           </TodoProvider>
-        </UserProvider>
+        </ModalProvider>
       </LoginFormProvider>
     </AuthProvider>
   );

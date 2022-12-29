@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-import { MdErrorOutline, MdDone } from 'react-icons/md';
+import { toast, Toaster } from 'react-hot-toast';
 
 import FormInput from '../components/UI/FormInput';
-import Alert from '../components/UI/Alert';
 import validation from '../utils/validation';
-import useAxios from '../hooks/useAxios';
 import useInputState from '../hooks/useInputState';
+import usePasswordView from '../hooks/usePasswordView';
+import useMutationTodos from '../hooks/useMutationTodos';
 import { useLoginForm, useAuth } from '../hooks/useStoreContext';
 
 const Register = () => {
   const userNameRef = useRef();
   const navigate = useNavigate();
-  const { login, loginSuccess, setLoginSuccess } = useAuth();
+  const { login } = useAuth();
   const { loginScreen } = useLoginForm();
-  const { requestHttp, error, setError } = useAxios();
+  const { isPasswordView, viewPasswordHandler } = usePasswordView();
   const { userNameValidation, emailValidation, passwordValidation } =
     validation();
 
@@ -32,26 +31,32 @@ const Register = () => {
 
   const { userName, userEmail, password, passwordMatch } = input;
 
-  // const [userName, setUserName] = useState('');
   const [isValidUserName, setIsValidUserName] = useState(false);
   const [isUserNameFocus, setIsUserNameFocus] = useState(false);
 
-  // const [userEmail, setUserEmail] = useState('');
   const [isValidUserEmail, setIsValidUserEmail] = useState(false);
   const [isUserEmailFocus, setIsUserEmailFocus] = useState(false);
 
-  // const [password, setPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isPasswordFocus, setIsPasswordFocus] = useState(false);
 
-  // const [passwordMatch, setPasswordMatch] = useState('');
   const [isValidPasswordMatch, setIsValidPasswordMatch] = useState(false);
   const [isPasswordMatchFocus, setIsPasswordMatchFocus] = useState(false);
 
-  // const [success, setSuccess] = useState({
-  //   isSuccess: false,
-  //   successMessage: '',
-  // });
+  const { mutate: mutateRegister, isLoading: isLoadingRegister } =
+    useMutationTodos(
+      { method: 'POST', url: '/accounts/register' },
+      () => {
+        navigate('/home', { replace: true });
+      },
+      (error) => {
+        toast.error(error.response?.data.message);
+      },
+      (data) => {
+        const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
+        login(data?.data, expireDateLogin.toISOString());
+      }
+    );
 
   useEffect(() => {
     userNameRef.current.focus();
@@ -72,20 +77,15 @@ const Register = () => {
 
   const registerScreenHandler = () => loginScreen(false);
 
-  // const userNameChangeHandler = (event) => setUserName(event.target.value);
   const userNameFocusHandler = () =>
     setIsUserNameFocus((prevState) => !prevState);
 
-  // const userEmailChangeHandler = (event) => setUserEmail(event.target.value);
   const userEmailFocusHandler = () =>
     setIsUserEmailFocus((prevState) => !prevState);
 
-  // const passwordChangeHandler = (event) => setPassword(event.target.value);
   const passwordFocusHandler = () =>
     setIsPasswordFocus((prevState) => !prevState);
 
-  // const passwordMatchChangeHandler = (event) =>
-  //   setPasswordMatch(event.target.value);
   const passwordMatchFocusHandler = () =>
     setIsPasswordMatchFocus((prevState) => !prevState);
 
@@ -98,18 +98,7 @@ const Register = () => {
       password: password,
     };
 
-    requestHttp(
-      {
-        method: 'POST',
-        url: '/accounts/register',
-        dataRequest: registerFormInput,
-      },
-      (data) => {
-        const expireDateLogin = new Date(new Date().getTime() + 3600 * 1000);
-        login(data.data?.token, expireDateLogin.toISOString());
-        navigate('/home', { replace: true });
-      }
-    );
+    mutateRegister(registerFormInput);
 
     setRegisterInput({
       userName: '',
@@ -117,35 +106,11 @@ const Register = () => {
       password: '',
       passwordMatch: '',
     });
-
-    // setUserName('');
-    // setUserEmail('');
-    // setPassword('');
-    // setPasswordMatch('');
   };
 
   return (
     <>
-      {error.isError && (
-        <Alert
-          className={'alert-error'}
-          children={error.errorMessage}
-          onError={error}
-          onSetError={setError}
-          icons={
-            <MdErrorOutline className="h-6 w-6 flex-shrink-0 stroke-current" />
-          }
-        />
-      )}
-      {loginSuccess.isSuccess && (
-        <Alert
-          className={'alert-success'}
-          children={loginSuccess.successMessage}
-          onSuccess={loginSuccess}
-          onSetSuccess={setLoginSuccess}
-          icons={<MdDone className="h-6 w-6 flex-shrink-0 stroke-current" />}
-        />
-      )}
+      <Toaster position="top-center" />
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
         <h1 className="text-sm font-bold">Sign Up</h1>
         <form
@@ -164,6 +129,7 @@ const Register = () => {
             onChange={onChangeInputHandler}
             onFocus={userNameFocusHandler}
             onBlur={userNameFocusHandler}
+            useFor="register"
           />
           <FormInput
             name="userEmail"
@@ -186,6 +152,9 @@ const Register = () => {
             onChange={onChangeInputHandler}
             onFocus={passwordFocusHandler}
             onBlur={passwordFocusHandler}
+            onPasswordView={isPasswordView}
+            onPasswordViewHandler={viewPasswordHandler}
+            useFor="register"
           />
           <FormInput
             name="passwordMatch"
@@ -197,6 +166,9 @@ const Register = () => {
             onChange={onChangeInputHandler}
             onFocus={passwordMatchFocusHandler}
             onBlur={passwordMatchFocusHandler}
+            onPasswordView={isPasswordView}
+            onPasswordViewHandler={viewPasswordHandler}
+            useFor="register"
           />
 
           <button
@@ -210,7 +182,7 @@ const Register = () => {
                 : false
             }
           >
-            Create Account
+            {isLoadingRegister ? 'Loading...' : 'Create Account'}
           </button>
         </form>
         <p className="text-center text-sm">

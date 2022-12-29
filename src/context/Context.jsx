@@ -1,27 +1,10 @@
 import { createContext } from 'react';
 
 export const TodoContext = createContext({
-  todos: [],
   todoEdit: {},
-  totalTodos: 0,
-  alertTodo: {},
-  setAlertTodo: () => {},
-  getAllTodo: () => {},
-  addTodo: () => {},
-  updateTodo: () => {},
-  deleteTodo: () => {},
+  totalAllTodos: {},
+  getTotalTodo: () => {},
   editTodo: () => {},
-});
-
-export const CategoryContext = createContext({
-  categories: [],
-  alertCategory: {},
-  setAlertCategory: () => {},
-  getAllCategory: () => {},
-  addCategory: () => {},
-  updateCategory: () => {},
-  deleteCategory: () => {},
-  editCategory: () => {},
 });
 
 export const FilterContext = createContext({
@@ -34,10 +17,6 @@ export const FilterContext = createContext({
 export const AuthContext = createContext({
   authToken: '',
   isAuthenticated: false,
-  loginSuccess: {},
-  setLoginSuccess: () => {},
-  logoutSuccess: {},
-  setLogoutSuccess: () => {},
   login: () => {},
   logout: () => {},
 });
@@ -47,9 +26,7 @@ export const LoginFormContext = createContext({
   loginScreen: () => {},
 });
 
-export const UserContext = createContext({
-  username: '',
-  email: '',
-  image: '',
-  getUserDetails: () => {},
+export const ModalContext = createContext({
+  isModalShow: false,
+  setShowModal: () => {},
 });

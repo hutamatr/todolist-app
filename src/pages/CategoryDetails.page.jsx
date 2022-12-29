@@ -1,39 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import emptyTodo from '../assets/images/Calendar.webp';
 
 import DashboardCard from '../components/Dashboard/DashboardCard';
-import useAxios from '../hooks/useAxios';
-import { useAuth } from '../hooks/useStoreContext';
+import DashboardForm from '../components/Dashboard/DashboardForm';
+import useQueryTodos from '../hooks/useQueryTodos';
+import { useModal } from '../hooks/useStoreContext';
 
 const CategoryDetails = () => {
   const { categoryId } = useParams();
-  const { requestHttp } = useAxios();
-  const { authToken } = useAuth();
+  const { isModalShow, setShowModal } = useModal();
 
-  const [categoryData, setCategoryData] = useState([]);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    requestHttp(
-      {
-        method: 'GET',
-        url: `/categories/${categoryId}`,
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-      (data) => {
-        setCategoryData(data?.category);
-      }
+  const categoryName = queryClient
+    .getQueryData(['categories'])
+    ?.data.data.categories.find(
+      (category) => category.id === Number(categoryId)
     );
-  }, [authToken, categoryId, requestHttp]);
+
+  const { data: dataDetailCategory } = useQueryTodos('categories-todos', {
+    method: 'GET',
+    url: `/categories/${categoryId}?limit=100`,
+  });
 
   return (
     <section className="flex min-h-screen flex-col gap-y-6 py-6">
-      <h1 className="font-bold">Dashboard</h1>
+      <h1 className="font-bold">{categoryName?.name}</h1>
       <ul className="grid grid-cols-1 gap-y-4">
-        {categoryData.length === 0 ? (
+        {dataDetailCategory?.data.category.length === 0 ? (
           <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
             <img
               src={emptyTodo}
@@ -41,22 +38,23 @@ const CategoryDetails = () => {
               className="max-w-[5rem] md:max-w-[6rem]"
               loading="lazy"
             />
-            <p className="text-center text-lg font-medium">Category Empty</p>
+            <p className="text-center text-lg font-medium">Todo Empty</p>
           </div>
         ) : (
-          categoryData.map((data) => {
+          dataDetailCategory?.data.category.map((data) => {
             return (
               <li key={data.id}>
                 <DashboardCard
                   {...data}
                   onTodoEdit={data}
-                  // onSetShowModal={setShowModal}
+                  onSetShowModal={setShowModal}
                 />
               </li>
             );
           })
         )}
       </ul>
+      <DashboardForm onShowModal={isModalShow} onSetShowModal={setShowModal} />
     </section>
   );
 };

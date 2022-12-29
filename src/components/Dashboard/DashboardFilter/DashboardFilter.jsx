@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ReactComponent as Spinner } from '../../../assets/icons/uil_spinner-alt.svg';
 import { ReactComponent as Check } from '../../../assets/icons/uil_check.svg';
-import { ReactComponent as Stopwatch } from '../../../assets/icons/uil_stopwatch.svg';
 
 import { useFilter } from '../../../hooks/useStoreContext';
 
@@ -51,10 +50,6 @@ const DashboardFilter = () => {
         >
           Done
         </span>
-      </button>
-      <button className="flex items-center justify-center gap-x-1 rounded-md bg-red-10 p-1 text-xs">
-        <Stopwatch className="w-3" fill="#FE6565" />
-        <span className="text-red-100">Overtime</span>
       </button>
     </section>
   );

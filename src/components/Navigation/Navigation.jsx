@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 import { ReactComponent as Menu } from '../../assets/icons/uil_bars.svg';
 import { ReactComponent as Close } from '../../assets/icons/uil_times.svg';
-
 import todoIcon from '../../assets/images/todo-list-icon.webp';
+
 import ProfilePicture from '../UI/ProfilePicture';
-import { useAuth } from '../../hooks/useStoreContext';
-import useAxios from '../../hooks/useAxios';
+import useMutationTodos from '../../hooks/useMutationTodos';
 
 const Navigation = () => {
-  const { requestHttp } = useAxios();
-  const { logout, authToken } = useAuth();
   const [viewMenu, setMenuView] = useState(false);
 
   const menuIsActive = ({ isActive }) =>
@@ -19,29 +17,30 @@ const Navigation = () => {
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
+  const { mutate: mutateLogout } = useMutationTodos(
+    { method: 'GET', url: '/accounts/logout' },
+    (data) => {
+      toast.success(data?.data.message);
+      console.log(data);
+    },
+    (error) => {
+      toast.error(error);
+    }
+  );
+
   const logoutHandler = () => {
-    requestHttp(
-      {
-        method: 'GET',
-        url: '/accounts/logout',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-      (data) => {
-        console.log(data);
-      }
-    );
-    logout({
-      isSuccess: true,
-      successMessage: 'Logout Successfully',
-    });
+    mutateLogout();
   };
 
   return (
-    <nav className="relative z-[9999] mx-auto flex max-w-5xl flex-row items-center justify-between bg-white p-4 sm:static">
+    <nav className="relative z-[9999] mx-auto flex max-w-5xl flex-row items-center justify-between bg-white p-2 sm:static">
       <Link to={'/'} replace={true} className="flex items-center gap-x-3">
-        <img src={todoIcon} alt="" className="w-10" loading="lazy" />
+        <img
+          src={todoIcon}
+          alt=""
+          className="w-10 animate-bounce"
+          loading="lazy"
+        />
       </Link>
       <div className="flex flex-row gap-x-6">
         <button className="sm:hidden" onClick={menuViewHandler}>
@@ -53,7 +52,7 @@ const Navigation = () => {
         </button>
       </div>
       <ul
-        className={`absolute top-16 flex w-[35%] flex-col items-start justify-center gap-y-4 rounded-md bg-white p-4 text-center text-sm font-semibold text-neutral-500 shadow-md duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:items-center sm:gap-x-8 sm:bg-transparent sm:py-0 sm:shadow-none ${
+        className={`absolute top-16 flex w-[35%] flex-col items-start justify-center gap-y-4 rounded-md bg-white p-4 text-center text-sm font-semibold text-neutral-500 shadow-material-shadow duration-500 sm:static sm:top-0 sm:h-0 sm:w-auto sm:translate-x-0 sm:flex-row sm:items-center sm:gap-x-8 sm:bg-transparent sm:p-0 sm:py-0 sm:shadow-none ${
           viewMenu ? 'right-4' : '-right-full'
         }`}
       >
