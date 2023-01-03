@@ -1,5 +1,5 @@
 import React from 'react';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 import Home from '../components/Home/Home';
 import useQueryTodos from '../hooks/useQueryTodos';

@@ -36,10 +36,13 @@ const useMutationTodos = (
     },
     onError: (error) => {
       if (mutationOnError) {
-        if (error instanceof AxiosError) {
+        if (error instanceof AxiosError && error.response.data) {
           mutationOnError(error?.response.data.message);
-        } else {
+        }
+        if (error instanceof Error && !error.response.data) {
           mutationOnError(error?.message);
+        } else {
+          mutationOnError('Error!');
         }
       }
     },

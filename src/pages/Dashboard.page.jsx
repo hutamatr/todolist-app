@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import { AxiosError } from 'axios';
 
 import emptyTodo from '../assets/images/Calendar.webp';
@@ -9,9 +9,10 @@ import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
 import DashboardForm from '../components/Dashboard/DashboardForm';
 import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
 import DashboardSort from '../components/Dashboard/DashboardFilter/DashboardSort';
-import Pagination from '../components/UI/Paginate';
+import Pagination from '../components/UI/Pagination';
 import useQueryTodos from '../hooks/useQueryTodos';
 import { useFilter, useModal } from '../hooks/useStoreContext';
+import TodoList from '../components/Dashboard/TodoList';
 
 const sortTodoByDate = (todos, ascending) => {
   return todos?.sort((todoA, todoB) => {
@@ -27,10 +28,14 @@ const sortTodoByDate = (todos, ascending) => {
   });
 };
 
+let PageSize = 5;
+
 const Dashboard = () => {
   const { isTodoInProgress, isTodoCompleted } = useFilter();
   const { isModalShow, setShowModal } = useModal();
   const { search } = useLocation();
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     data: dataTodos,
@@ -39,7 +44,7 @@ const Dashboard = () => {
     error: errorTodos,
   } = useQueryTodos(
     'todos',
-    { method: 'GET', url: '/todos?limit=100' },
+    { method: 'GET', url: '/todos?limit=500' },
     undefined,
     (error) => {
       toast.error(error);
@@ -61,9 +66,17 @@ const Dashboard = () => {
     ? todosCompleted
     : sortedTodos;
 
+  useEffect(() => {}, [todosData]);
+
   const modalShowHandler = () => {
     setShowModal((prevState) => !prevState);
   };
+
+  const currentTodosData = useCallback(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return todosData?.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, todosData]);
 
   const dashboardContent =
     todosData?.length === 0 ? (
@@ -79,12 +92,20 @@ const Dashboard = () => {
         </p>
       </div>
     ) : (
-      <Pagination
-        data={todosData}
-        pageLimit={4}
-        dataLimit={5}
-        onSetShowModal={setShowModal}
-      />
+      <>
+        <TodoList
+          todosData={currentTodosData()}
+          onSetShowModal={setShowModal}
+        />
+        {todosData?.length > 5 && (
+          <Pagination
+            currentPage={currentPage}
+            totalCount={todosData?.length}
+            pageSize={PageSize}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        )}
+      </>
     );
 
   return (
@@ -105,7 +126,7 @@ const Dashboard = () => {
         {isLoadingTodos && (
           <p className="text-center text-lg font-semibold">Loading...</p>
         )}
-        {dashboardContent}
+        {!isErrorTodos && !isLoadingTodos && dashboardContent}
         <button
           type="button"
           onClick={modalShowHandler}

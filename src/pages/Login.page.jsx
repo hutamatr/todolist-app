@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 import FormInput from '../components/UI/FormInput';
 import validation from '../utils/validation';
@@ -34,8 +34,10 @@ const Login = () => {
   const { mutate: mutateLogin, isLoading: isLoadingLogin } = useMutationTodos(
     { method: 'POST', url: '/accounts/login' },
     (data) => {
+      setTimeout(() => {
+        toast.success(data?.data.message);
+      }, 1000);
       navigate('/home', { replace: true });
-      toast.success(data?.data.message);
     },
     (error) => {
       toast.error(error);

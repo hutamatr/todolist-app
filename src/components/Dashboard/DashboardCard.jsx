@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 import { ReactComponent as Clock } from '../../assets/icons/uil_clock.svg';
@@ -23,6 +24,8 @@ const DashboardCard = ({
   const { editTodo } = useTodos();
   const queryClient = useQueryClient();
 
+  const { pathname } = useLocation();
+
   const newDate = moment(deadline).locale('id').format('LLL');
   const formattedDate = moment(deadline).endOf().fromNow();
 
@@ -40,8 +43,6 @@ const DashboardCard = ({
       toast.error(error);
     }
   );
-
-  console.log(category.name);
 
   const { mutate: mutateTodoDelete } = useMutationTodos(
     {
@@ -63,8 +64,6 @@ const DashboardCard = ({
     const todos =
       queryClient.getQueryData(['todos'])?.data.data.todos ||
       queryClient.getQueryData(['categories-todos'])?.data.category;
-
-    console.log(queryClient.getQueryData(['categories-todos'])?.data.category);
 
     for (const todo of todos) {
       if (todo.id === id) {
@@ -97,10 +96,11 @@ const DashboardCard = ({
       <div className="flex w-full flex-col gap-y-3 rounded-r-lg bg-white p-4">
         <div className="flex flex-row items-center justify-between">
           <h2 className="text-md max-h-12 break-all font-semibold">{title}</h2>
-          {category.name && (
-            <span className="text-xs font-light text-neutral-800">
+          {category?.name && pathname === '/dashboard' && (
+            <p className="flex flex-col items-center justify-center text-sm text-neutral-800">
+              <span className="text-[.6rem] font-semibold">Category</span>{' '}
               {category.name}
-            </span>
+            </p>
           )}
         </div>
 

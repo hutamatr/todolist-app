@@ -110,7 +110,11 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   };
 
   const categoryHandler = (id) => {
-    setCategory(id);
+    if (!category) {
+      setCategory(id);
+    } else {
+      setCategory('');
+    }
   };
 
   const newTodoSubmitHandler = (event) => {
@@ -218,7 +222,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
             {!todoEdit.id && (
               <>
-                <label htmlFor="category" className="text-sm">
+                <label htmlFor="category" className="flex flex-col text-sm">
                   Category
                 </label>
                 {isErrorCategories && (
@@ -231,21 +235,25 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                   <p className="text-center font-medium">Loading...</p>
                 )}
                 <ul className="grid max-h-40 w-full grid-cols-2 gap-2 overflow-y-auto p-2">
-                  {dataCategories?.data.data.categories.map((category) => {
+                  {dataCategories?.data.data.categories.map((categories) => {
                     return (
-                      <li key={category.id}>
+                      <li key={categories.id}>
                         <button
                           type="button"
-                          onFocus={() => todoEdit.category_id === category.id}
-                          className={`w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100 ${
-                            todoEdit.category_id === category.id
+                          onFocus={() => todoEdit.category_id === categories.id}
+                          className={`w-full rounded bg-neutral-200 py-3 text-xs font-medium ring-1 ring-neutral-400 ${
+                            todoEdit.category_id === categories.id
                               ? 'bg-orange-10 text-orange-100 ring-orange-100'
                               : ''
+                          } ${
+                            category
+                              ? 'focus:bg-orange-10 focus:text-orange-100 focus:ring-orange-100'
+                              : ''
                           }`}
-                          onClick={categoryHandler.bind(this, category.id)}
+                          onClick={categoryHandler.bind(null, categories.id)}
                           required
                         >
-                          {category.name}
+                          {categories.name}
                         </button>
                       </li>
                     );

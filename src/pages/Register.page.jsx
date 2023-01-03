@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 import FormInput from '../components/UI/FormInput';
 import validation from '../utils/validation';
@@ -110,7 +110,6 @@ const Register = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
         <h1 className="text-sm font-bold">Sign Up</h1>
         <form

@@ -7,29 +7,22 @@ import { ReactComponent as Close } from '../../assets/icons/uil_times.svg';
 import todoIcon from '../../assets/images/todo-list-icon.webp';
 
 import ProfilePicture from '../UI/ProfilePicture';
-import useMutationTodos from '../../hooks/useMutationTodos';
+import { useAuth } from '../../hooks/useStoreContext';
 
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);
+  const { logout } = useAuth();
 
   const menuIsActive = ({ isActive }) =>
     isActive ? 'border-b-2 border-b-orange-100' : '';
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
-  const { mutate: mutateLogout } = useMutationTodos(
-    { method: 'GET', url: '/accounts/logout' },
-    (data) => {
-      toast.success(data?.data.message);
-      console.log(data);
-    },
-    (error) => {
-      toast.error(error);
-    }
-  );
-
   const logoutHandler = () => {
-    mutateLogout();
+    logout();
+    setTimeout(() => {
+      toast.success('Logout Successfully');
+    }, 1000);
   };
 
   return (

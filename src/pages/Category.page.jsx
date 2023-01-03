@@ -18,7 +18,7 @@ const Category = () => {
     error: errorCategories,
   } = useQueryTodos('categories', {
     method: 'GET',
-    url: '/categories',
+    url: '/categories?limit=200',
   });
 
   useEffect(() => {

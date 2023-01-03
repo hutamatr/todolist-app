@@ -16,7 +16,6 @@ const CategoryItem = ({ id, name }) => {
     { method: 'DELETE', url: `/categories` },
     (data) => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      toast.success(data?.data.message);
     },
     (error) => {
       toast.error(error);
@@ -38,7 +37,7 @@ const CategoryItem = ({ id, name }) => {
         />
         <span className="break-all font-medium text-neutral-700">{name}</span>
         <div className="flex w-full flex-row items-center justify-end gap-x-2">
-          <Link to={id.toString()} className="inline">
+          <Link to={`${id}`} className="inline">
             <View className="h-5 w-5" fill="#FF844B" />
           </Link>
           <button type="button" onClick={categoryDeleteHandler}>

@@ -67,7 +67,7 @@ const AuthProvider = ({ children }) => {
     isAuthenticated: !!localStorageToken,
   });
 
-  const logoutHandler = useCallback((logoutAccess) => {
+  const logoutHandler = useCallback(() => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('expire_token');
     dispatchAuth({ type: 'LOGOUT' });

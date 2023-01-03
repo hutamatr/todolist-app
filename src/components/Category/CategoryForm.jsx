@@ -55,7 +55,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
   return (
     <>
       {onShowCategoryForm && (
-        <Modal>
+        <Modal onCloseModalHandler={() => onSetShowCategoryForm(false)}>
           <h1 className="mb-4 font-bold">Create Category</h1>
           <form
             onSubmit={categorySubmitHandler}
@@ -79,6 +79,8 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
               value={categoryName}
               placeholder="Write your category name..."
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
+              rows="5"
+              cols="10"
             ></textarea>
             <button
               className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"

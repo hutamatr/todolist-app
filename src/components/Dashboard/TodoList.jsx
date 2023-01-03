@@ -4,7 +4,7 @@ import DashboardCard from './DashboardCard';
 const TodoList = ({ todosData, onSetShowModal }) => {
   return (
     <ul className="grid grid-cols-1 gap-y-4">
-      {todosData()?.map((todo, index) => {
+      {todosData?.map((todo, index) => {
         return (
           <li key={index}>
             <DashboardCard
