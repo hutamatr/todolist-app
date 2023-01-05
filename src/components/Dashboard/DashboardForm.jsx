@@ -18,6 +18,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
   const queryClient = useQueryClient();
 
   const [category, setCategory] = useState('');
+  const [isCategoryNotAdded, setIsCategoryNotAdded] = useState(false);
   const { input, setInput, onChangeInputHandler } = useInputState({
     titleInput: '',
     descriptionInput: '',
@@ -71,13 +72,16 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
         deadLineInput: date,
       });
     }
+    setIsCategoryNotAdded(false);
   }, [todoEdit, setInput]);
 
-  let isInputEmpty = false;
+  let inputStatus = false;
 
   if (titleInput && descriptionInput && deadLineInput) {
-    isInputEmpty = true;
+    inputStatus = true;
   }
+
+  console.log({ isInputEmpty: !inputStatus, category, todoEdit });
 
   const titleChangeHandler = (event) => {
     setInput((prevState) => {
@@ -107,6 +111,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
       deadLineInput: '',
     });
     editTodo({});
+    setCategory('');
   };
 
   const categoryHandler = (id) => {
@@ -132,6 +137,10 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
 
       mutateEditTodo(updatedTodo);
     } else {
+      if (!category) {
+        setIsCategoryNotAdded(true);
+        return;
+      }
       const newTodo = {
         title: titleInput,
         description: descriptionInput,
@@ -150,6 +159,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
       deadLineInput: '',
     });
     editTodo({});
+    setCategory('');
   };
 
   return (
@@ -225,6 +235,11 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                 <label htmlFor="category" className="flex flex-col text-sm">
                   Category
                 </label>
+                {isCategoryNotAdded && (
+                  <p className="text-center text-sm font-medium text-red-600">
+                    Category must added!
+                  </p>
+                )}
                 {isErrorCategories && (
                   <p className="text-center font-medium text-red-600">
                     {errorCategories instanceof AxiosError &&
@@ -258,6 +273,7 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                       </li>
                     );
                   })}
+
                   <Link to={'/category'}>
                     <button
                       className="flex w-full items-center justify-center gap-x-1 rounded border-2 border-dashed border-neutral-400 bg-neutral-200 py-3 text-xs"
@@ -269,9 +285,8 @@ const DashboardForm = ({ onShowModal, onSetShowModal }) => {
                 </ul>
               </>
             )}
-
             <button
-              disabled={!isInputEmpty}
+              disabled={!inputStatus}
               className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"
             >
               {todoEdit.id ? 'Update List' : 'Create List'}

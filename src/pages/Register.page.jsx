@@ -46,11 +46,14 @@ const Register = () => {
   const { mutate: mutateRegister, isLoading: isLoadingRegister } =
     useMutationTodos(
       { method: 'POST', url: '/accounts/register' },
-      () => {
+      (data) => {
+        setTimeout(() => {
+          toast.success(data?.data.message);
+        }, 1000);
         navigate('/home', { replace: true });
       },
       (error) => {
-        toast.error(error.response?.data.message);
+        toast.error(error);
       },
       (data) => {
         const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
