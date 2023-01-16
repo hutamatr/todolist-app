@@ -16,7 +16,6 @@ module.exports = {
         'orange-100': '#FF844B',
         'orange-80': '#FF9D6F',
         'orange-50': '#FFC1A5',
-        'orange-10': '#FFF3ED',
         'green-100': '#5BE26A',
         'green-10': '#DBFFDF',
         'blue-100': '#6599FE',
@@ -24,24 +23,26 @@ module.exports = {
         'red-100': '#FE6565',
         'red-10': '#FFF6E0',
         'purple-100': '#C659ED',
+        'material-green': '#F1F6EA',
+        'material-background': '#fbfbf8',
       },
       boxShadow: {
         'material-shadow':
           'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px',
+        'material-shadow-2':
+          'rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px',
+        'material-shadow-3': 'rgba(0, 0, 0, 0.1) -4px 9px 25px -6px',
       },
       backgroundImage: {
         'ellipse-image': "url('/src/assets/images/Ellipse.svg')",
+      },
+      fontFamily: {
+        'Poiret-One': 'Poiret One',
       },
     },
   },
   plugins: [require('daisyui')],
   daisyui: {
-    styled: true,
     themes: false,
-    base: true,
-    utils: true,
-    rtl: false,
-    prefix: '',
-    darkTheme: 'dark',
   },
 };

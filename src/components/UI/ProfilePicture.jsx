@@ -1,16 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+const name = Math.random().toString(36).substring(7);
 
-const ProfilePicture = ({ classPhoto }) => {
+const ProfilePicture = ({ classPhoto, classAvatar, tabIndex }) => {
   return (
-    <section className={`avatar btn-circle btn-ghost static ${classPhoto}`}>
-      <Link to={'profile'}>
-        <img
-          src="https://placeimg.com/80/80/people"
-          alt=""
-          className="w-10 rounded-full"
-        />
-      </Link>
+    <section
+      tabIndex={tabIndex}
+      className={`avatar btn-circle btn-ghost static bg-slate-300 ${classPhoto}`}
+    >
+      <img
+        src={`https://robohash.org/${name}.webp`}
+        alt=""
+        className={`rounded-full ${classAvatar}`}
+      />
     </section>
   );
 };

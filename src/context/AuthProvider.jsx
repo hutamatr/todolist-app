@@ -1,11 +1,31 @@
-import React, { useReducer } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 
 import { AuthContext } from './Context';
 
-const getStorageToken = () => {
-  const localStorageToken = localStorage.getItem('auth_token');
+const calculateAutoLogoutTime = (expireDate) => {
+  const currentTimeInMilliseconds = new Date().getTime();
+  const expireTimeInMilliseconds = new Date(expireDate).getTime();
+
+  const remainingAutoLogoutTime =
+    expireTimeInMilliseconds - currentTimeInMilliseconds;
+
+  return remainingAutoLogoutTime;
+};
+
+const getStorageItems = () => {
+  const authToken = localStorage.getItem('auth_token');
+  const expireToken = localStorage.getItem('expire_token');
+
+  const remainingTime = calculateAutoLogoutTime(expireToken);
+
+  if (remainingTime <= 6000) {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('expire_token');
+    return null;
+  }
   return {
-    localStorageToken,
+    authToken,
+    remainingTime,
   };
 };
 
@@ -13,7 +33,6 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
       const authToken = action.payload;
-      localStorage.setItem('auth_token', authToken);
       let isAuth;
       if (authToken) isAuth = !!authToken;
 
@@ -23,40 +42,55 @@ const authReducer = (state, action) => {
         isAuthenticated: isAuth,
       };
     case 'LOGOUT':
-      localStorage.removeItem('auth_token');
       return {
         ...state,
         authToken: null,
         isAuthenticated: false,
       };
     default:
-      const { localStorageToken } = getStorageToken();
+      const localStorageToken = getStorageItems();
       return {
-        authToken: localStorageToken,
-        isAuthenticated: !!localStorageToken,
+        authToken: localStorageToken?.authToken,
+        isAuthenticated: !!localStorageToken.authToken,
       };
   }
 };
 
-const AuthProvider = ({ children }) => {
-  const { localStorageToken } = getStorageToken();
-  // let storageToken;
-  // if (storageTokenData) {
-  //   storageToken = storageTokenData.localStorageToken;
-  // }
+let logoutTimer = null;
 
+const AuthProvider = ({ children }) => {
+  const storageData = getStorageItems();
+  let localStorageToken = null;
+  if (storageData) localStorageToken = storageData.authToken;
   const [authState, dispatchAuth] = useReducer(authReducer, {
     authToken: localStorageToken,
     isAuthenticated: !!localStorageToken,
   });
 
-  const loginHandler = (newToken) => {
-    dispatchAuth({ type: 'LOGIN', payload: newToken });
+  const logoutHandler = useCallback(() => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('expire_token');
+    dispatchAuth({ type: 'LOGOUT' });
+
+    if (logoutTimer) {
+      clearTimeout(logoutTimer);
+    }
+  }, []);
+
+  const loginHandler = (loginAccess, expireDate) => {
+    localStorage.setItem('auth_token', loginAccess?.data?.token);
+    localStorage.setItem('expire_token', expireDate);
+    dispatchAuth({ type: 'LOGIN', payload: loginAccess?.data?.token });
+
+    const autoLogout = calculateAutoLogoutTime(expireDate);
+    logoutTimer = setTimeout(logoutHandler, autoLogout);
   };
 
-  const logoutHandler = () => {
-    dispatchAuth({ type: 'LOGOUT' });
-  };
+  useEffect(() => {
+    if (storageData) {
+      logoutTimer = setTimeout(logoutHandler, storageData.remainingTime);
+    }
+  }, [storageData, logoutHandler]);
 
   const value = {
     authToken: authState.authToken,

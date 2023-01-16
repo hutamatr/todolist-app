@@ -1,46 +1,29 @@
-import React, { useReducer } from 'react';
+import { useReducer, useCallback } from 'react';
 
 import { TodoContext } from './Context';
-// import { todoData } from '../utils/dummy-todos';
 
 const initTodo = {
-  todos: [],
   todoEdit: {},
+  total: {
+    totalDone: 0,
+    totalInProgress: 0,
+    totalTodos: 0,
+  },
+  todoPaginate: {
+    currentPage: 1,
+    skipPaginate: 0,
+    pageSize: 5,
+  },
+  sort: 'ASC',
 };
 
 const todosReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_TODO':
-      const addedTodos = [action.payload, ...state.todos];
-
+    case 'TOTAL_TODO':
+      const totalTodos = action.payload;
       return {
         ...state,
-        todos: addedTodos,
-      };
-    case 'UPDATE_TODO':
-      const existingTodoItemIndex = state.todos.findIndex(
-        (todo) => todo.id === action.payload.id
-      );
-      const existingTodoItem = state.todos[existingTodoItemIndex];
-
-      let updatedTodos = null;
-
-      if (existingTodoItem) {
-        updatedTodos = [...state.todos];
-        updatedTodos[existingTodoItemIndex] = action.payload;
-      }
-      return {
-        ...state,
-        todos: updatedTodos,
-      };
-    case 'REMOVE_TODO':
-      const removedTodo = state.todos.filter(
-        (todo) => todo.id !== action.payload
-      );
-
-      return {
-        ...state,
-        todos: removedTodo,
+        total: totalTodos,
       };
     case 'EDIT_TODO':
       const editTodo = { ...action.payload };
@@ -49,6 +32,19 @@ const todosReducer = (state, action) => {
         ...state,
         todoEdit: editTodo,
       };
+    // case 'PAGINATE_TODO':
+    //   const currentPage = action.payload.currentPage;
+    //   const skipPaginate = action.payload.skipPaginate;
+    //   const pageSize = action.payload.pageSize;
+
+    //   return {
+    //     ...state,
+    //     todoPaginate: {
+    //       currentPage: currentPage,
+    //       skipPaginate: skipPaginate,
+    //       pageSize: pageSize,
+    //     },
+    //   };
 
     default:
       return initTodo;
@@ -58,31 +54,24 @@ const todosReducer = (state, action) => {
 const TodoProvider = ({ children }) => {
   const [todoState, dispatchTodo] = useReducer(todosReducer, initTodo);
 
-  console.table(todoState.todos);
-
-  const addTodoHandler = (todoItem) => {
-    dispatchTodo({ type: 'ADD_TODO', payload: todoItem });
-  };
-
-  const updateTodoHandler = (todoItem) => {
-    dispatchTodo({ type: 'UPDATE_TODO', payload: todoItem });
-  };
-
-  const deleteTodoHandler = (todoId) => {
-    dispatchTodo({ type: 'REMOVE_TODO', payload: todoId });
-  };
+  const getTotalTodosHandler = useCallback((totalTodos) => {
+    dispatchTodo({ type: 'TOTAL_TODO', payload: totalTodos });
+  }, []);
 
   const editTodoHandler = (todoItem) => {
     dispatchTodo({ type: 'EDIT_TODO', payload: todoItem });
   };
 
+  // const todoPaginateHandler = (paginate) => {
+  //   dispatchTodo({ type: 'PAGINATE_TODO', payload: paginate });
+  // };
+
   const value = {
-    todos: todoState.todos,
     todoEdit: todoState.todoEdit,
-    addTodo: addTodoHandler,
-    updateTodo: updateTodoHandler,
-    deleteTodo: deleteTodoHandler,
+    totalAllTodos: todoState.total,
+    getTotalTodo: getTotalTodosHandler,
     editTodo: editTodoHandler,
+    // paginateTodo: todoPaginateHandler,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
