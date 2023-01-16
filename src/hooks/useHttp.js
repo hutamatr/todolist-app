@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useAuth } from './useStoreContext';
 
 const todosAPI = axios.create({
-  baseURL: 'http://localhost:8002/api/v1',
+  baseURL: process.env.REACT_APP_BASE_URL || 'http://localhost:8000/api/v1',
 });
 
 const useHttp = () => {
@@ -23,10 +23,6 @@ const useHttp = () => {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-
-      if (response.status > 400) {
-        throw new Error('Failed get todo data');
-      }
 
       return response;
     },

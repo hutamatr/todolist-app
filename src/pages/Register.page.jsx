@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 
-import FormInput from '../components/UI/FormInput';
-import validation from '../utils/validation';
-import useInputState from '../hooks/useInputState';
-import usePasswordView from '../hooks/usePasswordView';
-import useMutationTodos from '../hooks/useMutationTodos';
-import { useLoginForm, useAuth } from '../hooks/useStoreContext';
+import FormInput from 'components/UI/FormInput';
+import useInputState from 'hooks/useInputState';
+import usePasswordView from 'hooks/usePasswordView';
+import useHttp from 'hooks/useHttp';
+import { useAuth, useLoginForm } from 'hooks/useStoreContext';
+import errorQuery from 'utils/errorQuery';
+import validation from 'utils/validation';
 
 const Register = () => {
   const userNameRef = useRef();
@@ -17,6 +19,7 @@ const Register = () => {
   const { isPasswordView, viewPasswordHandler } = usePasswordView();
   const { userNameValidation, emailValidation, passwordValidation } =
     validation();
+  const { requestHttp } = useHttp();
 
   const {
     input,
@@ -43,23 +46,28 @@ const Register = () => {
   const [isValidPasswordMatch, setIsValidPasswordMatch] = useState(false);
   const [isPasswordMatchFocus, setIsPasswordMatchFocus] = useState(false);
 
-  const { mutate: mutateRegister, isLoading: isLoadingRegister } =
-    useMutationTodos(
-      { method: 'POST', url: '/accounts/register' },
-      (data) => {
-        setTimeout(() => {
-          toast.success(data?.data.message);
-        }, 1000);
-        navigate('/home', { replace: true });
-      },
-      (error) => {
-        toast.error(error);
-      },
-      (data) => {
-        const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
-        login(data?.data, expireDateLogin.toISOString());
-      }
-    );
+  const { mutate: mutateRegister, isLoading: isLoadingRegister } = useMutation({
+    mutationFn: (registerData) => {
+      return requestHttp({
+        method: 'POST',
+        url: '/accounts/register',
+        data: registerData,
+      });
+    },
+    onSuccess: (data) => {
+      setTimeout(() => {
+        toast.success(data?.data.message);
+      }, 1000);
+      navigate('/home', { replace: true });
+    },
+    onSettled: (data) => {
+      const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
+      login(data?.data, expireDateLogin.toISOString());
+    },
+    onError: (error) => {
+      errorQuery(error, 'Register Account Failed!');
+    },
+  });
 
   useEffect(() => {
     userNameRef.current.focus();
@@ -80,17 +88,21 @@ const Register = () => {
 
   const registerScreenHandler = () => loginScreen(false);
 
-  const userNameFocusHandler = () =>
+  const userNameFocusHandler = () => {
     setIsUserNameFocus((prevState) => !prevState);
+  };
 
-  const userEmailFocusHandler = () =>
+  const userEmailFocusHandler = () => {
     setIsUserEmailFocus((prevState) => !prevState);
+  };
 
-  const passwordFocusHandler = () =>
+  const passwordFocusHandler = () => {
     setIsPasswordFocus((prevState) => !prevState);
+  };
 
-  const passwordMatchFocusHandler = () =>
+  const passwordMatchFocusHandler = () => {
     setIsPasswordMatchFocus((prevState) => !prevState);
+  };
 
   const RegisterSubmitHandler = (event) => {
     event.preventDefault();
@@ -113,8 +125,9 @@ const Register = () => {
 
   return (
     <>
+      <Toaster position="top-center" />
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
-        <h1 className="text-sm font-bold">Sign Up</h1>
+        <h1 className="font-bold">Sign Up</h1>
         <form
           onSubmit={RegisterSubmitHandler}
           className="flex flex-col gap-y-2"

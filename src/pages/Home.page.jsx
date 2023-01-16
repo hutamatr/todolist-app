@@ -1,44 +1,63 @@
-import React from 'react';
-import { Toaster, toast } from 'react-hot-toast';
-
-import Home from '../components/Home/Home';
-import useQueryTodos from '../hooks/useQueryTodos';
-import { useTodos } from '../hooks/useStoreContext';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { Toaster } from 'react-hot-toast';
+
+import Home from 'components/Home/Home';
+import useHttp from 'hooks/useHttp';
+import { useTodos } from 'hooks/useStoreContext';
+import errorQuery from 'utils/errorQuery';
 
 const HomePage = () => {
   const { getTotalTodo } = useTodos();
+  const { requestHttp } = useHttp();
 
   const {
     isLoading: isLoadingTotalTodos,
     isError: isErrorTotalTodos,
     error: errorTotalTodos,
-  } = useQueryTodos(
-    'total-todos',
-    { method: 'GET', url: '/home' },
-    (data) => {
+  } = useQuery({
+    queryKey: ['total-todos'],
+    queryFn: () => {
+      return requestHttp({
+        method: 'GET',
+        url: '/home',
+      });
+    },
+    onSuccess: (data) => {
       getTotalTodo(data?.data.data);
     },
-    (error) => {
-      toast.error(error);
-    }
-  );
+    onError: (error) => {
+      errorQuery(error, 'Get Total Todos Failed!');
+    },
+  });
 
-  const { data: userDetailData } = useQueryTodos('user', {
-    method: 'GET',
-    url: '/accounts/profile',
+  const { data: userDetailData } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => {
+      return requestHttp({
+        method: 'GET',
+        url: '/accounts/profile',
+      });
+    },
+    onError: (error) => {
+      errorQuery(error, 'Get User Detail Failed!');
+    },
   });
 
   return (
     <>
       <Toaster position="top-center" />
       {isErrorTotalTodos && (
-        <p>
+        <p className="flex min-h-[50vh] items-center justify-center text-center text-lg font-semibold text-red-600">
           {errorTotalTodos instanceof AxiosError && errorTotalTodos.message}
         </p>
       )}
 
-      {isLoadingTotalTodos && <p>Loading...</p>}
+      {isLoadingTotalTodos && (
+        <p className="flex min-h-[50vh] items-center justify-center text-center text-lg font-semibold">
+          Loading...
+        </p>
+      )}
 
       {!isErrorTotalTodos && !isLoadingTotalTodos && (
         <Home username={userDetailData?.data.data.user.username} />

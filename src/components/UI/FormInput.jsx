@@ -1,10 +1,10 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
-import { ReactComponent as Check } from '../../assets/icons/uil_check.svg';
-import { ReactComponent as Eye } from '../../assets/icons/uil_eye.svg';
-import { ReactComponent as EyeSlash } from '../../assets/icons/uil_eye-slash.svg';
+import RegisterNote from 'components/Register/RegisterNote';
 
-import RegisterNote from '../Register/RegisterNote';
+import { ReactComponent as Check } from 'assets/icons/uil_check.svg';
+import { ReactComponent as Eye } from 'assets/icons/uil_eye.svg';
+import { ReactComponent as EyeSlash } from 'assets/icons/uil_eye-slash.svg';
 
 const FormInput = forwardRef(
   (

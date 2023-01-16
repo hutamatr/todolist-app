@@ -1,17 +1,16 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Layout from './components/Layout/Layout';
-import LayoutWithOutNav from './components/Layout/LayoutWithOutNav';
-import Register from './pages/Register.page';
-import Login from './pages/Login.page';
-import Home from './pages/Home.page';
-import Dashboard from './pages/Dashboard.page';
-import Profile from './pages/Profile.page';
-import Category from './pages/Category.page';
-import NotFound from './pages/NotFound.page';
-import RequireAuth from './components/Auth/RequireAuth';
-import CategoryDetails from './pages/CategoryDetails.page';
+import Layout from 'components/Layout/Layout';
+import LayoutWithOutNav from 'components/Layout/LayoutWithOutNav';
+import HomePage from 'pages/Home.page';
+import RequireAuth from 'components/Auth/RequireAuth';
+import Register from 'pages/Register.page';
+import Login from 'pages/Login.page';
+import Dashboard from 'pages/Dashboard.page';
+import Profile from 'pages/Profile.page';
+import Category from 'pages/Category.page';
+import CategoryDetails from 'pages/CategoryDetails.page';
+import NotFound from 'pages/NotFound.page';
 
 const App = () => {
   return (
@@ -23,7 +22,7 @@ const App = () => {
       </Route>
       <Route path="/" element={<Layout />}>
         <Route element={<RequireAuth />}>
-          <Route path="home" element={<Home />} />
+          <Route path="home" element={<HomePage />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="category" element={<Category />} />

@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 
-import FormInput from '../components/UI/FormInput';
-import validation from '../utils/validation';
-import useInputState from '../hooks/useInputState';
-import usePasswordView from '../hooks/usePasswordView';
-import { LoginFormContext } from '../context/Context';
-import { useAuth } from '../hooks/useStoreContext';
-import useMutationTodos from '../hooks/useMutationTodos';
+import FormInput from 'components/UI/FormInput';
+import useInputState from 'hooks/useInputState';
+import usePasswordView from 'hooks/usePasswordView';
+import useHttp from 'hooks/useHttp';
+import { useAuth } from 'hooks/useStoreContext';
+import { LoginFormContext } from 'context/Context';
+import validation from 'utils/validation';
+import errorQuery from 'utils/errorQuery';
 
 const Login = () => {
   const emailRef = useRef();
@@ -17,6 +19,7 @@ const Login = () => {
   const { isPasswordView, viewPasswordHandler } = usePasswordView();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
+  const { requestHttp } = useHttp();
 
   const {
     input,
@@ -31,22 +34,28 @@ const Login = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
 
-  const { mutate: mutateLogin, isLoading: isLoadingLogin } = useMutationTodos(
-    { method: 'POST', url: '/accounts/login' },
-    (data) => {
+  const { mutate: mutateLogin, isLoading: isLoadingLogin } = useMutation({
+    mutationFn: (LoginData) => {
+      return requestHttp({
+        method: 'POST',
+        url: '/accounts/login',
+        data: LoginData,
+      });
+    },
+    onSuccess: (data) => {
       setTimeout(() => {
         toast.success(data?.data.message);
       }, 1000);
       navigate('/home', { replace: true });
     },
-    (error) => {
-      toast.error(error);
-    },
-    (data) => {
+    onSettled: (data) => {
       const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
       login(data?.data, expireDateLogin.toISOString());
-    }
-  );
+    },
+    onError: (error) => {
+      errorQuery(error, 'Login Failed!');
+    },
+  });
 
   useEffect(() => {
     const emailValid = emailValidation.test(email);
@@ -81,7 +90,7 @@ const Login = () => {
     <>
       <Toaster position="top-center" />
       <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
-        <h1 className="text-sm font-bold">Log In</h1>
+        <h1 className="font-bold">Log In</h1>
         <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
           <FormInput
             placeholder={'Email'}

@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { LoginFormContext } from '../../context/Context';
+import { LoginFormContext } from 'context/Context';
 
-import bell from '../../assets/images/Bell.webp';
-import Document from '../../assets/images/Document.webp';
+// import bell from 'assets/images/Bell.webp';
+// import Document from 'assets/images/Document.webp';
+
+import todoImage from 'assets/images/Todo-list-pana.webp';
 
 const LayoutWithOutNav = () => {
   const { onLoginScreen } = useContext(LoginFormContext);
@@ -17,7 +19,7 @@ const LayoutWithOutNav = () => {
         <img
           src={image}
           alt="TODO-LIST"
-          className="max-w-[8rem] md:max-w-[12rem]"
+          className="max-w-[10rem] md:max-w-xs"
           loading="lazy"
         />
         <figcaption className="text-center text-xl font-bold text-neutral-500 md:text-lg">
@@ -28,8 +30,8 @@ const LayoutWithOutNav = () => {
   };
 
   const imageContent = onLoginScreen
-    ? imageFunc(bell, 'Start manage your task like a magic 🪄')
-    : imageFunc(Document, 'Never miss any precious ✨ moments by listing it');
+    ? imageFunc(todoImage, 'Start manage your task like a magic 🪄')
+    : imageFunc(todoImage, 'Never miss any precious ✨ moments by listing it');
 
   return (
     <main className="mx-auto min-h-screen bg-neutral-100 bg-ellipse-image bg-contain bg-right-top bg-no-repeat">

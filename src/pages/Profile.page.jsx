@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import { Toaster, toast } from 'react-hot-toast';
 
-import ProfilePicture from '../components/UI/ProfilePicture';
-import useInputState from '../hooks/useInputState';
-import useQueryTodos from '../hooks/useQueryTodos';
-import useMutationTodos from '../hooks/useMutationTodos';
+import ProfilePicture from 'components/UI/ProfilePicture';
+import useInputState from 'hooks/useInputState';
+import useHttp from 'hooks/useHttp';
+import useBaffle from 'hooks/useBaffle';
+import errorQuery from 'utils/errorQuery';
 
 const Profile = () => {
   const [editForm, setEditForm] = useState(false);
@@ -16,71 +17,72 @@ const Profile = () => {
   });
 
   const queryClient = useQueryClient();
+  const { requestHttp } = useHttp();
+  const { newBaffle } = useBaffle('.profileBaffle');
+
+  useEffect(() => {
+    newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { username, email, password } = input;
 
-  const { data: dataUserDetail } = useQueryTodos(
-    'user',
-    {
-      method: 'GET',
-      url: '/accounts/profile',
+  const { data: dataUserDetail } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => {
+      return requestHttp({
+        method: 'GET',
+        url: '/accounts/profile',
+      });
     },
-    (data) => {
+    onSuccess: (data) => {
       setInput((prevState) => ({
         ...prevState,
         username: data?.data.data.user.username,
         email: data?.data.data.user.email,
       }));
     },
-    (error) => {
-      toast.error(error);
-    }
-  );
-
-  const { mutate: mutateEditUser } = useMutationTodos(
-    {
-      method: 'PUT',
-      url: '/accounts/profile',
+    onError: (error) => {
+      errorQuery(error, 'Get User Detail Failed!');
     },
-    (data) => {
+  });
+
+  const { mutate: mutateEditUser } = useMutation({
+    mutationFn: (updatedProfile) => {
+      return requestHttp({
+        method: 'PUT',
+        url: '/accounts/profile',
+        data: updatedProfile,
+      });
+    },
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success(data?.data.message);
     },
-    (error) => {
-      toast.error(error);
-    }
-  );
+    onError: (error) => {
+      errorQuery(error, 'Edit User Failed!');
+    },
+  });
 
-  let inputForm;
+  let inputForm = [
+    {
+      label: 'Username',
+      type: 'text',
+      name: 'username',
+    },
+    {
+      label: 'Email Address',
+      type: 'email',
+      name: 'email',
+    },
+  ];
   if (editForm) {
     inputForm = [
-      {
-        label: 'Username',
-        type: 'text',
-        name: 'username',
-      },
-      {
-        label: 'Email Address',
-        type: 'email',
-        name: 'email',
-      },
+      ...inputForm,
       {
         label: 'Confirm Password',
         type: 'password',
         name: 'password',
-      },
-    ];
-  } else {
-    inputForm = [
-      {
-        label: 'Username',
-        type: 'text',
-        name: 'username',
-      },
-      {
-        label: 'Email Address',
-        type: 'email',
-        name: 'email',
       },
     ];
   }
@@ -120,7 +122,7 @@ const Profile = () => {
     <>
       <Toaster position="top-center" />
       <section className="mx-auto flex min-h-screen max-w-lg flex-col gap-y-6 py-6">
-        <h1 className="font-bold">Profile</h1>
+        <h1 className="profileBaffle text-lg font-bold">Profile</h1>
         <div className="flex flex-col items-center justify-center gap-y-3">
           <ProfilePicture />
           <span className="text-lg font-bold">
@@ -156,7 +158,7 @@ const Profile = () => {
                   id={input.label}
                   type={input.type}
                   name={input.name}
-                  className={`border-b border-b-neutral-400 p-1 text-sm outline-none ${
+                  className={`border-b border-b-neutral-500 bg-material-background p-1 text-sm outline-none ${
                     editForm
                       ? 'text-neutral-900 focus:border-b-orange-100'
                       : 'text-neutral-500'

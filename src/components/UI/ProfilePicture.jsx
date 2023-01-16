@@ -1,6 +1,4 @@
-import React from 'react';
-
-let name = Math.random().toString(36).substring(7);
+const name = Math.random().toString(36).substring(7);
 
 const ProfilePicture = ({ classPhoto, classAvatar, tabIndex }) => {
   return (

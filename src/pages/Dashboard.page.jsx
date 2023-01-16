@@ -1,82 +1,96 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Toaster, toast } from 'react-hot-toast';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { Toaster } from 'react-hot-toast';
 
-import emptyTodo from '../assets/images/Calendar.webp';
-import { ReactComponent as Plus } from '../assets/icons/uil_plus.svg';
+import TodoFilter from 'components/Todos/TodoFilter';
+import Sort from 'components/UI/Sort';
+import Pagination from 'components/UI/Pagination';
+import TodoForm from 'components/Todos/TodoForm';
+import TodoList from 'components/Todos/TodoList';
+import Search from 'components/UI/Search';
+import useHttp from 'hooks/useHttp';
+import useBaffle from 'hooks/useBaffle';
+import { useModal } from 'hooks/useStoreContext';
+import errorQuery from 'utils/errorQuery';
 
-import DashboardForm from '../components/Dashboard/DashboardForm';
-import DashboardFilter from '../components/Dashboard/DashboardFilter/DashboardFilter';
-import DashboardSort from '../components/Dashboard/DashboardFilter/DashboardSort';
-import Pagination from '../components/UI/Pagination';
-import useQueryTodos from '../hooks/useQueryTodos';
-import { useFilter, useModal } from '../hooks/useStoreContext';
-import TodoList from '../components/Dashboard/TodoList';
-
-const sortTodoByDate = (todos, ascending) => {
-  return todos?.sort((todoA, todoB) => {
-    const { createdAt: dateA } = todoA;
-    const { createdAt: dateB } = todoB;
-    const newDateA = new Date(dateA);
-    const newDateB = new Date(dateB);
-    if (ascending) {
-      return newDateA - newDateB;
-    } else {
-      return newDateB - newDateA;
-    }
-  });
-};
-
-let PageSize = 5;
+import { MdArrowBack } from 'react-icons/md';
+import emptyTodo from 'assets/images/Calendar.webp';
+import { ReactComponent as Plus } from 'assets/icons/uil_plus.svg';
 
 const Dashboard = () => {
-  const { isTodoInProgress, isTodoCompleted } = useFilter();
   const { isModalShow, setShowModal } = useModal();
-  const { search } = useLocation();
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [skipPaginate, setSkipPaginate] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
+  const [searchTodos, setSearchTodos] = useState('');
+  const [sortTodos, setSortTodos] = useState('ASC');
+  const [todoStatus, setTodoStatus] = useState(false);
+  const [isButtonShow, setIsButtonShow] = useState(false);
+
+  const { requestHttp } = useHttp();
+  const { newBaffle } = useBaffle('.dashboardBaffle');
+
+  useEffect(() => {
+    newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (searchTodos) {
+      setIsButtonShow(true);
+    }
+  }, [searchTodos]);
 
   const {
-    data: dataTodos,
+    data: todos,
     isError: isErrorTodos,
     isLoading: isLoadingTodos,
     error: errorTodos,
-  } = useQueryTodos(
-    'todos',
-    { method: 'GET', url: '/todos?limit=500' },
-    undefined,
-    (error) => {
-      toast.error(error);
-    }
-  );
+    refetch,
+  } = useQuery({
+    queryKey: [
+      'todos',
+      skipPaginate,
+      pageSize,
+      sortTodos,
+      searchTodos,
+      todoStatus,
+    ],
+    queryFn: () => {
+      return requestHttp({
+        method: 'GET',
+        url: `/todos?offset=${skipPaginate}&limit=${pageSize}&order_by=${sortTodos}&s=${searchTodos}&is_completed=${todoStatus}`,
+      });
+    },
+    onError: (error) => {
+      errorQuery(error, 'Get All Todos Failed!');
+    },
+    keepPreviousData: true,
+  });
 
-  const queryParams = new URLSearchParams(search);
+  const todosData = todos?.data.data.rows;
+  const totalCount = +todos?.data.data.count;
 
-  const isSortedTodos = queryParams.get('sort') === 'asc';
+  useEffect(() => {
+    window.scrollTo({ behavior: 'smooth', top: 0 });
+  }, [todosData]);
 
-  const sortedTodos = sortTodoByDate(dataTodos?.data.data.todos, isSortedTodos);
-
-  const todosInProgress = sortedTodos?.filter((todo) => !todo.is_completed);
-  const todosCompleted = sortedTodos?.filter((todo) => todo.is_completed);
-
-  const todosData = isTodoCompleted
-    ? todosInProgress
-    : isTodoInProgress
-    ? todosCompleted
-    : sortedTodos;
-
-  useEffect(() => {}, [todosData]);
+  const searchValueHandler = (data) => {
+    setSearchTodos(data);
+  };
 
   const modalShowHandler = () => {
     setShowModal((prevState) => !prevState);
   };
 
-  const currentTodosData = useCallback(() => {
-    const firstPageIndex = (currentPage - 1) * PageSize;
-    const lastPageIndex = firstPageIndex + PageSize;
-    return todosData?.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, todosData]);
+  const onPageChangeHandler = (page) => {
+    setCurrentPage(page);
+  };
+
+  const onSetSkipChangeHandler = (pages) => {
+    setSkipPaginate(pages);
+  };
 
   const dashboardContent =
     todosData?.length === 0 ? (
@@ -94,15 +108,22 @@ const Dashboard = () => {
     ) : (
       <>
         <TodoList
-          todosData={currentTodosData()}
+          todosData={todosData}
           onSetShowModal={setShowModal}
+          dashboardSkipPaginate={skipPaginate}
+          dashboardPageSize={pageSize}
+          dashboardSortTodos={sortTodos}
+          dashboardSearchTodos={searchTodos}
+          dashboardTodoStatus={todoStatus}
         />
-        {todosData?.length > 5 && (
+        {totalCount >= pageSize && (
           <Pagination
             currentPage={currentPage}
-            totalCount={todosData?.length}
-            pageSize={PageSize}
-            onPageChange={(page) => setCurrentPage(page)}
+            totalCount={totalCount}
+            pageSize={pageSize}
+            onPageChange={onPageChangeHandler}
+            onSkipPage={onSetSkipChangeHandler}
+            onSetPageSize={setPageSize}
           />
         )}
       </>
@@ -112,15 +133,38 @@ const Dashboard = () => {
     <>
       <Toaster position="top-center" />
       <section className="flex min-h-screen flex-col gap-y-6 py-6">
-        <h1 className="font-bold">Dashboard</h1>
-        <div className="flex flex-row items-center justify-between">
-          <DashboardFilter />
-          <DashboardSort onIsSortedTodos={isSortedTodos} />
+        <div className="flex flex-col items-center justify-center gap-y-5 sm:flex-row sm:justify-between">
+          <div className="flex items-center gap-x-6">
+            {isButtonShow && (
+              <button
+                className="rounded bg-white py-1 px-3 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100"
+                onClick={() => {
+                  refetch();
+                  setIsButtonShow(false);
+                  setSearchTodos('');
+                }}
+              >
+                <MdArrowBack className="text-xl" />
+              </button>
+            )}
+
+            <h1 className="dashboardBaffle text-lg font-bold">Dashboard</h1>
+          </div>
+          <Search name="Todo" onSearchValue={searchValueHandler} />
         </div>
+
+        {totalCount > 0 && (
+          <div className="flex flex-row items-center justify-between">
+            <TodoFilter setTodoStatus={setTodoStatus} todoStatus={todoStatus} />
+            <Sort onSort={sortTodos} onSetSort={setSortTodos} />
+          </div>
+        )}
+
         {isErrorTodos && (
           <p className="text-center text-lg font-semibold text-red-600">
-            {errorTodos instanceof AxiosError &&
-              errorTodos.response?.data.message}
+            {(errorTodos instanceof AxiosError &&
+              errorTodos.response?.data.message) ||
+              errorTodos?.message}
           </p>
         )}
         {isLoadingTodos && (
@@ -138,7 +182,7 @@ const Dashboard = () => {
           />
         </button>
       </section>
-      <DashboardForm onShowModal={isModalShow} onSetShowModal={setShowModal} />
+      <TodoForm onShowModal={isModalShow} onSetShowModal={setShowModal} />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import { useReducer, useCallback } from 'react';
 
 import { TodoContext } from './Context';
 
@@ -9,6 +9,12 @@ const initTodo = {
     totalInProgress: 0,
     totalTodos: 0,
   },
+  todoPaginate: {
+    currentPage: 1,
+    skipPaginate: 0,
+    pageSize: 5,
+  },
+  sort: 'ASC',
 };
 
 const todosReducer = (state, action) => {
@@ -26,6 +32,19 @@ const todosReducer = (state, action) => {
         ...state,
         todoEdit: editTodo,
       };
+    // case 'PAGINATE_TODO':
+    //   const currentPage = action.payload.currentPage;
+    //   const skipPaginate = action.payload.skipPaginate;
+    //   const pageSize = action.payload.pageSize;
+
+    //   return {
+    //     ...state,
+    //     todoPaginate: {
+    //       currentPage: currentPage,
+    //       skipPaginate: skipPaginate,
+    //       pageSize: pageSize,
+    //     },
+    //   };
 
     default:
       return initTodo;
@@ -43,11 +62,16 @@ const TodoProvider = ({ children }) => {
     dispatchTodo({ type: 'EDIT_TODO', payload: todoItem });
   };
 
+  // const todoPaginateHandler = (paginate) => {
+  //   dispatchTodo({ type: 'PAGINATE_TODO', payload: paginate });
+  // };
+
   const value = {
     todoEdit: todoState.todoEdit,
     totalAllTodos: todoState.total,
     getTotalTodo: getTotalTodosHandler,
     editTodo: editTodoHandler,
+    // paginateTodo: todoPaginateHandler,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;

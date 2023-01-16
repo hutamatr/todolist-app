@@ -1,4 +1,3 @@
-import React from 'react';
 import TodoProvider from './TodoProvider';
 import AuthProvider from './AuthProvider';
 import LoginFormProvider from './LoginFormProvider';

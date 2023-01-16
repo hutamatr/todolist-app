@@ -9,6 +9,7 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "axios": "^0.27.2",
+    "baffle": "^0.3.6",
     "daisyui": "^2.24.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -25,8 +26,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "serve": "json-server -w -p 8000 todos.json"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

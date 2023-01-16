@@ -1,25 +1,38 @@
 import { useState } from 'react';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useQueryClient } from '@tanstack/react-query';
 
-import Modal from '../UI/Modal';
-import useMutationTodos from '../../hooks/useMutationTodos';
-import { randIcons } from '../../utils/categoryIcons';
+import Modal from 'components/UI/Modal';
+import useHttp from 'hooks/useHttp';
+import { useModal } from 'hooks/useStoreContext';
+import errorQuery from 'utils/errorQuery';
+import { randIcons } from 'utils/categoryIcons';
 
-const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
+const categoryLong = 100;
+
+const CategoryForm = () => {
   const queryClient = useQueryClient();
+  const { requestHttp } = useHttp();
   const [categoryName, setCategoryName] = useState('');
 
-  const { mutate: mutateCategory } = useMutationTodos(
-    { method: 'POST', url: '/categories' },
-    (data) => {
+  const { isModalShow, setShowModal } = useModal();
+
+  const { mutate: mutateCategory } = useMutation({
+    mutationFn: (newCategory) => {
+      return requestHttp({
+        method: 'POST',
+        url: '/categories',
+        data: newCategory,
+      });
+    },
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success(data?.data.message);
     },
-    (error) => {
-      toast.error(error);
-    }
-  );
+    onError: (error) => {
+      errorQuery(error, 'Add New Category Failed!');
+    },
+  });
 
   let isInputEmpty = false;
 
@@ -29,12 +42,14 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
   const categoryNameChangeHandler = (event) => {
     setCategoryName((prevState) => {
-      return event.target.value.length <= 25 ? event.target.value : prevState;
+      return event.target.value.length <= categoryLong
+        ? event.target.value
+        : prevState;
     });
   };
 
   const categoryCancelHandler = () => {
-    onSetShowCategoryForm(false);
+    setShowModal(false);
     setCategoryName('');
   };
 
@@ -48,14 +63,14 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
 
     mutateCategory(newCategory);
 
-    onSetShowCategoryForm(false);
+    setShowModal(false);
     setCategoryName('');
   };
 
   return (
     <>
-      {onShowCategoryForm && (
-        <Modal onCloseModalHandler={() => onSetShowCategoryForm(false)}>
+      {isModalShow && (
+        <Modal onCloseModalHandler={() => setShowModal(false)}>
           <h1 className="mb-4 font-bold">Create Category</h1>
           <form
             onSubmit={categorySubmitHandler}
@@ -69,7 +84,7 @@ const CategoryForm = ({ onShowCategoryForm, onSetShowCategoryForm }) => {
                 Category Name
               </label>
               <span className="text-xs font-semibold">
-                {0 + categoryName.length}/25
+                {0 + categoryName.length}/{categoryLong}
               </span>
             </div>
             <textarea
