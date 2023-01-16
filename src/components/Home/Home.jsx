@@ -40,7 +40,7 @@ const Home = ({ username }) => {
             <h2 className="font-semibold text-neutral-800 sm:text-xl">
               You have <span className="text-orange-100">{totalTodos}</span>{' '}
               list{' '}
-              <span className="rounded-sm bg-orange-100 px-1 font-Poiret-One text-xl font-bold sm:text-2xl">
+              <span className="rounded-sm bg-orange-100 px-1 font-Poiret-One text-xl font-bold text-material-background sm:text-2xl">
                 todo
               </span>
             </h2>
