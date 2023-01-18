@@ -7,7 +7,6 @@ import TodoList from 'components/Todos/TodoList';
 import TodoFilter from 'components/Todos/TodoFilter';
 import Pagination from 'components/UI/Pagination';
 import Search from 'components/UI/Search';
-// import Sort from 'components/UI/Sort';
 import useHttp from 'hooks/useHttp';
 import useBaffle from 'hooks/useBaffle';
 import { useModal } from 'hooks/useStoreContext';
@@ -114,25 +113,23 @@ const CategoryDetails = () => {
         />
       </div>
 
-      {detailsCategorySearchCount > 0 && (
-        <div className="flex flex-row items-center justify-between">
-          <TodoFilter
-            setTodoStatus={setTodosByCategoryStatus}
-            todoStatus={todosByCategoryStatus}
-          />
-          {/* <Sort
+      <div className="flex flex-row items-center justify-between">
+        <TodoFilter
+          setTodoStatus={setTodosByCategoryStatus}
+          todoStatus={todosByCategoryStatus}
+        />
+        {/* <Sort
             onSort={todosByCategorySort}
             onSetSort={setTodosByCategorySort}
           /> */}
-        </div>
-      )}
+      </div>
 
       {detailsCategorySearchCount === 0 ? (
         <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
           <img
             src={emptyTodo}
             alt=""
-            className="max-w-[5rem] md:max-w-[6rem]"
+            className="max-w-[4rem] md:max-w-[5rem]"
             loading="lazy"
           />
           <p className="text-center text-lg font-medium">Todo Empty</p>

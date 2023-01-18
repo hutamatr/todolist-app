@@ -55,6 +55,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
+      queryClient.invalidateQueries({ queryKey: ['total-todos'] });
       toast.success(data?.data.message);
     },
     onError: (error) => {

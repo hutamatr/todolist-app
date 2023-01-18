@@ -45,7 +45,7 @@ const Login = () => {
     onSuccess: (data) => {
       setTimeout(() => {
         toast.success(data?.data.message);
-      }, 1000);
+      }, 500);
       navigate('/home', { replace: true });
     },
     onSettled: (data) => {

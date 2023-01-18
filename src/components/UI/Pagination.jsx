@@ -65,8 +65,8 @@ const Pagination = (props) => {
           className="rounded ring-2 ring-orange-100"
         >
           <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
+          {totalCount > 10 && <option value="10">10</option>}
+          {totalCount > 15 && <option value="15">15</option>}
         </select>
       </div>
       <ul className="flex cursor-pointer flex-row items-center justify-center gap-x-1 sm:gap-x-6">
