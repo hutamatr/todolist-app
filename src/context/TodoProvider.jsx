@@ -8,6 +8,7 @@ const initTodo = {
     totalDone: 0,
     totalInProgress: 0,
     totalTodos: 0,
+    totalCategories: 0,
   },
   sort: 'ASC',
 };

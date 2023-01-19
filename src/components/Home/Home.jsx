@@ -18,7 +18,8 @@ const Home = ({ username }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { totalDone, totalInProgress, totalTodos } = totalAllTodos;
+  const { totalDone, totalInProgress, totalTodos, totalCategories } =
+    totalAllTodos;
 
   return (
     <section className="flex min-h-screen flex-col gap-y-6 py-6">
@@ -47,13 +48,21 @@ const Home = ({ username }) => {
           </div>
           <img src={todoImage} alt="todo" className="w-40" />
         </div>
-        <ul className="grid grid-cols-2 gap-4">
+        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-3">
           {filterIconName.map((item, index) => {
             return (
               <li
                 key={index}
-                className={`flex flex-col-reverse items-center justify-between rounded-md p-4 shadow-material-shadow-3 sm:flex-row ${
-                  index === 0 ? 'bg-blue-10' : index === 1 ? 'bg-green-10' : ''
+                className={`flex items-center justify-between rounded-md p-4 shadow-material-shadow-3 sm:flex-row ${
+                  index === 2 ? 'flex-row' : 'flex-col-reverse'
+                } ${
+                  index === 0
+                    ? 'bg-blue-10'
+                    : index === 1
+                    ? 'bg-green-10'
+                    : index === 2
+                    ? 'col-span-2 bg-orange-200 lg:col-auto'
+                    : ''
                 }`}
               >
                 <div
@@ -67,6 +76,8 @@ const Home = ({ username }) => {
                           ? 'text-blue-500'
                           : index === 1
                           ? 'text-green-500'
+                          : index === 2
+                          ? 'text-orange-100'
                           : ''
                       }`}
                     >
@@ -79,6 +90,8 @@ const Home = ({ username }) => {
                         ? 'text-blue-500'
                         : index === 1
                         ? 'text-green-500'
+                        : index === 2
+                        ? 'text-orange-500'
                         : ''
                     }`}
                   >
@@ -88,6 +101,8 @@ const Home = ({ username }) => {
                           ? 'text-blue-700'
                           : index === 1
                           ? 'text-green-600'
+                          : index === 2
+                          ? 'text-orange-700'
                           : ''
                       }`}
                     >
@@ -95,9 +110,11 @@ const Home = ({ username }) => {
                         ? totalInProgress
                         : index === 1
                         ? totalDone
-                        : 0}
+                        : index === 2
+                        ? totalCategories
+                        : null}
                     </span>{' '}
-                    list todo
+                    {index === 2 ? 'List Category' : 'List Todo'}
                   </p>
                 </div>
                 <img
