@@ -5,10 +5,10 @@ const useBaffle = (classNameSelector) => {
     const target = baffle(classNameSelector);
     target.set({
       characters: '█▓█ ▒░/▒░ █░▒▓/ █▒▒ ▓▒▓/█<░▒ ▓/░>',
-      speed: 120,
+      speed: 100,
     });
     target.start();
-    target.reveal(1000, 200);
+    target.reveal(1000, 100);
     target.stop();
   };
 

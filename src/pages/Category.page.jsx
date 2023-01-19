@@ -89,16 +89,13 @@ const Category = () => {
   const categoriesContent = (
     <>
       <ul className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
-        {categoriesCount > 0 && (
-          <button
-            type="button"
-            onClick={showCategoryFormHandler}
-            className="min-h-16 flex w-full cursor-pointer flex-col items-center justify-center gap-y-1 rounded border-2 border-dashed border-orange-100 py-4 text-sm font-semibold text-orange-100"
-          >
-            <Plus fill="#FF844B" className="h-5 w-5" /> Add Category
-          </button>
-        )}
-
+        <button
+          type="button"
+          onClick={showCategoryFormHandler}
+          className="flex min-h-[6rem] w-full cursor-pointer flex-col items-center justify-center gap-y-1 rounded border-2 border-dashed border-orange-100 py-4 text-sm font-semibold text-orange-100"
+        >
+          <Plus fill="#FF844B" className="h-5 w-5" /> Add Category
+        </button>
         {allCategories?.map((category) => {
           return <CategoryItem {...category} key={category.id} />;
         })}

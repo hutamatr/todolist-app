@@ -7,13 +7,6 @@ export const TodoContext = createContext({
   editTodo: () => {},
 });
 
-export const FilterContext = createContext({
-  isTodoInProgress: false,
-  isTodoCompleted: false,
-  inProgress: () => {},
-  completed: () => {},
-});
-
 export const AuthContext = createContext({
   authToken: '',
   isAuthenticated: false,

@@ -19,7 +19,6 @@ import emptyTodo from 'assets/images/Calendar.webp';
 import { ReactComponent as Plus } from 'assets/icons/uil_plus.svg';
 
 const Dashboard = () => {
-  const { isModalShow, setShowModal } = useModal();
   const [currentPage, setCurrentPage] = useState(1);
   const [skipPaginate, setSkipPaginate] = useState(0);
   const [pageSize, setPageSize] = useState(5);
@@ -29,6 +28,8 @@ const Dashboard = () => {
   const [isButtonShow, setIsButtonShow] = useState(false);
 
   const { requestHttp } = useHttp();
+  const { isModalShow, setShowModal } = useModal();
+
   const { newBaffle } = useBaffle('.dashboardBaffle');
 
   useEffect(() => {
@@ -98,7 +99,7 @@ const Dashboard = () => {
         <img
           src={emptyTodo}
           alt=""
-          className="max-w-[5rem] md:max-w-[6rem]"
+          className="max-w-[4rem] md:max-w-[5rem]"
           loading="lazy"
         />
         <p className="text-center text-lg font-medium">
@@ -153,12 +154,10 @@ const Dashboard = () => {
           <Search name="Todo" onSearchValue={searchValueHandler} />
         </div>
 
-        {totalCount > 0 && (
-          <div className="flex flex-row items-center justify-between">
-            <TodoFilter setTodoStatus={setTodoStatus} todoStatus={todoStatus} />
-            <Sort onSort={sortTodos} onSetSort={setSortTodos} />
-          </div>
-        )}
+        <div className="flex flex-row items-center justify-between">
+          <TodoFilter setTodoStatus={setTodoStatus} todoStatus={todoStatus} />
+          <Sort onSort={sortTodos} onSetSort={setSortTodos} />
+        </div>
 
         {isErrorTodos && (
           <p className="text-center text-lg font-semibold text-red-600">

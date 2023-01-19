@@ -53,6 +53,7 @@ const TodoItem = ({
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
       queryClient.invalidateQueries({ queryKey: ['categories-todos'] });
+      queryClient.invalidateQueries({ queryKey: ['total-todos'] });
       toast.success(data?.data.message);
     },
     onError: (error) => {
@@ -70,6 +71,7 @@ const TodoItem = ({
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
       queryClient.invalidateQueries({ queryKey: ['categories-todos'] });
+      queryClient.invalidateQueries({ queryKey: ['total-todos'] });
       toast.success(data?.data.message);
     },
     onError: (error) => {
@@ -129,21 +131,20 @@ const TodoItem = ({
             is_completed ? 'bg-green-100' : 'bg-blue-100'
           }`}
         ></span>
-        <div className="relative flex w-full flex-col gap-y-3 rounded-r-lg bg-material-green p-3">
-          {/* <img src={birdPic} alt="" className="absolute bottom-0 left-0 w-7" /> */}
+        <div className="relative flex w-full flex-col gap-y-4 rounded-r-lg bg-material-green p-3">
           <div className="flex flex-row items-center justify-between gap-x-4">
-            <h2 className="text-md max-h-12 break-all font-semibold">
-              {title}
-            </h2>
+            <h2 className="text-md max-h-12 truncate font-semibold">{title}</h2>
             {category?.name && pathname === '/dashboard' && (
-              <p className="flex flex-col items-center justify-center text-xs text-neutral-800 sm:text-sm">
-                <span className="text-[.6rem] font-semibold">Category</span>
+              <p className="flex flex-col items-center justify-center whitespace-nowrap text-xs text-neutral-800 sm:text-sm">
+                <span className="text-[.5rem] font-semibold sm:text-[.6rem]">
+                  Category
+                </span>
                 {category.name}
               </p>
             )}
           </div>
 
-          <p className="max-h-24 overflow-auto break-words text-sm">
+          <p className="max-h-24 overflow-y-auto break-words text-sm">
             {description}
           </p>
           <div className="flex flex-row items-center justify-between gap-x-4">

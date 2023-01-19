@@ -3,10 +3,8 @@ import { Outlet } from 'react-router-dom';
 
 import { LoginFormContext } from 'context/Context';
 
-// import bell from 'assets/images/Bell.webp';
-// import Document from 'assets/images/Document.webp';
-
-import todoImage from 'assets/images/Todo-list-pana.webp';
+import todoImageOne from 'assets/images/Todo-list-pana.webp';
+import todoImageTwo from 'assets/images/task-login.webp';
 
 const LayoutWithOutNav = () => {
   const { onLoginScreen } = useContext(LoginFormContext);
@@ -30,8 +28,11 @@ const LayoutWithOutNav = () => {
   };
 
   const imageContent = onLoginScreen
-    ? imageFunc(todoImage, 'Start manage your task like a magic 🪄')
-    : imageFunc(todoImage, 'Never miss any precious ✨ moments by listing it');
+    ? imageFunc(todoImageOne, 'Start manage your task like a magic 🪄')
+    : imageFunc(
+        todoImageTwo,
+        'Never miss any precious ✨ moments by listing it'
+      );
 
   return (
     <main className="mx-auto min-h-screen bg-neutral-100 bg-ellipse-image bg-contain bg-right-top bg-no-repeat">

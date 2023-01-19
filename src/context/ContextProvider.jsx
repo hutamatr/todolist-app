@@ -1,7 +1,6 @@
 import TodoProvider from './TodoProvider';
 import AuthProvider from './AuthProvider';
 import LoginFormProvider from './LoginFormProvider';
-import TodoFilterProvider from './TodoFilterProvider';
 import ModalProvider from './ModalProvider';
 
 const ContextProvider = ({ children }) => {
@@ -9,9 +8,7 @@ const ContextProvider = ({ children }) => {
     <AuthProvider>
       <LoginFormProvider>
         <ModalProvider>
-          <TodoProvider>
-            <TodoFilterProvider>{children}</TodoFilterProvider>
-          </TodoProvider>
+          <TodoProvider> {children}</TodoProvider>
         </ModalProvider>
       </LoginFormProvider>
     </AuthProvider>
