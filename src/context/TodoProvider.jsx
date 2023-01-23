@@ -15,19 +15,21 @@ const initTodo = {
 
 const todosReducer = (state, action) => {
   switch (action.type) {
-    case 'TOTAL_TODO':
+    case 'TOTAL_TODO': {
       const totalTodos = action.payload;
       return {
         ...state,
         total: totalTodos,
       };
-    case 'EDIT_TODO':
+    }
+    case 'EDIT_TODO': {
       const editTodo = { ...action.payload };
 
       return {
         ...state,
         todoEdit: editTodo,
       };
+    }
 
     default:
       return initTodo;

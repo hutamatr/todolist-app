@@ -31,7 +31,6 @@ const Category = () => {
 
   useEffect(() => {
     newBaffle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -137,7 +136,7 @@ const Category = () => {
         </div>
         {categoriesCount > 0 && (
           <Sort
-            className={'flex items-center justify-end'}
+            className="flex items-center justify-end"
             onSetSort={setSortCategories}
             onSort={sortCategories}
           />

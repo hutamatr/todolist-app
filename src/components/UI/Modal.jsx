@@ -25,7 +25,7 @@ const Modal = ({ children, onCloseModalHandler }) => {
         document.getElementById('modal-backdrop')
       )}
       {createPortal(
-        <ModalCard children={children} />,
+        <ModalCard>{children}</ModalCard>,
         document.getElementById('modal-card')
       )}
     </>

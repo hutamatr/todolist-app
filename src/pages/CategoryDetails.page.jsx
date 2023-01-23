@@ -33,7 +33,6 @@ const CategoryDetails = () => {
 
   useEffect(() => {
     newBaffle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

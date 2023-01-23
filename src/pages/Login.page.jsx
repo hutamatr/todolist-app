@@ -93,7 +93,7 @@ const Login = () => {
         <h1 className="font-bold">Log In</h1>
         <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
           <FormInput
-            placeholder={'Email'}
+            placeholder="Email"
             input={email}
             type="email"
             ref={emailRef}
@@ -102,7 +102,7 @@ const Login = () => {
             name="email"
           />
           <FormInput
-            placeholder={'Password'}
+            placeholder="Password"
             input={password}
             type="password"
             onChange={onChangeInputHandler}
@@ -122,7 +122,7 @@ const Login = () => {
         <p className="text-center text-sm">
           Don't have an account?{' '}
           <Link
-            to={'/register'}
+            to="/register"
             className="font-semibold text-orange-100 underline"
             onClick={loginScreenHandler}
           >

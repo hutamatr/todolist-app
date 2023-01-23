@@ -90,9 +90,9 @@ const Pagination = (props) => {
 
           return (
             <li
-              className={`btn btn-ghost btn-circle btn-sm  ${
+              className={`rounded-full bg-slate-100 px-2 ${
                 currentPage === pageNumber
-                  ? 'btn-outline border-2 !border-orange-100 hover:bg-orange-100 hover:text-white'
+                  ? 'border-2 !border-orange-100 hover:bg-orange-100 hover:text-white'
                   : ''
               }`}
               onClick={onNumberClickHandler.bind(null, pageNumber)}

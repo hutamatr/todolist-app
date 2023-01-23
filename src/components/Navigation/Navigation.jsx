@@ -27,7 +27,7 @@ const Navigation = () => {
 
   return (
     <nav className="relative z-[9999] mx-auto flex max-w-5xl flex-row items-center justify-between bg-material-green p-2 sm:static">
-      <Link to={'/'} replace={true} className="flex items-center gap-x-3">
+      <Link to="/" replace={true} className="flex items-center gap-x-3">
         <img src={todoIcon} alt="" className="w-10" loading="lazy" />
       </Link>
       <div className="flex flex-row gap-x-6">
@@ -45,21 +45,17 @@ const Navigation = () => {
         }`}
       >
         <ProfilePicture
-          classPhoto={'btn-sm block sm:hidden'}
+          classPhoto="btn-sm block sm:hidden"
           classAvatar="w-10"
         />
         <li>
-          <NavLink
-            to={'home'}
-            className={menuIsActive}
-            onClick={menuViewHandler}
-          >
+          <NavLink to="home" className={menuIsActive} onClick={menuViewHandler}>
             Home
           </NavLink>
         </li>
         <li>
           <NavLink
-            to={'dashboard'}
+            to="dashboard"
             className={menuIsActive}
             onClick={menuViewHandler}
           >
@@ -68,7 +64,7 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink
-            to={'category'}
+            to="category"
             className={menuIsActive}
             onClick={menuViewHandler}
           >
@@ -77,7 +73,7 @@ const Navigation = () => {
         </li>
         <li className="block sm:hidden">
           <NavLink
-            to={'profile'}
+            to="profile"
             className={menuIsActive}
             onClick={menuViewHandler}
           >
@@ -86,7 +82,7 @@ const Navigation = () => {
         </li>
         <li className="block sm:hidden">
           <NavLink
-            to={'login'}
+            to="login"
             replace
             onClick={logoutHandler}
             className="text-red-100"
@@ -94,9 +90,9 @@ const Navigation = () => {
             Logout
           </NavLink>
         </li>
-        <div className="dropdown-end dropdown">
+        <div className="dropdown dropdown-end">
           <ProfilePicture
-            classPhoto={'btn-sm hidden sm:block cursor-pointer'}
+            classPhoto="btn-sm hidden sm:block cursor-pointer"
             tabIndex={0}
             classAvatar="w-10"
           />
@@ -105,11 +101,11 @@ const Navigation = () => {
             className="dropdown-content menu menu-compact mt-3 w-52 rounded-md bg-base-100 p-2 shadow-lg"
           >
             <li>
-              <NavLink to={'profile'}>Profile</NavLink>
+              <NavLink to="profile">Profile</NavLink>
             </li>
             <li>
               <NavLink
-                to={'login'}
+                to="login"
                 replace
                 onClick={logoutHandler}
                 className="text-red-100"

@@ -35,9 +35,7 @@ const CategoryItem = ({ id, name }) => {
 
   return (
     <li>
-      <div
-        className={`grid min-h-full w-full gap-y-2 overflow-auto rounded-md border-[1.5px] border-blue-300 bg-material-green p-4 shadow-material-shadow-3`}
-      >
+      <div className="grid min-h-full w-full gap-y-2 overflow-auto rounded-md border-[1.5px] border-blue-300 bg-material-green p-4 shadow-material-shadow-3">
         <img
           src={randIcons()}
           className="w-8"

@@ -2,11 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 import { useModal } from 'hooks/useStoreContext';
+import CategoryForm from 'components/Category/CategoryForm';
 
 import { ReactComponent as Plus } from 'assets/icons/uil_plus.svg';
 
 const DashboardFormCategory = ({
   isCategoryNotAdded,
+  setIsCategoryNotAdded,
   isErrorCategories,
   isLoadingCategories,
   errorCategories,
@@ -20,8 +22,9 @@ const DashboardFormCategory = ({
   const { setShowModal } = useModal();
 
   const addNewCategoryHandler = () => {
-    navigate('/category');
-    setShowModal(true);
+    // navigate('/category');
+    // setShowModal(true);
+    setIsCategoryNotAdded(true);
   };
 
   return (
@@ -34,6 +37,45 @@ const DashboardFormCategory = ({
           Category must be added!
         </p>
       )}
+
+      {isCategoryNotAdded && !category.id && (
+        <form
+          // onSubmit={categorySubmitHandler}
+          className="flex flex-col gap-y-4"
+        >
+          <div className="flex flex-row items-center justify-between">
+            <span className="text-xs font-semibold">
+              {/* {0 + categoryName.length}/{categoryLong} */}
+              100
+            </span>
+          </div>
+          <input
+            type="text"
+            name="category-name"
+            id="category-name"
+            // onChange={categoryNameChangeHandler}
+            // value={categoryName}
+            placeholder="Write your category name..."
+            className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
+          />
+
+          <button
+            className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"
+            // disabled={!isInputEmpty}
+          >
+            Create Category
+          </button>
+
+          <button
+            type="button"
+            // onClick={categoryCancelHandler}
+            className="block cursor-pointer rounded p-2 font-semibold text-orange-100 disabled:bg-orange-50"
+          >
+            Cancel
+          </button>
+        </form>
+      )}
+
       {isErrorCategories && (
         <p className="text-center font-medium text-red-600">
           {errorCategories instanceof AxiosError &&

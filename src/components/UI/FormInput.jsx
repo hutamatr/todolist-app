@@ -12,7 +12,6 @@ const FormInput = forwardRef(
       id,
       placeholder,
       isValidInput,
-      isFocusInput,
       autoComplete,
       input,
       type,

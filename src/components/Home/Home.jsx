@@ -15,7 +15,6 @@ const Home = ({ username }) => {
 
   useEffect(() => {
     newBaffle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { totalDone, totalInProgress, totalTodos, totalCategories } =
@@ -24,8 +23,8 @@ const Home = ({ username }) => {
   return (
     <section className="flex min-h-screen flex-col gap-y-6 py-6">
       <div className="flex items-center justify-start gap-x-4">
-        <Link to={'/profile'}>
-          <ProfilePicture classPhoto={'btn'} classAvatar="w-12" />
+        <Link to="/profile">
+          <ProfilePicture classPhoto="btn" classAvatar="w-12" />
         </Link>
         <div className="flex flex-col">
           <h1 className="font-bold">
@@ -65,19 +64,17 @@ const Home = ({ username }) => {
                     : ''
                 }`}
               >
-                <div
-                  className={`flex flex-col items-center justify-start gap-y-1 sm:items-start sm:gap-y-2`}
-                >
+                <div className="flex flex-col items-center justify-start gap-y-1 sm:items-start sm:gap-y-2">
                   <div className="flex flex-row items-center gap-x-2">
                     <item.icon className="h-6 w-6" fill={item.color} />
                     <span
                       className={`font-bold sm:text-lg ${
                         index === 0
-                          ? 'text-blue-500'
+                          ? 'text-blue-700'
                           : index === 1
-                          ? 'text-green-500'
+                          ? 'text-green-700'
                           : index === 2
-                          ? 'text-orange-100'
+                          ? 'text-orange-700'
                           : ''
                       }`}
                     >
@@ -87,11 +84,11 @@ const Home = ({ username }) => {
                   <p
                     className={`text font-semibold ${
                       index === 0
-                        ? 'text-blue-500'
+                        ? 'text-blue-700'
                         : index === 1
-                        ? 'text-green-500'
+                        ? 'text-green-700'
                         : index === 2
-                        ? 'text-orange-500'
+                        ? 'text-orange-700'
                         : ''
                     }`}
                   >
@@ -100,7 +97,7 @@ const Home = ({ username }) => {
                         index === 0
                           ? 'text-blue-700'
                           : index === 1
-                          ? 'text-green-600'
+                          ? 'text-green-700'
                           : index === 2
                           ? 'text-orange-700'
                           : ''

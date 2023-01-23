@@ -128,7 +128,7 @@ const TodoItem = ({
       <div className="flex rounded-lg shadow-md">
         <span
           className={`w-4 rounded-l-lg ${
-            is_completed ? 'bg-green-100' : 'bg-blue-100'
+            is_completed ? 'bg-green-400' : 'bg-blue-400'
           }`}
         ></span>
         <div className="relative flex w-full flex-col gap-y-4 rounded-r-lg bg-material-green p-3">
@@ -164,7 +164,7 @@ const TodoItem = ({
               <button onClick={todoCompletedHandler} type="button">
                 <Check
                   className={`w-4 rounded-md ${
-                    is_completed ? 'bg-green-100' : 'bg-neutral-400'
+                    is_completed ? 'bg-green-400' : 'bg-neutral-400'
                   }`}
                   fill="#fff"
                 />

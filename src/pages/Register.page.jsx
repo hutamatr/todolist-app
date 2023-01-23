@@ -135,12 +135,12 @@ const Register = () => {
         >
           <FormInput
             name="userName"
-            placeholder={'Username'}
+            placeholder="Username"
             isValidInput={isValidUserName}
             isFocusInput={isUserNameFocus}
             input={userName}
             ref={userNameRef}
-            autoComplete={'off'}
+            autoComplete="off"
             type="text"
             onChange={onChangeInputHandler}
             onFocus={userNameFocusHandler}
@@ -149,7 +149,7 @@ const Register = () => {
           />
           <FormInput
             name="userEmail"
-            placeholder={'Email'}
+            placeholder="Email"
             isValidInput={isValidUserEmail}
             isFocusInput={isUserEmailFocus}
             input={userEmail}
@@ -160,7 +160,7 @@ const Register = () => {
           />
           <FormInput
             name="password"
-            placeholder={'Password'}
+            placeholder="Password"
             isValidInput={isValidPassword}
             isFocusInput={isPasswordFocus}
             input={password}
@@ -174,7 +174,7 @@ const Register = () => {
           />
           <FormInput
             name="passwordMatch"
-            placeholder={'Confirm Password'}
+            placeholder="Confirm Password"
             isValidInput={isValidPasswordMatch}
             isFocusInput={isPasswordMatchFocus}
             input={passwordMatch}
@@ -204,7 +204,7 @@ const Register = () => {
         <p className="text-center text-sm">
           Already have an account?{' '}
           <Link
-            to={'/login'}
+            to="/login"
             className="font-semibold text-orange-100 underline"
             onClick={registerScreenHandler}
           >

@@ -87,16 +87,16 @@ const CategoryForm = () => {
                 {0 + categoryName.length}/{categoryLong}
               </span>
             </div>
-            <textarea
+            <input
+              type="text"
               name="category-name"
               id="category-name"
               onChange={categoryNameChangeHandler}
               value={categoryName}
               placeholder="Write your category name..."
               className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
-              rows="5"
-              cols="10"
-            ></textarea>
+            />
+
             <button
               className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"
               disabled={!isInputEmpty}

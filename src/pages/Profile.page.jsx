@@ -22,7 +22,6 @@ const Profile = () => {
 
   useEffect(() => {
     newBaffle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { username, email, password } = input;

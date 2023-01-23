@@ -256,6 +256,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
             {!todoEdit.id && (
               <DashboardFormCategory
                 isCategoryNotAdded={isCategoryNotAdded}
+                setIsCategoryNotAdded={setIsCategoryNotAdded}
                 isErrorCategories={isErrorCategories}
                 isLoadingCategories={isLoadingCategories}
                 errorCategories={errorCategories}
