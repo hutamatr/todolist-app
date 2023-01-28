@@ -21,12 +21,12 @@ const Home = ({ username }) => {
     totalAllTodos;
 
   return (
-    <section className="flex min-h-screen flex-col gap-y-6 py-6">
+    <section className="layout flex min-h-screen flex-col gap-y-6 py-6 pt-20">
       <div className="flex items-center justify-start gap-x-4">
         <Link to="/profile">
           <ProfilePicture classPhoto="btn" classAvatar="w-12" />
         </Link>
-        <div className="flex flex-col">
+        <div className="flex flex-col dark:text-material-green">
           <h1 className="font-bold">
             Hello, <span className="homeBaffle">{username}</span>
           </h1>
@@ -34,10 +34,15 @@ const Home = ({ username }) => {
         </div>
       </div>
       <div className="flex flex-col gap-y-4">
-        <div className="flex max-w-full flex-row items-center justify-between rounded-md bg-white p-6 shadow-material-shadow-3">
+        <div className="flex max-w-full flex-row items-center justify-between rounded-md bg-material-green p-6 shadow-material-shadow-3 dark:bg-neutral-700">
           <div className="flex flex-col gap-y-3">
-            <img src={todoGif} alt="" className="max-w-[3rem]" loading="lazy" />
-            <h2 className="font-semibold text-neutral-800 sm:text-xl">
+            <img
+              src={todoGif}
+              alt=""
+              className="max-w-[3rem] dark:bg-neutral-700"
+              loading="lazy"
+            />
+            <h2 className="font-semibold text-neutral-800 dark:text-material-green sm:text-xl">
               You have <span className="text-orange-100">{totalTodos}</span>{' '}
               list{' '}
               <span className="rounded-sm bg-orange-100 px-1 font-Poiret-One text-xl font-bold text-material-background sm:text-2xl">
