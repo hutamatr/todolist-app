@@ -45,4 +45,5 @@ module.exports = {
   daisyui: {
     themes: false,
   },
+  darkMode: 'class',
 };

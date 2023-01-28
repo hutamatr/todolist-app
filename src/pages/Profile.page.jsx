@@ -119,12 +119,19 @@ const Profile = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
-      <section className="mx-auto flex min-h-screen max-w-lg flex-col gap-y-6 py-6">
-        <h1 className="profileBaffle text-lg font-bold">Profile</h1>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 1500,
+        }}
+      />
+      <section className="mx-auto flex min-h-screen max-w-lg flex-col gap-y-6 py-6 px-5 pt-20">
+        <h1 className="profileBaffle text-lg font-bold dark:text-material-green">
+          Profile
+        </h1>
         <div className="flex flex-col items-center justify-center gap-y-3">
           <ProfilePicture />
-          <span className="text-lg font-bold">
+          <span className="text-lg font-bold dark:text-material-green">
             @{dataUserDetail?.data.data.user.username}
           </span>
         </div>
@@ -149,7 +156,7 @@ const Profile = () => {
               <div key={index} className="flex flex-col gap-y-1">
                 <label
                   htmlFor={input.label}
-                  className="text-xs font-medium text-neutral-600"
+                  className="text-xs font-medium text-neutral-600 dark:text-material-green"
                 >
                   {input.label}
                 </label>
@@ -157,10 +164,10 @@ const Profile = () => {
                   id={input.label}
                   type={input.type}
                   name={input.name}
-                  className={`border-b border-b-neutral-500 bg-material-background p-1 text-sm outline-none ${
+                  className={`border-b border-b-neutral-500 bg-material-background p-1 text-sm outline-none dark:bg-neutral-800 ${
                     editForm
-                      ? 'text-neutral-900 focus:border-b-orange-100'
-                      : 'text-neutral-500'
+                      ? 'text-neutral-900 focus:border-b-orange-100 dark:text-material-green'
+                      : 'text-neutral-500 dark:text-slate-400'
                   }`}
                   value={newProfileData}
                   readOnly={!editForm ? true : false}
@@ -170,7 +177,7 @@ const Profile = () => {
               </div>
             );
           })}
-          <button className="block cursor-pointer rounded bg-orange-100 p-3 text-xs font-semibold text-white disabled:bg-orange-50">
+          <button className="block cursor-pointer rounded bg-orange-100 p-3 text-xs font-semibold text-material-green disabled:bg-orange-50">
             {editForm ? 'Save Profile' : 'Edit Profile'}
           </button>
           {editForm && (

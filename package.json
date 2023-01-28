@@ -22,6 +22,7 @@
     "react-nice-avatar": "^1.2.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-toggle-dark-mode": "^1.1.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

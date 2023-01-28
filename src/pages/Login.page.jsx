@@ -88,8 +88,13 @@ const Login = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
-      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 1500,
+        }}
+      />
+      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-material-green p-6 md:max-w-xs">
         <h1 className="font-bold">Log In</h1>
         <form onSubmit={loginSubmitHandler} className="flex flex-col gap-y-2">
           <FormInput
@@ -113,7 +118,7 @@ const Login = () => {
           />
 
           <button
-            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 font-light text-white disabled:cursor-not-allowed"
+            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 font-light text-material-green disabled:cursor-not-allowed"
             disabled={!isValidEmail || !isValidPassword ? true : false}
           >
             {isLoadingLogin ? 'Loading...' : 'Sign In'}

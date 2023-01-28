@@ -11,7 +11,7 @@ const ModalBackdrop = ({ onCloseModalHandler }) => {
 
 const ModalCard = ({ children }) => {
   return (
-    <section className="fixed left-0 right-0 bottom-0 z-30 mx-auto flex max-h-[90vh] max-w-lg flex-col overflow-y-scroll rounded-md bg-slate-50 p-6 shadow sm:top-1/4 sm:max-h-[60vh]">
+    <section className="fixed left-0 right-0 bottom-0 z-40 mx-auto flex max-h-[90vh] max-w-lg flex-col overflow-y-auto rounded-md bg-slate-50 p-6 shadow dark:bg-neutral-700 sm:top-1/4 sm:max-h-[55vh]">
       {children}
     </section>
   );

@@ -126,8 +126,13 @@ const Register = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
-      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 1500,
+        }}
+      />
+      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-material-green p-6 md:max-w-xs">
         <h1 className="font-bold">Sign Up</h1>
         <form
           onSubmit={RegisterSubmitHandler}
@@ -188,7 +193,7 @@ const Register = () => {
           />
 
           <button
-            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
+            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-material-green disabled:cursor-not-allowed"
             disabled={
               !isValidUserName ||
               !isValidUserEmail ||
