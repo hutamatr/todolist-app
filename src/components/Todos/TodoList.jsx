@@ -16,7 +16,7 @@ const TodoList = ({
   // categoriesDetailsSort,
 }) => {
   return (
-    <ul className="grid grid-cols-1 gap-y-4">
+    <ul className="flex min-h-fit flex-col gap-y-4">
       {todosData?.map((todo, index) => {
         return (
           <li key={index}>

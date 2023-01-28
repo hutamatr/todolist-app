@@ -46,7 +46,12 @@ const HomePage = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 1500,
+        }}
+      />
       {isErrorTotalTodos && (
         <p className="flex min-h-[50vh] items-center justify-center text-center text-lg font-semibold text-red-600">
           {errorTotalTodos instanceof AxiosError && errorTotalTodos.message}

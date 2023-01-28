@@ -1,38 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { MdDone } from 'react-icons/md';
+import { HiPuzzle } from 'react-icons/hi';
 
-import errorQuery from 'utils/errorQuery';
-import useHttp from 'hooks/useHttp';
-
-import { ReactComponent as Spinner } from 'assets/icons/uil_spinner-alt.svg';
-import { ReactComponent as Check } from 'assets/icons/uil_check.svg';
-
-const TodoFilter = ({ setTodoStatus, todoStatus }) => {
-  const { requestHttp } = useHttp();
-  const { pathname } = useLocation();
-
-  const { data: totalTodoData } = useQuery({
-    queryKey: ['total-todos'],
-    queryFn: () => {
-      return requestHttp({
-        method: 'GET',
-        url: '/home',
-      });
-    },
-    onError: (error) => {
-      errorQuery(error, 'Get Total Todos Failed!');
-    },
-  });
-
-  const totalTodoDone = totalTodoData?.data.data.totalDone;
-  const totalTodoInProgress = totalTodoData?.data.data.totalInProgress;
-
+const TodoFilter = ({
+  setTodoStatus,
+  todoStatus,
+  onSetCurrentPage,
+  onSetSkipPaginate,
+  totalTodoDone,
+  totalInProgress,
+}) => {
   const viewTodosCompletedHandler = () => {
     setTodoStatus(false);
+    onSetCurrentPage(1);
+    onSetSkipPaginate(0);
   };
 
   const viewTodosNotCompletedHandler = () => {
     setTodoStatus(true);
+    onSetCurrentPage(1);
+    onSetSkipPaginate(0);
   };
 
   return (
@@ -44,12 +30,12 @@ const TodoFilter = ({ setTodoStatus, todoStatus }) => {
         onClick={viewTodosCompletedHandler}
         disabled={todoStatus ? false : true}
       >
-        {pathname === '/dashboard' && totalTodoInProgress > 0 && (
+        {totalInProgress > 0 && (
           <span className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2">
-            {totalTodoInProgress}
+            {totalInProgress}
           </span>
         )}
-        <Spinner className="w-3" fill="#6599FE" />
+        <HiPuzzle className="text-base text-blue-100" />
         <span className="text-blue-100">In Progress</span>
       </button>
       <button
@@ -59,12 +45,12 @@ const TodoFilter = ({ setTodoStatus, todoStatus }) => {
         onClick={viewTodosNotCompletedHandler}
         disabled={todoStatus ? true : false}
       >
-        {pathname === '/dashboard' && totalTodoDone > 0 && (
+        {totalTodoDone > 0 && (
           <span className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2">
             {totalTodoDone}
           </span>
         )}
-        <Check className="w-3" fill="#5BE26A" />
+        <MdDone className="text-base text-green-100" />
         <span className="text-green-100">Done</span>
       </button>
     </section>
