@@ -6,8 +6,7 @@ import useHttp from 'hooks/useHttp';
 import errorQuery from 'utils/errorQuery';
 import { randIcons } from 'utils/categoryIcons';
 
-import { ReactComponent as Trash } from 'assets/icons/uil_trash-alt.svg';
-import { ReactComponent as View } from 'assets/icons/uil_clipboard-notes.svg';
+import { MdDeleteForever, MdFolderOpen } from 'react-icons/md';
 
 const CategoryItem = ({ id, name }) => {
   const queryClient = useQueryClient();
@@ -35,22 +34,22 @@ const CategoryItem = ({ id, name }) => {
 
   return (
     <li>
-      <div
-        className={`grid min-h-full w-full gap-y-2 overflow-auto rounded-md border-[1.5px] border-blue-300 bg-material-green p-4 shadow-material-shadow-3`}
-      >
+      <div className="grid min-h-full w-full gap-y-2 overflow-auto rounded-md border-[1.5px] border-blue-300 bg-material-green p-4 shadow-material-shadow-3 dark:border-orange-200 dark:bg-neutral-700">
         <img
           src={randIcons()}
           className="w-8"
           alt="category-img"
           loading="lazy"
         />
-        <p className="break-all font-medium text-neutral-600">{name}</p>
+        <p className="break-all font-medium text-neutral-600 dark:text-material-green">
+          {name}
+        </p>
         <div className="flex w-full flex-row items-center justify-end gap-x-2">
           <Link to={`${id}`} className="inline">
-            <View className="h-5 w-5" fill="#FF844B" />
+            <MdFolderOpen className="text-2xl text-orange-100" />
           </Link>
           <button type="button" onClick={categoryDeleteHandler}>
-            <Trash className="h-5 w-5" fill="#FE6565" />
+            <MdDeleteForever className="text-2xl text-red-600" />
           </button>
         </div>
       </div>

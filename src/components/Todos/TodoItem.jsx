@@ -1,16 +1,18 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import moment from 'moment';
 
 import { useTodos } from 'hooks/useStoreContext';
 import useHttp from 'hooks/useHttp';
 import errorQuery from 'utils/errorQuery';
 
-import { ReactComponent as Clock } from 'assets/icons/uil_clock.svg';
-import { ReactComponent as Edit } from 'assets/icons/uil_edit-alt.svg';
-import { ReactComponent as Trash } from 'assets/icons/uil_trash-alt.svg';
-import { ReactComponent as Check } from 'assets/icons/uil_check.svg';
+import {
+  MdDeleteForever,
+  MdAccessTime,
+  MdModeEdit,
+  MdDone,
+} from 'react-icons/md';
 
 const TodoItem = ({
   id,
@@ -123,57 +125,61 @@ const TodoItem = ({
   };
 
   return (
-    <>
-      <Toaster position="top-center" />
-      <div className="flex rounded-lg shadow-md">
-        <span
-          className={`w-4 rounded-l-lg ${
-            is_completed ? 'bg-green-100' : 'bg-blue-100'
-          }`}
-        ></span>
-        <div className="relative flex w-full flex-col gap-y-4 rounded-r-lg bg-material-green p-3">
-          <div className="flex flex-row items-center justify-between gap-x-4">
-            <h2 className="text-md max-h-12 truncate font-semibold">{title}</h2>
-            {category?.name && pathname === '/dashboard' && (
-              <p className="flex flex-col items-center justify-center whitespace-nowrap text-xs text-neutral-800 sm:text-sm">
-                <span className="text-[.5rem] font-semibold sm:text-[.6rem]">
-                  Category
-                </span>
-                {category.name}
-              </p>
-            )}
-          </div>
-
-          <p className="max-h-24 overflow-y-auto break-words text-sm">
-            {description}
-          </p>
-          <div className="flex flex-row items-center justify-between gap-x-4">
-            <div className="flex items-center justify-center gap-x-1">
-              <Clock className="w-4" fill="#707175" />
-              <span className="text-[.65rem]">
-                {newDate} - {formattedDate}
+    <div className="flex w-full flex-row justify-between shadow-md">
+      <span
+        className={`hidden w-4 rounded-l-lg sm:block ${
+          is_completed ? 'bg-green-500' : 'bg-blue-500'
+        }`}
+      ></span>
+      <div
+        className={`flex w-full flex-col gap-y-4 rounded-lg bg-material-green p-3 ring-2 dark:bg-neutral-700 sm:rounded-l-none sm:ring-0 ${
+          is_completed ? 'ring-green-500' : 'to-blue-500'
+        }`}
+      >
+        <div className="flex flex-row items-center justify-between gap-x-4 ">
+          <h2 className="text-md max-h-12 truncate font-semibold dark:text-material-green">
+            {title}
+          </h2>
+          {category?.name && pathname === '/dashboard' && (
+            <p className="flex flex-col items-center justify-center whitespace-nowrap text-xs text-neutral-800 dark:text-material-green sm:text-sm">
+              <span className="text-[.5rem] font-semibold sm:text-[.6rem]">
+                Category
               </span>
-            </div>
-            <div className="flex items-center gap-x-3 text-3xl">
-              <button onClick={todoEditHandler} type="button">
-                <Edit className="w-4" fill="#707175" />
-              </button>
-              <button onClick={todoDeleteHandler} type="button">
-                <Trash className="w-4" fill="#FE6565" />
-              </button>
-              <button onClick={todoCompletedHandler} type="button">
-                <Check
-                  className={`w-4 rounded-md ${
-                    is_completed ? 'bg-green-100' : 'bg-neutral-400'
-                  }`}
-                  fill="#fff"
-                />
-              </button>
-            </div>
+              {category.name}
+            </p>
+          )}
+        </div>
+
+        <p className="max-h-24 overflow-y-auto break-words text-sm dark:text-material-green">
+          {description}
+        </p>
+        <div className="flex flex-row items-center justify-between gap-x-4">
+          <div className="flex items-center justify-center gap-x-1 dark:text-material-green">
+            <MdAccessTime className="text-lg" />
+            <span className="text-[.65rem]">
+              {newDate} - {formattedDate}
+            </span>
+          </div>
+          <div className="flex items-center gap-x-3 text-3xl">
+            <button onClick={todoEditHandler} type="button">
+              <MdModeEdit className="text-lg text-slate-700 dark:text-material-green" />
+            </button>
+            <button onClick={todoDeleteHandler} type="button">
+              <MdDeleteForever className="text-xl text-red-500" />
+            </button>
+            <button onClick={todoCompletedHandler} type="button">
+              <MdDone
+                className={`rounded-md text-lg ${
+                  is_completed
+                    ? 'bg-green-400 text-slate-700'
+                    : 'bg-neutral-400 text-slate-500'
+                }`}
+              />
+            </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

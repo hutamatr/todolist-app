@@ -1,9 +1,9 @@
 {
   "name": "todo-list",
-  "version": "0.1.0",
+  "version": "1.0.3",
   "private": true,
   "engines": {
-    "node": "18.12.1"
+    "node": "18.13.0"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.20.4",
@@ -20,22 +20,21 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.4.0",
     "react-nice-avatar": "^1.2.4",
-    "react-paginate": "^8.1.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-toggle-dark-mode": "^1.1.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix && yarn format",
+    "lint:strict": "eslint --max-warnings=0 .",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.json",
+    "format:check": "prettier -c './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.json"
   },
   "browserslist": {
     "production": [
@@ -50,7 +49,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/preset-react": "^7.18.6",
     "autoprefixer": "^10.4.8",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.1",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "postcss": "^8.4.16",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",

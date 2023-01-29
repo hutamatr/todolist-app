@@ -7,12 +7,12 @@ const Layout = () => {
 
   return (
     <>
-      <header className="fixed top-0 z-10 w-full bg-material-green shadow-material-shadow-2">
+      <header className="fixed top-0 z-10 w-full bg-material-green shadow-material-shadow-2 dark:bg-neutral-700">
         <Navigation />
       </header>
-      <main className="mx-auto mt-16 min-h-screen max-w-5xl px-4">
+      <main className="min-h-screen dark:bg-neutral-800">
         {pathname === '/' ? (
-          <Navigate to={'/home'} state={{ from: pathname }} replace />
+          <Navigate to="/home" state={{ from: pathname }} replace />
         ) : (
           <Outlet />
         )}

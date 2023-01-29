@@ -126,8 +126,13 @@ const Register = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
-      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-white p-6 md:max-w-xs">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 1500,
+        }}
+      />
+      <section className="flex w-full flex-col gap-y-4 rounded-lg bg-material-green p-6 md:max-w-xs">
         <h1 className="font-bold">Sign Up</h1>
         <form
           onSubmit={RegisterSubmitHandler}
@@ -135,12 +140,12 @@ const Register = () => {
         >
           <FormInput
             name="userName"
-            placeholder={'Username'}
+            placeholder="Username"
             isValidInput={isValidUserName}
             isFocusInput={isUserNameFocus}
             input={userName}
             ref={userNameRef}
-            autoComplete={'off'}
+            autoComplete="off"
             type="text"
             onChange={onChangeInputHandler}
             onFocus={userNameFocusHandler}
@@ -149,7 +154,7 @@ const Register = () => {
           />
           <FormInput
             name="userEmail"
-            placeholder={'Email'}
+            placeholder="Email"
             isValidInput={isValidUserEmail}
             isFocusInput={isUserEmailFocus}
             input={userEmail}
@@ -160,7 +165,7 @@ const Register = () => {
           />
           <FormInput
             name="password"
-            placeholder={'Password'}
+            placeholder="Password"
             isValidInput={isValidPassword}
             isFocusInput={isPasswordFocus}
             input={password}
@@ -174,7 +179,7 @@ const Register = () => {
           />
           <FormInput
             name="passwordMatch"
-            placeholder={'Confirm Password'}
+            placeholder="Confirm Password"
             isValidInput={isValidPasswordMatch}
             isFocusInput={isPasswordMatchFocus}
             input={passwordMatch}
@@ -188,7 +193,7 @@ const Register = () => {
           />
 
           <button
-            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-white disabled:cursor-not-allowed"
+            className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-material-green disabled:cursor-not-allowed"
             disabled={
               !isValidUserName ||
               !isValidUserEmail ||
@@ -204,7 +209,7 @@ const Register = () => {
         <p className="text-center text-sm">
           Already have an account?{' '}
           <Link
-            to={'/login'}
+            to="/login"
             className="font-semibold text-orange-100 underline"
             onClick={registerScreenHandler}
           >

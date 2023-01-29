@@ -31,7 +31,7 @@ const getStorageItems = () => {
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case 'LOGIN':
+    case 'LOGIN': {
       const authToken = action.payload;
       let isAuth;
       if (authToken) isAuth = !!authToken;
@@ -41,18 +41,21 @@ const authReducer = (state, action) => {
         authToken: authToken,
         isAuthenticated: isAuth,
       };
-    case 'LOGOUT':
+    }
+    case 'LOGOUT': {
       return {
         ...state,
         authToken: null,
         isAuthenticated: false,
       };
-    default:
+    }
+    default: {
       const localStorageToken = getStorageItems();
       return {
         authToken: localStorageToken?.authToken,
         isAuthenticated: !!localStorageToken.authToken,
       };
+    }
   }
 };
 

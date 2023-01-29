@@ -2,9 +2,8 @@ import { forwardRef } from 'react';
 
 import RegisterNote from 'components/Register/RegisterNote';
 
-import { ReactComponent as Check } from 'assets/icons/uil_check.svg';
-import { ReactComponent as Eye } from 'assets/icons/uil_eye.svg';
-import { ReactComponent as EyeSlash } from 'assets/icons/uil_eye-slash.svg';
+import { MdDone } from 'react-icons/md';
+import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi';
 
 const FormInput = forwardRef(
   (
@@ -12,7 +11,6 @@ const FormInput = forwardRef(
       id,
       placeholder,
       isValidInput,
-      isFocusInput,
       autoComplete,
       input,
       type,
@@ -57,21 +55,19 @@ const FormInput = forwardRef(
             }`}
           />
           {isValidInput && input && name !== 'password' && (
-            <Check className="mx-3 w-max" fill="#5BE26A" />
+            <MdDone className="m-1 text-xl text-green-100" />
           )}
           {type === 'password' && name !== 'passwordMatch' && input && (
             <>
               {onPasswordView ? (
-                <Eye
-                  className="mx-3 cursor-pointer text-2xl"
+                <HiOutlineEye
+                  className="m-1 cursor-pointer text-xl text-slate-800"
                   onClick={onPasswordViewHandler}
-                  fill="#5B5B60"
                 />
               ) : (
-                <EyeSlash
-                  className="mx-3 cursor-pointer text-2xl"
+                <HiOutlineEyeOff
+                  className="m-1 cursor-pointer text-xl text-slate-800"
                   onClick={onPasswordViewHandler}
-                  fill="#5B5B60"
                 />
               )}
             </>

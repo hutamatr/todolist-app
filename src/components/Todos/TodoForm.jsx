@@ -18,7 +18,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
   const queryClient = useQueryClient();
   const { requestHttp } = useHttp();
 
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState(0);
   const [isCategoryNotAdded, setIsCategoryNotAdded] = useState(false);
   const { input, setInput, onChangeInputHandler } = useInputState({
     titleInput: '',
@@ -38,7 +38,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
     queryFn: () => {
       return requestHttp({
         method: 'GET',
-        url: '/categories?order_by=ASC&s=',
+        url: '/categories?order_by=DESC&limit=100',
       });
     },
   });
@@ -131,18 +131,10 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
     setInput({
       titleInput: '',
       descriptionInput: '',
-      deadLineInput: '',
+      deadlineInput: '',
     });
     editTodo({});
-    setCategory('');
-  };
-
-  const categoryHandler = (id) => {
-    if (!category) {
-      setCategory(id);
-    } else {
-      setCategory('');
-    }
+    setCategoryId(0);
   };
 
   const newTodoSubmitHandler = (event) => {
@@ -160,7 +152,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
 
       mutateEditTodo(updatedTodo);
     } else {
-      if (!category) {
+      if (!categoryId) {
         setIsCategoryNotAdded(true);
         return;
       }
@@ -169,7 +161,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
         description: descriptionInput,
         deadline: date,
         is_completed: false,
-        category_id: category,
+        category_id: categoryId,
       };
 
       mutateNewTodo(newTodo);
@@ -179,27 +171,27 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
     setInput({
       titleInput: '',
       descriptionInput: '',
-      deadLineInput: '',
+      deadlineInput: '',
     });
     editTodo({});
-    setCategory('');
+    setCategoryId(0);
   };
 
   return (
     <>
       {onShowModal && (
-        <Modal onCloseModalHandler={() => onSetShowModal(false)}>
-          <h1 className="mb-4 font-bold">
+        <Modal onCloseModalHandler={todoCancelHandler}>
+          <h1 className="mb-4 font-bold dark:text-material-green">
             {todoEdit.id ? 'Edit List' : 'Create List'}
           </h1>
           <form
             onSubmit={newTodoSubmitHandler}
             className="flex flex-col gap-y-4"
           >
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-between dark:text-material-green">
               <label
                 htmlFor="todo-title"
-                className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+                className="text-sm after:ml-1 after:text-red-500 after:content-['*'] "
               >
                 Title
               </label>
@@ -214,9 +206,9 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
               onChange={titleChangeHandler}
               value={titleInput}
               placeholder="what do you want to do..."
-              className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
+              className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm dark:bg-neutral-800 dark:text-material-green"
             />
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-between dark:text-material-green">
               <label
                 htmlFor="todo-description"
                 className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
@@ -236,11 +228,11 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
               onChange={descriptionChangeHandler}
               value={descriptionInput}
               placeholder="tell me more detail about your task..."
-              className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm"
+              className="rounded bg-neutral-200 p-2 outline-none placeholder:text-sm dark:bg-neutral-800 dark:text-material-green"
             ></textarea>
             <label
               htmlFor="deadLine"
-              className="text-sm after:ml-1 after:text-red-500 after:content-['*']"
+              className="text-sm after:ml-1 after:text-red-500 after:content-['*'] dark:text-material-green"
             >
               Deadline
             </label>
@@ -250,29 +242,34 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
               name="deadlineInput"
               onChange={onChangeInputHandler}
               value={deadlineInput}
-              className="max-w-fit rounded bg-neutral-200 p-2 outline-none"
+              className="max-w-fit rounded bg-neutral-200 p-2 outline-none dark:bg-neutral-800 dark:text-material-green"
             />
 
             {!todoEdit.id && (
               <DashboardFormCategory
                 isCategoryNotAdded={isCategoryNotAdded}
+                setIsCategoryNotAdded={setIsCategoryNotAdded}
                 isErrorCategories={isErrorCategories}
                 isLoadingCategories={isLoadingCategories}
                 errorCategories={errorCategories}
                 dataCategories={allCategoriesData}
                 todoEdit={todoEdit}
-                category={category}
-                onCategoryHandler={categoryHandler}
+                categoryId={categoryId}
+                onSetCategoryId={setCategoryId}
               />
             )}
             <button
               disabled={!inputStatus}
-              className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-orange-50"
+              className="block cursor-pointer rounded bg-orange-100 p-2 font-semibold text-material-green disabled:cursor-not-allowed disabled:bg-orange-50 dark:text-neutral-800"
             >
-              {todoEdit.id ? 'Update List' : 'Create List'}
+              {todoEdit.id ? 'Update' : 'Create'}
             </button>
 
-            <button type="button" onClick={todoCancelHandler}>
+            <button
+              type="button"
+              className="font-medium text-orange-100"
+              onClick={todoCancelHandler}
+            >
               Cancel
             </button>
           </form>

@@ -14,9 +14,8 @@ import useBaffle from 'hooks/useBaffle';
 import { useModal } from 'hooks/useStoreContext';
 import errorQuery from 'utils/errorQuery';
 
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBack, MdAdd } from 'react-icons/md';
 import emptyTodo from 'assets/images/Calendar.webp';
-import { ReactComponent as Plus } from 'assets/icons/uil_plus.svg';
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +25,8 @@ const Dashboard = () => {
   const [sortTodos, setSortTodos] = useState('ASC');
   const [todoStatus, setTodoStatus] = useState(false);
   const [isButtonShow, setIsButtonShow] = useState(false);
+  const [isCreateButtonShow, setIsCreateButtonShow] = useState(true);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const { requestHttp } = useHttp();
   const { isModalShow, setShowModal } = useModal();
@@ -34,7 +35,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     newBaffle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -43,10 +43,40 @@ const Dashboard = () => {
     }
   }, [searchTodos]);
 
+  const scrollHandler = () => {
+    if (document.body.getBoundingClientRect().top > scrollPosition) {
+      setIsCreateButtonShow(true);
+    } else {
+      setIsCreateButtonShow(false);
+      setScrollPosition(+document.body.getBoundingClientRect().top);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollHandler);
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    };
+  }, [scrollHandler]);
+
+  const { data: totalTodoData } = useQuery({
+    queryKey: ['total-todos'],
+    queryFn: () => {
+      return requestHttp({
+        method: 'GET',
+        url: '/home',
+      });
+    },
+    onError: (error) => {
+      errorQuery(error, 'Get Total Todos Failed!');
+    },
+  });
+
   const {
     data: todos,
     isError: isErrorTodos,
     isLoading: isLoadingTodos,
+    isFetching: isFetchingTodos,
     error: errorTodos,
     refetch,
   } = useQuery({
@@ -73,11 +103,17 @@ const Dashboard = () => {
   const todosData = todos?.data.data.rows;
   const totalCount = +todos?.data.data.count;
 
+  const totalTodoDone = totalTodoData?.data.data.totalDone;
+  const totalInProgress = totalTodoData?.data.data.totalInProgress;
+
   useEffect(() => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
+    setScrollPosition(0);
   }, [todosData]);
 
   const searchValueHandler = (data) => {
+    setSkipPaginate(0);
+    setCurrentPage(1);
     setSearchTodos(data);
   };
 
@@ -93,8 +129,14 @@ const Dashboard = () => {
     setSkipPaginate(pages);
   };
 
+  const backButtonHandler = () => {
+    refetch();
+    setIsButtonShow(false);
+    setSearchTodos('');
+  };
+
   const dashboardContent =
-    todosData?.length === 0 ? (
+    totalCount === 0 ? (
       <div className="mx-auto flex min-h-[50vh] flex-col items-center justify-center gap-y-3">
         <img
           src={emptyTodo}
@@ -102,8 +144,8 @@ const Dashboard = () => {
           className="max-w-[4rem] md:max-w-[5rem]"
           loading="lazy"
         />
-        <p className="text-center text-lg font-medium">
-          Todo you add appear here
+        <p className="text-center text-lg font-medium dark:text-material-green">
+          Todo Empty
         </p>
       </div>
     ) : (
@@ -117,45 +159,54 @@ const Dashboard = () => {
           dashboardSearchTodos={searchTodos}
           dashboardTodoStatus={todoStatus}
         />
-        {totalCount >= pageSize && (
-          <Pagination
-            currentPage={currentPage}
-            totalCount={totalCount}
-            pageSize={pageSize}
-            onPageChange={onPageChangeHandler}
-            onSkipPage={onSetSkipChangeHandler}
-            onSetPageSize={setPageSize}
-          />
-        )}
+        <Pagination
+          currentPage={currentPage}
+          totalCount={totalCount}
+          pageSize={pageSize}
+          onPageChange={onPageChangeHandler}
+          onSkipPage={onSetSkipChangeHandler}
+          onSetPageSize={setPageSize}
+          onSetScrollPosition={setScrollPosition}
+        />
       </>
     );
 
   return (
     <>
-      <Toaster position="top-center" />
-      <section className="flex min-h-screen flex-col gap-y-6 py-6">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 1500,
+        }}
+      />
+      <section className="layout flex flex-col gap-y-6 py-6 pt-20">
         <div className="flex flex-col items-center justify-center gap-y-5 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-x-6">
             {isButtonShow && (
               <button
-                className="rounded bg-white py-1 px-3 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100"
-                onClick={() => {
-                  refetch();
-                  setIsButtonShow(false);
-                  setSearchTodos('');
-                }}
+                className="rounded bg-material-green py-1 px-3 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100 dark:bg-orange-100"
+                onClick={backButtonHandler}
               >
                 <MdArrowBack className="text-xl" />
               </button>
             )}
 
-            <h1 className="dashboardBaffle text-lg font-bold">Dashboard</h1>
+            <h1 className="dashboardBaffle text-lg font-bold dark:text-material-green">
+              Dashboard
+            </h1>
           </div>
           <Search name="Todo" onSearchValue={searchValueHandler} />
         </div>
 
         <div className="flex flex-row items-center justify-between">
-          <TodoFilter setTodoStatus={setTodoStatus} todoStatus={todoStatus} />
+          <TodoFilter
+            setTodoStatus={setTodoStatus}
+            todoStatus={todoStatus}
+            onSetCurrentPage={setCurrentPage}
+            onSetSkipPaginate={setSkipPaginate}
+            totalTodoDone={totalTodoDone}
+            totalInProgress={totalInProgress}
+          />
           <Sort onSort={sortTodos} onSetSort={setSortTodos} />
         </div>
 
@@ -166,19 +217,22 @@ const Dashboard = () => {
               errorTodos?.message}
           </p>
         )}
-        {isLoadingTodos && (
-          <p className="text-center text-lg font-semibold">Loading...</p>
+
+        {isLoadingTodos && isFetchingTodos && (
+          <p className="text-center text-xl font-medium dark:text-material-green">
+            Loading...
+          </p>
         )}
+
         {!isErrorTodos && !isLoadingTodos && dashboardContent}
         <button
           type="button"
           onClick={modalShowHandler}
-          className="fixed bottom-0 right-0 z-30 my-6 mx-4 cursor-pointer rounded-lg bg-orange-100 p-2"
+          className={`fixed bottom-0 right-0 z-30 my-6 mx-4 cursor-pointer rounded-full bg-orange-100 p-3 duration-700 ${
+            isCreateButtonShow ? '' : 'translate-y-96'
+          }`}
         >
-          <Plus
-            className="h-8 w-8 duration-500 hover:rotate-90"
-            fill="#F7F7F7"
-          />
+          <MdAdd className="text-2xl text-material-green duration-500 hover:rotate-90 dark:text-neutral-800 md:text-3xl" />
         </button>
       </section>
       <TodoForm onShowModal={isModalShow} onSetShowModal={setShowModal} />
