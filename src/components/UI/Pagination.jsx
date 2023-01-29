@@ -3,18 +3,16 @@ import { usePagination, DOTS } from 'hooks/usePagination';
 
 import { MdNavigateNext, MdNavigateBefore, MdAccessTime } from 'react-icons/md';
 
-const Pagination = (props) => {
-  const {
-    onPageChange,
-    totalCount,
-    siblingCount = 1,
-    currentPage,
-    onSkipPage,
-    pageSize,
-    onSetPageSize,
-    onSetScrollPosition,
-  } = props;
-
+const Pagination = ({
+  onPageChange,
+  totalCount,
+  siblingCount = 1,
+  currentPage,
+  onSkipPage,
+  pageSize,
+  onSetPageSize,
+  onSetScrollPosition,
+}) => {
   const paginationRange = usePagination({
     currentPage,
     totalCount,
@@ -24,7 +22,7 @@ const Pagination = (props) => {
 
   const [isAnimate, setIsAnimate] = useState(false);
 
-  if (currentPage === 0 || paginationRange?.length < 2) {
+  if (paginationRange?.length < 2) {
     return null;
   }
 
@@ -53,6 +51,7 @@ const Pagination = (props) => {
   };
 
   let lastPage = paginationRange[paginationRange?.length - 1];
+
   return (
     <div className="flex flex-col items-center justify-end gap-y-3 gap-x-4 md:flex-row">
       <div className="flex flex-row items-center justify-center gap-x-1">
@@ -76,12 +75,12 @@ const Pagination = (props) => {
           } `}
         />
       </div>
-      <ul className="flex w-fit cursor-pointer flex-row items-center justify-center gap-x-3 rounded-md bg-material-green p-2 dark:bg-neutral-700 sm:gap-x-7">
+      <ul className="flex w-fit cursor-pointer flex-row items-center justify-center gap-x-3 rounded-md bg-material-green p-1 dark:bg-neutral-700 sm:gap-x-7 sm:p-2">
         <li>
           <button
             onClick={onPreviousHandler}
             disabled={currentPage === 1}
-            className="rounded-md pt-2 disabled:hidden sm:btn-sm"
+            className="rounded-md pt-2 disabled:hidden"
           >
             <MdNavigateBefore className="text-2xl dark:text-material-green" />
           </button>
@@ -100,7 +99,7 @@ const Pagination = (props) => {
 
           return (
             <li
-              className={`rounded-full bg-slate-100 px-2 font-semibold dark:bg-neutral-700 dark:text-material-green ${
+              className={`rounded-full bg-slate-100 px-2 font-medium dark:bg-neutral-700 dark:text-material-green sm:font-semibold ${
                 currentPage === pageNumber
                   ? 'border-2 !border-orange-100 hover:bg-orange-100 hover:text-material-green'
                   : ''
@@ -116,7 +115,7 @@ const Pagination = (props) => {
           <button
             onClick={onNextHandler}
             disabled={currentPage === lastPage}
-            className="rounded-md pt-2 disabled:hidden sm:btn-sm"
+            className="rounded-md pt-2 disabled:hidden"
           >
             <MdNavigateNext className="text-2xl dark:text-material-green" />
           </button>

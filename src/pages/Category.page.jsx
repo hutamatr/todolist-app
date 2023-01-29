@@ -117,20 +117,19 @@ const Category = () => {
         </div>
       ) : (
         <>
-          <div className="min-h-screen">
-            <ul className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
-              <button
-                type="button"
-                onClick={showCategoryFormHandler}
-                className="flex min-h-[8rem] w-full cursor-pointer flex-col items-center justify-center gap-y-1 rounded border-2 border-dashed border-orange-100 py-4 text-sm font-semibold text-orange-100"
-              >
-                <MdAdd className="text-2xl text-orange-100" /> Add Category
-              </button>
-              {allCategoriesData?.map((category) => {
-                return <CategoryItem {...category} key={category.id} />;
-              })}
-            </ul>
-          </div>
+          <ul className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+            <button
+              type="button"
+              onClick={showCategoryFormHandler}
+              className="flex min-h-[8rem] w-full cursor-pointer flex-col items-center justify-center gap-y-1 rounded border-2 border-dashed border-orange-100 py-4 text-sm font-semibold text-orange-100"
+            >
+              <MdAdd className="text-2xl text-orange-100" /> Add Category
+            </button>
+            {allCategoriesData?.map((category) => {
+              return <CategoryItem {...category} key={category.id} />;
+            })}
+          </ul>
+
           <Pagination
             currentPage={currentPage}
             totalCount={categoriesCount}

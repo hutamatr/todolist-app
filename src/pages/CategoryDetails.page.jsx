@@ -131,16 +131,14 @@ const CategoryDetails = () => {
             categoriesDetailsStatus={todosByCategoryStatus}
             // categoriesDetailsSort={todosByCategorySort}
           />
-          {detailsCategorySearchTotalTodos >= pageSize && (
-            <Pagination
-              currentPage={currentPage}
-              totalCount={detailsCategorySearchTotalTodos}
-              onPageChange={onPageChangeHandler}
-              onSkipPage={onSetSkipChangeHandler}
-              pageSize={pageSize}
-              onSetPageSize={setPageSize}
-            />
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalCount={detailsCategorySearchTotalTodos}
+            onPageChange={onPageChangeHandler}
+            onSkipPage={onSetSkipChangeHandler}
+            pageSize={pageSize}
+            onSetPageSize={setPageSize}
+          />
         </>
       )}
     </>
