@@ -59,7 +59,7 @@ const HomePage = () => {
       )}
 
       {isLoadingTotalTodos && (
-        <p className="flex min-h-[50vh] items-center justify-center text-center text-lg font-semibold">
+        <p className="flex min-h-[50vh] items-center justify-center text-center text-lg font-semibold dark:text-material-green">
           Loading...
         </p>
       )}
