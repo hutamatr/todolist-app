@@ -91,8 +91,8 @@ const Navigation = () => {
             Logout
           </NavLink>
         </li>
-
-        <div className="dropdown-end dropdown">
+        {/* eslint-disable-next-line prettier/prettier */}
+        <div className="dropdown dropdown-end">
           <ProfilePicture
             classPhoto="btn-sm hidden sm:block cursor-pointer"
             tabIndex={0}

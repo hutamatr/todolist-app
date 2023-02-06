@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  postgresql-backend:
+    image: postgres:15.1-alpine
+    container_name: postgresql-backend
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - 'POSTGRES_PASSWORD=root'
+  app-backend:
+    container_name: app-backend
+    build:
+      context: '../todolist-backend'
+      dockerfile: Dockerfile
+    image: 'backend-todolist:1.0.0'
+    restart: always
+    depends_on:
+      - postgresql-backend
+    ports:
+      - '8002:8002'
+    environment:
+      - 'DB_HOST_DATABASE=postgresql-backend'
+      - 'APP_PORT=8002'
+
+  app-frontend:
+    container_name: app-frontend
+    build:
+      context: '.'
+      dockerfile: Dockerfile
+    image: 'frontend-todolist:1.0.0'
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - 'REACT_APP_NODE_ENV=development'
+      - 'REACT_APP_BASE_URL=http://127.0.0.1:8002/api/v1'
+    depends_on:
+      - app-backend

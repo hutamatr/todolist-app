@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "private": true,
   "engines": {
-    "node": "18.13.0"
+    "node": "18.14.0"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.20.4",
