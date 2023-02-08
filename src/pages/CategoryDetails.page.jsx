@@ -14,7 +14,7 @@ import useBaffle from 'hooks/useBaffle';
 import { useModal } from 'hooks/useStoreContext';
 import errorQuery from 'utils/errorQuery';
 
-import emptyTodo from 'assets/images/Calendar.webp';
+const emptyTodo = 'https://0ms.run/mirrors/i.ibb.co/QYdSyJg/Calendar.webp';
 import { MdArrowBack } from 'react-icons/md';
 
 const CategoryDetails = () => {
