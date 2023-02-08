@@ -15,7 +15,7 @@ import { useModal } from 'hooks/useStoreContext';
 import errorQuery from 'utils/errorQuery';
 
 import { MdArrowBack, MdAdd } from 'react-icons/md';
-import emptyTodo from 'assets/images/Calendar.webp';
+const emptyTodo = 'https://0ms.run/mirrors/i.ibb.co/QYdSyJg/Calendar.webp';
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);

@@ -7,7 +7,7 @@ const ProfilePicture = ({ classPhoto, classAvatar, tabIndex }) => {
       className={`avatar btn-circle btn-ghost static bg-slate-300 ${classPhoto}`}
     >
       <img
-        src={`https://robohash.org/${name}.webp`}
+        src={`https://0ms.run/mirrors/robohash.org/${name}.webp`}
         alt=""
         className={`rounded-full ${classAvatar}`}
       />

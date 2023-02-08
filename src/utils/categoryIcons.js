@@ -1,13 +1,15 @@
-import bee from 'assets/category-icons/bee.webp';
-import cloud from 'assets/category-icons/cloud.webp';
-import moon from 'assets/category-icons/moon.webp';
-import mushroom from 'assets/category-icons/mushroom.webp';
-import snow from 'assets/category-icons/snow.webp';
-import sun from 'assets/category-icons/sun.webp';
-import sunflower from 'assets/category-icons/sunflower.webp';
-import tulip from 'assets/category-icons/tulip.webp';
-import water from 'assets/category-icons/water.webp';
-import world from 'assets/category-icons/world.webp';
+const baseIconsURL = 'https://0ms.run/mirrors/';
+
+const bee = `${baseIconsURL}i.ibb.co/swHFG37/bee.webp`;
+const cloud = `${baseIconsURL}i.ibb.co/wYgnzN8/cloud.webp`;
+const moon = `${baseIconsURL}i.ibb.co/YDy6P14/moon.webp`;
+const mushroom = `${baseIconsURL}i.ibb.co/MG0h9gN/mushroom.webp`;
+const snow = `${baseIconsURL}i.ibb.co/FJXCLRV/snow.webp`;
+const sun = `${baseIconsURL}i.ibb.co/9bJNgBX/sun.webp`;
+const sunflower = `${baseIconsURL}i.ibb.co/GRgDPVN/sunflower.webp`;
+const tulip = `${baseIconsURL}i.ibb.co/6nq60MM/tulip.webp`;
+const water = `${baseIconsURL}i.ibb.co/2Zkfv9s/water.webp`;
+const world = `${baseIconsURL}i.ibb.co/hmZ47b4/world.webp`;
 
 const categoryIcons = [
   bee,
