@@ -1,12 +1,10 @@
 import { HiPuzzle, HiCheck, HiFolder } from 'react-icons/hi';
 
-const inProgressImage =
-  'https://0ms.run/mirrors/i.ibb.co/kcz7yHT/In-progress-pana.webp';
-const doneImage = 'https://0ms.run/mirrors/i.ibb.co/Qp3Lhk2/Done-rafiki.webp';
-const categoryImage =
-  'https://0ms.run/mirrors/i.ibb.co/fv8dYJ3/Todo-list-amico.webp';
+import inProgressImage from 'assets/images/In-progress-pana.webp';
+import doneImage from 'assets/images/Done-rafiki.webp';
+import categoryImage from 'assets/images/Todo-list-amico.webp';
 
-const homeImages = [
+const filterIconName = [
   {
     icon: HiPuzzle,
     image: inProgressImage,
@@ -27,4 +25,4 @@ const homeImages = [
   },
 ];
 
-export default homeImages;
+export default filterIconName;

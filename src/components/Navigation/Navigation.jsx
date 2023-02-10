@@ -7,7 +7,7 @@ import ProfilePicture from 'components/UI/ProfilePicture';
 import { useAuth } from 'hooks/useStoreContext';
 
 import { MdMenu, MdClose } from 'react-icons/md';
-const todoIcon = 'https://0ms.run/mirrors/i.ibb.co/SsBT67b/todo-list-icon.webp';
+import todoIcon from 'assets/images/todo-list-icon.webp';
 
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);

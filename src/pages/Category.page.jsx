@@ -14,8 +14,7 @@ import { useModal } from 'hooks/useStoreContext';
 import errorQuery from 'utils/errorQuery';
 
 import { MdArrowBack, MdAdd } from 'react-icons/md';
-const emptyCategory =
-  'https://0ms.run/mirrors/i.ibb.co/PZvvZKS/categories.webp';
+import emptyCategory from 'assets/images/categories.webp';
 
 const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);

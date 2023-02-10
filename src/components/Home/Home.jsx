@@ -2,13 +2,12 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import ProfilePicture from 'components/UI/ProfilePicture';
-import homeImages from 'utils/homeImages';
+import filterIconName from 'utils/filterIconName';
 import useBaffle from 'hooks/useBaffle.js';
 import { useTodos } from 'hooks/useStoreContext';
 
-const todoGif = 'https://0ms.run/mirrors/i.ibb.co/09zh09D/checklist.gif';
-const todoImage =
-  'https://0ms.run/mirrors/i.ibb.co/wwjFtfm/Consulting-bro.webp';
+import todoGif from 'assets/gif/checklist.gif';
+import todoImage from 'assets/images/Consulting-bro.webp';
 
 const Home = ({ username }) => {
   const { totalAllTodos } = useTodos();
@@ -54,7 +53,7 @@ const Home = ({ username }) => {
           <img src={todoImage} alt="todo" className="w-40" />
         </div>
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-          {homeImages.map((item, index) => {
+          {filterIconName.map((item, index) => {
             return (
               <li
                 key={index}
