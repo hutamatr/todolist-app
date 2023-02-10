@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import ProfilePicture from 'components/UI/ProfilePicture';
-import filterIconName from 'utils/filterIconName';
+import filterIconName from 'utils/homeImages';
 import useBaffle from 'hooks/useBaffle.js';
 import { useTodos } from 'hooks/useStoreContext';
 
