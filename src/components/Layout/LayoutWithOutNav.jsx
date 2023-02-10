@@ -3,9 +3,8 @@ import { Outlet } from 'react-router-dom';
 
 import { LoginFormContext } from 'context/Context';
 
-const todoImageOne =
-  'https://0ms.run/mirrors/i.ibb.co/hVLcjzx/Todo-list-pana.webp';
-const todoImageTwo = 'https://0ms.run/mirrors/i.ibb.co/f1x2Wvq/task-login.webp';
+import todoImageOne from 'assets/images/Todo-list-pana.webp';
+import todoImageTwo from 'assets/images/task-login.webp';
 
 const LayoutWithOutNav = () => {
   const { onLoginScreen } = useContext(LoginFormContext);

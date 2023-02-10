@@ -34,8 +34,7 @@ module.exports = {
         'material-shadow-3': 'rgba(0, 0, 0, 0.1) -4px 9px 25px -6px',
       },
       backgroundImage: {
-        'ellipse-image':
-          "url('https://0ms.run/mirrors/i.ibb.co/Jc9Sz69/Ellipse.webp')",
+        'ellipse-image': "url('/src/assets/images/Ellipse.svg')",
       },
       fontFamily: {
         'Poiret-One': 'Poiret One',
