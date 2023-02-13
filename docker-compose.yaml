@@ -8,7 +8,14 @@ services:
     ports:
       - '5432:5432'
     environment:
+      - 'POSTGRES_USER=postgres' 
+      - 'POSTGRES_DB=todo-list'
       - 'POSTGRES_PASSWORD=root'
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+
   app-backend:
     container_name: app-backend
     build:
@@ -17,7 +24,8 @@ services:
     image: 'backend-todolist:1.0.0'
     restart: always
     depends_on:
-      - postgresql-backend
+      postgresql-backend:
+        condition: service_healthy
     ports:
       - '8002:8002'
     environment:
