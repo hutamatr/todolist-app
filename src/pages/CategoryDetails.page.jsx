@@ -81,8 +81,6 @@ const CategoryDetails = () => {
   const detailsCategoryDone = todoByCategory?.data.data.totalDone;
   const detailsCategoryInProgress = todoByCategory?.data.data.totalInProgress;
 
-  // console.log(detailsCategoryDone, detailsCategoryInProgress);
-
   useEffect(() => {
     window.scrollTo({ behavior: 'smooth', top: 0 });
   }, [detailsCategoryData]);

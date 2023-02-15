@@ -169,11 +169,7 @@ const Category = () => {
           <Search name="Categories" onSearchValue={searchValueHandler} />
         </div>
         {categoriesCount > 0 && (
-          <Sort
-            className="flex items-center justify-end"
-            onSetSort={setSortCategories}
-            onSort={sortCategories}
-          />
+          <Sort onSetSort={setSortCategories} onSort={sortCategories} />
         )}
         {isErrorCategories && (
           <p className="text-center text-lg font-semibold text-red-600">

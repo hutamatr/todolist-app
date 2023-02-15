@@ -50,7 +50,7 @@ const Home = ({ username }) => {
               </span>
             </h2>
           </div>
-          <img src={todoImage} alt="todo" className="w-40" />
+          <img src={todoImage} alt="todo" className="w-40" loading="lazy" />
         </div>
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-3">
           {filterIconName.map((item, index) => {
