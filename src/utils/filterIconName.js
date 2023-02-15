@@ -4,7 +4,7 @@ import inProgressImage from 'assets/images/In-progress-pana.webp';
 import doneImage from 'assets/images/Done-rafiki.webp';
 import categoryImage from 'assets/images/Todo-list-amico.webp';
 
-const homeImages = [
+const filterIconName = [
   {
     icon: HiPuzzle,
     image: inProgressImage,
@@ -25,4 +25,4 @@ const homeImages = [
   },
 ];
 
-export default homeImages;
+export default filterIconName;

@@ -23,6 +23,10 @@ const Pagination = ({
   const [isAnimate, setIsAnimate] = useState(false);
   const [lastPage] = useState(paginationRange[paginationRange?.length - 1]);
 
+  if (paginationRange?.length < 2) {
+    return null;
+  }
+
   const onNextHandler = () => {
     onPageChange(currentPage + 1);
     onSkipPage((prevState) => prevState + +pageSize);
