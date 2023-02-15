@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Toaster } from 'react-hot-toast';
@@ -43,14 +43,14 @@ const Dashboard = () => {
     }
   }, [searchTodos]);
 
-  const scrollHandler = () => {
+  const scrollHandler = useCallback(() => {
     if (document.body.getBoundingClientRect().top > scrollPosition) {
       setIsCreateButtonShow(true);
     } else {
       setIsCreateButtonShow(false);
       setScrollPosition(+document.body.getBoundingClientRect().top);
     }
-  };
+  }, [scrollPosition, document.body.getBoundingClientRect().top]);
 
   useEffect(() => {
     window.addEventListener('scroll', scrollHandler);
@@ -207,7 +207,9 @@ const Dashboard = () => {
             totalTodoDone={totalTodoDone}
             totalInProgress={totalInProgress}
           />
-          <Sort onSort={sortTodos} onSetSort={setSortTodos} />
+          {totalCount > 0 && (
+            <Sort onSort={sortTodos} onSetSort={setSortTodos} />
+          )}
         </div>
 
         {isErrorTodos && (

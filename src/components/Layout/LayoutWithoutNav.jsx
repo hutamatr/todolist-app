@@ -6,7 +6,7 @@ import { LoginFormContext } from 'context/Context';
 import todoImageOne from 'assets/images/Todo-list-pana.webp';
 import todoImageTwo from 'assets/images/task-login.webp';
 
-const LayoutWithOutNav = () => {
+const LayoutWithoutNav = () => {
   const { onLoginScreen } = useContext(LoginFormContext);
 
   useEffect(() => {}, [onLoginScreen]);
@@ -44,4 +44,4 @@ const LayoutWithOutNav = () => {
   );
 };
 
-export default LayoutWithOutNav;
+export default LayoutWithoutNav;

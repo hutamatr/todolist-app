@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const DashboardSort = ({ onSetSort, onSort }) => {
+const Sort = ({ onSetSort, onSort }) => {
   const navigate = useNavigate();
 
   const { search } = useLocation();
@@ -32,4 +32,4 @@ const DashboardSort = ({ onSetSort, onSort }) => {
   );
 };
 
-export default DashboardSort;
+export default Sort;

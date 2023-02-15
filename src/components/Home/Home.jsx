@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import ProfilePicture from 'components/UI/ProfilePicture';
-import filterIconName from 'utils/homeImages';
+import homeImages from 'utils/homeImages';
 import useBaffle from 'hooks/useBaffle.js';
 import { useTodos } from 'hooks/useStoreContext';
 
@@ -50,10 +50,10 @@ const Home = ({ username }) => {
               </span>
             </h2>
           </div>
-          <img src={todoImage} alt="todo" className="w-40" />
+          <img src={todoImage} alt="todo" className="w-40" loading="lazy" />
         </div>
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-          {filterIconName.map((item, index) => {
+          {homeImages.map((item, index) => {
             return (
               <li
                 key={index}
