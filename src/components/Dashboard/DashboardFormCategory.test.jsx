@@ -1,7 +1,7 @@
 import { render, screen } from 'test-utils';
 
 import DashboardFormCategory from './DashboardFormCategory';
-import { categoriesData } from 'mocks/testingData';
+import { categoriesData } from 'mocks/handlers';
 
 describe('Dashboard Form Category Component', () => {
   test('render category list correctly', async () => {
@@ -9,7 +9,7 @@ describe('Dashboard Form Category Component', () => {
 
     const categoriesListElement = await screen.findAllByRole('listitem');
 
-    expect(categoriesListElement).toHaveLength(5);
+    expect(categoriesListElement).toHaveLength(20);
   });
 
   test('if category not added render warning', () => {
