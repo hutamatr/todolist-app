@@ -31,7 +31,10 @@ const TodoFilter = ({
         disabled={todoStatus ? false : true}
       >
         {totalInProgress > 0 && (
-          <span className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2">
+          <span
+            data-testid="button-inprogress"
+            className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2"
+          >
             {totalInProgress}
           </span>
         )}
@@ -46,7 +49,10 @@ const TodoFilter = ({
         disabled={todoStatus ? true : false}
       >
         {totalTodoDone > 0 && (
-          <span className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2">
+          <span
+            data-testid="button-done"
+            className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2"
+          >
             {totalTodoDone}
           </span>
         )}
