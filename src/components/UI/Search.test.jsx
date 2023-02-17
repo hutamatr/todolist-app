@@ -4,7 +4,7 @@ import Search from './Search';
 
 describe('Search Component', () => {
   test('render search by placeholder correctly', () => {
-    render(<Search name={'Todo'} />);
+    render(<Search name="Todo" />);
 
     const inputSearchElement = screen.getByPlaceholderText(/search todo/i);
     const buttonElement = screen.getByRole('button', { name: /search/i });
@@ -14,7 +14,7 @@ describe('Search Component', () => {
   });
 
   test('render search input value correctly', async () => {
-    const { user } = userEventSetup(<Search name={'Todo'} />);
+    const { user } = userEventSetup(<Search name="Todo" />);
 
     const inputSearchElement = screen.getByPlaceholderText(/search todo/i);
 

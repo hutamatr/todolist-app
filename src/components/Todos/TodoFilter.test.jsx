@@ -14,7 +14,7 @@ describe('Todo Filter Component', () => {
     const doneButtonElement = screen.getByRole('button', { name: /done/i });
 
     expect(inProgressButtonElement).toBeInTheDocument();
-    expect(inProgressButtonElement).not.toBeDisabled();
+    expect(inProgressButtonElement).toBeEnabled();
     expect(inProgressButtonElement).toHaveTextContent('10');
 
     expect(doneButtonElement).toBeInTheDocument();

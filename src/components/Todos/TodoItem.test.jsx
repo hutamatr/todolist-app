@@ -6,8 +6,8 @@ describe('Todo Item Component', () => {
   test('render todo item correctly', () => {
     render(
       <TodoItem
-        title={'learning'}
-        description={'learning react & tailwind'}
+        title="learning"
+        description="learning react & tailwind"
         category={{ name: 'category-1' }}
       />
     );

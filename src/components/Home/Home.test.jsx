@@ -4,7 +4,7 @@ import Home from './Home';
 
 describe('Home Component', () => {
   test('render username correctly', () => {
-    render(<Home username={'hutamatr'} />);
+    render(<Home username="hutamatr" />);
 
     const usernameElement = screen.getByRole('heading', {
       name: /hello, hutamatr/i,

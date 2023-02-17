@@ -1,4 +1,4 @@
-import { render, screen, userEventSetup } from 'test-utils';
+import { render, screen } from 'test-utils';
 
 import TodoForm from './TodoForm';
 

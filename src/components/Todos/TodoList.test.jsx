@@ -1,7 +1,7 @@
 import { render, screen } from 'test-utils';
 
 import TodoList from './TodoList';
-import { todosData } from 'mocks/testingData';
+import { todosData } from 'mocks/handlers';
 
 describe('Todo List Component', () => {
   test('render list correctly', () => {
@@ -9,6 +9,6 @@ describe('Todo List Component', () => {
 
     const listElement = screen.getAllByRole('listitem');
 
-    expect(listElement).toHaveLength(5);
+    expect(listElement).toHaveLength(20);
   });
 });
