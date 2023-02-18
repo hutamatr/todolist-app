@@ -61,12 +61,16 @@ const FormInput = forwardRef(
             <>
               {onPasswordView ? (
                 <HiOutlineEye
-                  className="m-1 cursor-pointer text-xl text-slate-800"
+                  className={`m-1 cursor-pointer text-xl ${
+                    isValidInput ? 'text-green-600' : 'text-slate-800'
+                  }`}
                   onClick={onPasswordViewHandler}
                 />
               ) : (
                 <HiOutlineEyeOff
-                  className="m-1 cursor-pointer text-xl text-slate-800"
+                  className={`m-1 cursor-pointer text-xl ${
+                    isValidInput ? 'text-green-600' : 'text-slate-800'
+                  }`}
                   onClick={onPasswordViewHandler}
                 />
               )}

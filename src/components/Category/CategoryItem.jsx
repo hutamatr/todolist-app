@@ -1,35 +1,12 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
 
-import useHttp from 'hooks/useHttp';
-import errorQuery from 'utils/errorQuery';
 import { randIcons } from 'utils/categoryIcons';
 
 import { MdDeleteForever, MdFolderOpen } from 'react-icons/md';
 
-const CategoryItem = ({ id, name }) => {
-  const queryClient = useQueryClient();
-  const { requestHttp } = useHttp();
-
-  const { mutate: mutateDelete } = useMutation({
-    mutationFn: (categoryId) => {
-      return requestHttp({
-        method: 'DELETE',
-        url: `/categories/${categoryId}`,
-      });
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
-      toast.success(data?.data.message);
-    },
-    onError: (error) => {
-      errorQuery(error, 'Delete Todo Failed!');
-    },
-  });
-
+const CategoryItem = ({ id, name, onDelete }) => {
   const categoryDeleteHandler = () => {
-    mutateDelete(id);
+    onDelete(id);
   };
 
   return (
@@ -48,7 +25,11 @@ const CategoryItem = ({ id, name }) => {
           <Link to={`${id}`} className="inline">
             <MdFolderOpen className="text-2xl text-orange-100" />
           </Link>
-          <button type="button" onClick={categoryDeleteHandler}>
+          <button
+            data-testid="delete-category"
+            type="button"
+            onClick={categoryDeleteHandler}
+          >
             <MdDeleteForever className="text-2xl text-red-600" />
           </button>
         </div>

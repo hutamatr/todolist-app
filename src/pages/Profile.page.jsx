@@ -63,6 +63,8 @@ const Profile = () => {
     },
   });
 
+  const usernameProfile = dataUserDetail?.data.data.user.username;
+
   let inputForm = [
     {
       label: 'Username',
@@ -132,7 +134,7 @@ const Profile = () => {
         <div className="flex flex-col items-center justify-center gap-y-3">
           <ProfilePicture />
           <span className="text-lg font-bold dark:text-material-green">
-            @{dataUserDetail?.data.data.user.username}
+            @{usernameProfile}
           </span>
         </div>
         <form onSubmit={formSubmitHandler} className="flex flex-col gap-y-6">

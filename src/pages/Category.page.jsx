@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 import CategoryFormModal from 'components/Category/CategoryFormModal';
 import CategoryItem from 'components/Category/CategoryItem';
@@ -23,6 +23,8 @@ const Category = () => {
   const [sortCategories, setSortCategories] = useState('ASC');
   const [searchCategories, setSearchCategories] = useState('');
   const [isButtonShow, setIsButtonShow] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const { requestHttp } = useHttp();
   const { newBaffle } = useBaffle('.categoryBaffle');
@@ -61,6 +63,22 @@ const Category = () => {
     },
     onError: (error) => {
       errorQuery(error, 'Getting Category Failed!');
+    },
+  });
+
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: (categoryId) => {
+      return requestHttp({
+        method: 'DELETE',
+        url: `/categories/${categoryId}`,
+      });
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success(data?.data.message);
+    },
+    onError: (error) => {
+      errorQuery(error, 'Delete Todo Failed!');
     },
   });
 
@@ -126,7 +144,13 @@ const Category = () => {
               <MdAdd className="text-2xl text-orange-100" /> Add Category
             </button>
             {allCategoriesData?.map((category) => {
-              return <CategoryItem {...category} key={category.id} />;
+              return (
+                <CategoryItem
+                  {...category}
+                  key={category.id}
+                  onDelete={mutateDelete}
+                />
+              );
             })}
           </ul>
 
