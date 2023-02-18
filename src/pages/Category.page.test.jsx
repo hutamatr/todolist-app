@@ -3,17 +3,6 @@ import { render, screen, userEventSetup } from 'test-utils';
 import Category from './Category.page';
 
 describe('Category Page Component', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      value: jest.fn(() => {
-        return {
-          matches: true,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-        };
-      }),
-    });
-  });
   test('render correctly', () => {
     render(<Category />);
 

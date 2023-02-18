@@ -46,4 +46,43 @@ describe('Pagination Component', () => {
 
     expect(selectElement).toHaveValue('10');
   });
+  test('paginate next button run correctly', async () => {
+    const onPageChange = jest.fn();
+    const onSkipPage = jest.fn();
+    const { user } = userEventSetup(
+      <Pagination
+        totalCount={20}
+        currentPage={1}
+        siblingCount={1}
+        pageSize={10}
+        onPageChange={onPageChange}
+        onSkipPage={onSkipPage}
+      />
+    );
+    const nextButtonElement = screen.getByTestId(/pagination-next/i);
+
+    await act(() => user.click(nextButtonElement));
+
+    expect(nextButtonElement).toBeInTheDocument();
+  });
+
+  test('paginate previous button run correctly', async () => {
+    const onPageChange = jest.fn();
+    const onSkipPage = jest.fn();
+    const { user } = userEventSetup(
+      <Pagination
+        totalCount={20}
+        currentPage={5}
+        siblingCount={1}
+        pageSize={10}
+        onPageChange={onPageChange}
+        onSkipPage={onSkipPage}
+      />
+    );
+    const prevButtonElement = screen.getByTestId(/pagination-previous/i);
+
+    await act(() => user.click(prevButtonElement));
+
+    expect(prevButtonElement).toBeInTheDocument();
+  });
 });

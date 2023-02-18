@@ -7,7 +7,7 @@ describe('Home Page Component', () => {
     render(<HomePage />);
 
     const usernameElement = await screen.findByRole('heading', {
-      name: /hello, hutama/i,
+      name: /hello, testing/i,
     });
     const textElement = screen.getByText(/what do you want to do today?/i);
 

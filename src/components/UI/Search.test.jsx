@@ -22,4 +22,19 @@ describe('Search Component', () => {
 
     expect(inputSearchElement).toHaveValue('test todo');
   });
+
+  test('button search click input value to be empty', async () => {
+    const onSearchValue = jest.fn();
+    const { user } = userEventSetup(
+      <Search name="Todo" onSearchValue={onSearchValue} />
+    );
+
+    const searchButtonElement = screen.getByRole('button', { name: /search/i });
+    const inputSearchElement = screen.getByPlaceholderText(/search todo/i);
+
+    await act(() => user.type(inputSearchElement, 'test todo'));
+    await act(() => user.click(searchButtonElement));
+
+    expect(inputSearchElement).toHaveValue('');
+  });
 });
