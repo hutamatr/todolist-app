@@ -3,13 +3,25 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-
 import { server } from './mocks/server';
 
-const noop = () => {};
-Object.defineProperty(window, 'scrollTo', { value: noop, writable: true });
 // Establish API mocking before all tests.
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+  Object.defineProperty(window, 'matchMedia', {
+    value: jest.fn(() => {
+      return {
+        matches: true,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      };
+    }),
+  });
+  Object.defineProperty(window, 'scrollTo', {
+    value: jest.fn(),
+    writable: true,
+  });
+});
 // Reset any request handlers that we may add during the tests,
 // so they don't affect other tests.
 afterEach(() => server.resetHandlers());

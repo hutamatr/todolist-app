@@ -23,10 +23,6 @@ const Pagination = ({
   const [isAnimate, setIsAnimate] = useState(false);
   const [lastPage] = useState(paginationRange[paginationRange?.length - 1]);
 
-  if (paginationRange?.length < 2) {
-    return null;
-  }
-
   const onNextHandler = () => {
     onPageChange(currentPage + 1);
     onSkipPage((prevState) => prevState + +pageSize);
@@ -50,8 +46,6 @@ const Pagination = ({
       setIsAnimate(false);
     }, 1500);
   };
-
-  // let lastPage = paginationRange[paginationRange?.length - 1];
 
   return (
     <div className="flex flex-col items-center justify-end gap-y-3 gap-x-4 md:flex-row">
@@ -85,6 +79,7 @@ const Pagination = ({
             onClick={onPreviousHandler}
             disabled={currentPage === 1}
             className="rounded-md pt-2 disabled:hidden"
+            data-testid="pagination-previous"
           >
             <MdNavigateBefore className="text-2xl dark:text-material-green" />
           </button>
@@ -120,6 +115,7 @@ const Pagination = ({
             onClick={onNextHandler}
             disabled={currentPage === lastPage}
             className="rounded-md pt-2 disabled:hidden"
+            data-testid="pagination-next"
           >
             <MdNavigateNext className="text-2xl dark:text-material-green" />
           </button>

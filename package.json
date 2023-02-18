@@ -1,6 +1,6 @@
 {
   "name": "todo-list",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "private": true,
   "engines": {
     "node": "18.14.0"
@@ -19,7 +19,6 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1",
-    "react-nice-avatar": "^1.3.1",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-toggle-dark-mode": "^1.1.1",
@@ -27,7 +26,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn lint:strict && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint .",
@@ -35,7 +34,7 @@
     "lint:strict": "eslint --max-warnings=0 .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.json",
     "format:check": "prettier -c './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.json",
-    "test-coverage": "yarn test --coverage --watchAll --collectCoverageFrom='src/components/**/*.{ts,tsx}' --collectCoverageFrom='!src/components/**/*.{types,stories,constants,test,spec}.{ts,tsx}'",
+    "test-coverage": "yarn test --coverage --watchAll --collectCoverageFrom='src/components/**/*.{ts,tsx,js,jsx}' --collectCoverageFrom='!src/components/**/*.{types,stories,constants,test,spec}.{ts,tsx,js,jsx}'",
     "prepare": "husky install"
   },
   "browserslist": {
