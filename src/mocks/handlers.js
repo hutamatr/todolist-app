@@ -22,7 +22,56 @@ export const todosData = Array.from({ length: 20 }).map((_, i) => ({
   updatedAt: faker.date.between(),
 }));
 
+const userProfile = {
+  id: +faker.datatype.uuid(),
+  username: 'testing',
+  email: faker.internet.email('testing', 'todo', 'gmail.com', {
+    allowSpecialCharacters: false,
+  }),
+  image: faker.image.abstract(),
+  createdAt: faker.date.between(),
+  updatedAt: faker.date.between(),
+};
+
 export const handlers = [
+  rest.post(`${url}/accounts/register`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        message: 'register successfully',
+      })
+    );
+  }),
+  rest.post(`${url}/accounts/login`, (req, res, ctx) => {
+    const { email, password } = req.body;
+
+    if (email === 'testing@gmail.com' && password === 'Testing123') {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          message: 'login successfully',
+        })
+      );
+    }
+
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: 'user not found',
+      })
+    );
+  }),
+  rest.get(`${url}/accounts/profile`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: {
+          user: userProfile,
+        },
+      })
+    );
+  }),
+
   rest.get(`${url}/home`, (req, res, ctx) => {
     return res(
       ctx.status(200),
@@ -82,9 +131,7 @@ export const handlers = [
         return res(
           ctx.status(200),
           ctx.json({
-            data: {
-              message: 'category deleted',
-            },
+            message: 'category deleted',
           })
         );
       } else {
@@ -92,22 +139,5 @@ export const handlers = [
       }
     }
     return res(ctx.status(400));
-  }),
-  rest.get(`${url}/accounts/profile`, (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: {
-          user: {
-            id: +faker.datatype.uuid(),
-            username: 'hutama',
-            email: faker.internet.email(undefined, undefined, '@gmail.com'),
-            image: faker.image.abstract(),
-            createdAt: faker.date.between(),
-            updatedAt: faker.date.between(),
-          },
-        },
-      })
-    );
   }),
 ];
