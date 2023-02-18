@@ -201,6 +201,7 @@ const TodoForm = ({ onShowModal, onSetShowModal }) => {
             </div>
             <input
               required
+              id="todo-title"
               type="text"
               name="titleInput"
               onChange={titleChangeHandler}

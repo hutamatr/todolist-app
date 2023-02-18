@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 const ModalBackdrop = ({ onCloseModalHandler }) => {
@@ -18,16 +19,19 @@ const ModalCard = ({ children }) => {
 };
 
 const Modal = ({ children, onCloseModalHandler }) => {
+  const [containerBackdrop] = useState(
+    document.getElementById('modal-backdrop')
+  );
+
+  const [containerCard] = useState(document.getElementById('modal-card'));
+
   return (
     <>
       {createPortal(
         <ModalBackdrop onCloseModalHandler={onCloseModalHandler} />,
-        document.getElementById('modal-backdrop')
+        containerBackdrop
       )}
-      {createPortal(
-        <ModalCard>{children}</ModalCard>,
-        document.getElementById('modal-card')
-      )}
+      {createPortal(<ModalCard>{children}</ModalCard>, containerCard)}
     </>
   );
 };

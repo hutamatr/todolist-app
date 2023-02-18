@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Layout from 'components/Layout/Layout';
-import LayoutWithOutNav from 'components/Layout/LayoutWithOutNav';
+import LayoutWithoutNav from 'components/Layout/LayoutWithoutNav';
 import HomePage from 'pages/Home.page';
 import RequireAuth from 'components/Auth/RequireAuth';
 import Register from 'pages/Register.page';
@@ -15,7 +15,7 @@ import NotFound from 'pages/NotFound.page';
 const App = () => {
   return (
     <Routes>
-      <Route element={<LayoutWithOutNav />}>
+      <Route element={<LayoutWithoutNav />}>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="*" element={<NotFound />} />

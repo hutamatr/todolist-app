@@ -13,8 +13,9 @@ const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);
   const { logout } = useAuth();
 
-  const menuIsActive = ({ isActive }) =>
-    isActive ? 'border-b-2 border-b-orange-100' : '';
+  const menuIsActive = ({ isActive }) => {
+    return isActive ? 'border-b-2 border-b-orange-100' : '';
+  };
 
   const menuViewHandler = () => setMenuView((prevState) => !prevState);
 
@@ -92,7 +93,7 @@ const Navigation = () => {
           </NavLink>
         </li>
         {/* eslint-disable-next-line prettier/prettier */}
-        <div className="dropdown dropdown-end">
+        <div className="dropdown-end dropdown">
           <ProfilePicture
             classPhoto="btn-sm hidden sm:block cursor-pointer"
             tabIndex={0}

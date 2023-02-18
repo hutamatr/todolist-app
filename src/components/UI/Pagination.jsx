@@ -21,6 +21,7 @@ const Pagination = ({
   });
 
   const [isAnimate, setIsAnimate] = useState(false);
+  const [lastPage] = useState(paginationRange[paginationRange?.length - 1]);
 
   if (paginationRange?.length < 2) {
     return null;
@@ -50,14 +51,17 @@ const Pagination = ({
     }, 1500);
   };
 
-  let lastPage = paginationRange[paginationRange?.length - 1];
+  // let lastPage = paginationRange[paginationRange?.length - 1];
 
   return (
     <div className="flex flex-col items-center justify-end gap-y-3 gap-x-4 md:flex-row">
       <div className="flex flex-row items-center justify-center gap-x-1">
-        <span className="font-medium text-neutral-800 dark:text-material-green">
+        <label
+          htmlFor="page-value"
+          className="font-medium text-neutral-800 dark:text-material-green"
+        >
           Todo per page:
-        </span>
+        </label>
         <select
           name="pages-value"
           id="pages-value"
