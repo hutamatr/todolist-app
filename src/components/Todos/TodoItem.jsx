@@ -126,14 +126,9 @@ const TodoItem = ({
 
   return (
     <div className="flex w-full flex-row justify-between shadow-md">
-      <span
-        className={`hidden w-4 rounded-l-lg sm:block ${
-          is_completed ? 'bg-green-500' : 'bg-blue-500'
-        }`}
-      ></span>
       <div
-        className={`flex w-full flex-col gap-y-4 rounded-lg bg-material-green p-3 ring-2 dark:bg-neutral-700 sm:rounded-l-none sm:ring-0 ${
-          is_completed ? 'ring-green-500' : 'to-blue-500'
+        className={`flex w-full flex-col gap-y-4 rounded-lg bg-material-green p-3 ring-2 dark:bg-neutral-700 ${
+          is_completed ? 'ring-green-500' : 'ring-blue-500'
         }`}
       >
         <div className="flex flex-row items-center justify-between gap-x-4 ">
