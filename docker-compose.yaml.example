@@ -8,11 +8,13 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - 'POSTGRES_USER=postgres' 
-      - 'POSTGRES_DB=todo-list'
-      - 'POSTGRES_PASSWORD=root'
+    # change env value based on requirement
+      - 'POSTGRES_USER=example_user' 
+      - 'POSTGRES_DB=example_db'
+      - 'POSTGRES_PASSWORD=example_password'
     volumes:
-      - /home/hutamatr/git-repo(hutamatr)/database-postgres:/var/lib/postgresql/data
+    # change volume location "/example/location" requirement
+      - /example/location:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
 
@@ -46,3 +48,5 @@ services:
       - 'REACT_APP_BASE_URL=http://127.0.0.1:8002/api/v1'
     depends_on:
       - app-backend
+volumes:
+  /example/location:

@@ -11,6 +11,7 @@ docker/Dockerfile
 
 # production
 /build
+docker-compose.yaml
 
 # misc
 .env
