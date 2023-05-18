@@ -18,7 +18,7 @@
 
 - View the optimal layout for the site depending on their device's screen size
 - Show total All Todo, todo in progress, todo done & category in HomePage
-- 
+-
 
 ### Screenshot
 
@@ -50,6 +50,7 @@
 #### Tools
 
 - [VSCode](https://code.visualstudio.com/)
+
 ## Author
 
 - Hutama - Frontend - [Hutama](https://www.github.com/hutamatr)

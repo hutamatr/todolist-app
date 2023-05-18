@@ -33,7 +33,7 @@ const TodoFilter = ({
         {totalInProgress > 0 && (
           <span
             data-testid="button-inprogress"
-            className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2"
+            className="absolute -right-1 -top-2 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2"
           >
             {totalInProgress}
           </span>
@@ -51,7 +51,7 @@ const TodoFilter = ({
         {totalTodoDone > 0 && (
           <span
             data-testid="button-done"
-            className="absolute -top-2 -right-1 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2"
+            className="absolute -right-1 -top-2 flex items-center justify-center rounded-full bg-orange-100 px-2 text-xs font-semibold text-material-green sm:-top-2"
           >
             {totalTodoDone}
           </span>

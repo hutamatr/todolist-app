@@ -63,7 +63,7 @@ const DashboardFormCategory = ({
             />
             <button
               onClick={categorySubmitHandler}
-              className="rounded-r-lg bg-orange-100 py-2 px-3 font-medium text-material-green"
+              className="rounded-r-lg bg-orange-100 px-3 py-2 font-medium text-material-green"
             >
               Add
             </button>
@@ -106,7 +106,7 @@ const DashboardFormCategory = ({
             <li key={categories.id}>
               <button
                 type="button"
-                className={`w-full truncate rounded bg-neutral-200 py-3 px-3 text-sm font-medium  dark:bg-neutral-800 dark:text-material-green ${
+                className={`w-full truncate rounded bg-neutral-200 px-3 py-3 text-sm font-medium  dark:bg-neutral-800 dark:text-material-green ${
                   categoryId
                     ? 'focus:bg-orange-200 focus:text-orange-600 focus:ring-2 focus:ring-orange-100 dark:focus:ring-orange-100'
                     : ''

@@ -26,13 +26,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "yarn lint:strict && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix && yarn format",
     "lint:strict": "eslint --max-warnings=0 .",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.json",
+    "format": "prettier --write . --config ./.prettierrc.json",
     "format:check": "prettier -c './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.json",
     "test-coverage": "yarn test --coverage --watchAll --collectCoverageFrom='src/components/**/*.{ts,tsx,js,jsx}' --collectCoverageFrom='!src/components/**/*.{types,stories,constants,test,spec}.{ts,tsx,js,jsx}'",
     "prepare": "husky install"
