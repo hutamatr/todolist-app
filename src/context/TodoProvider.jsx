@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react';
+import { useCallback, useMemo, useReducer } from 'react';
 
 import { TodoContext } from './Context';
 
@@ -47,12 +47,15 @@ const TodoProvider = ({ children }) => {
     dispatchTodo({ type: 'EDIT_TODO', payload: todoItem });
   };
 
-  const value = {
-    todoEdit: todoState.todoEdit,
-    totalAllTodos: todoState.total,
-    getTotalTodo: getTotalTodosHandler,
-    editTodo: editTodoHandler,
-  };
+  const value = useMemo(
+    () => ({
+      todoEdit: todoState.todoEdit,
+      totalAllTodos: todoState.total,
+      getTotalTodo: getTotalTodosHandler,
+      editTodo: editTodoHandler,
+    }),
+    [getTotalTodosHandler, todoState.todoEdit, todoState.total]
+  );
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
 };

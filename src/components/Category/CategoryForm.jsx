@@ -1,4 +1,4 @@
-import useCreateCategory from 'hooks/useCreateCategory';
+import useCreateCategory from '@hooks/useCreateCategory';
 
 const categoryLong = 100;
 

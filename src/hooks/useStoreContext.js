@@ -2,9 +2,9 @@ import { useContext } from 'react';
 
 import {
   AuthContext,
-  TodoContext,
   LoginFormContext,
   ModalContext,
+  TodoContext,
 } from '../context/Context';
 
 export const useAuth = () => useContext(AuthContext);

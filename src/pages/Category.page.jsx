@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
+import { MdAdd, MdArrowBack } from 'react-icons/md';
 
-import CategoryFormModal from 'components/Category/CategoryFormModal';
-import CategoryItem from 'components/Category/CategoryItem';
-import Pagination from 'components/UI/Pagination';
-import Search from 'components/UI/Search';
-import Sort from 'components/UI/Sort';
-import useHttp from 'hooks/useHttp';
-import useBaffle from 'hooks/useBaffle';
-import { useModal } from 'hooks/useStoreContext';
-import errorQuery from 'utils/errorQuery';
+import CategoryFormModal from '@components/Category/CategoryFormModal';
+import CategoryItem from '@components/Category/CategoryItem';
+import Pagination from '@components/UI/Pagination';
+import Search from '@components/UI/Search';
+import Sort from '@components/UI/Sort';
 
-import { MdArrowBack, MdAdd } from 'react-icons/md';
-import emptyCategory from 'assets/images/categories.webp';
+import useBaffle from '@hooks/useBaffle';
+import useHttp from '@hooks/useHttp';
+import { useModal } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
+
+import emptyCategory from '@assets/images/categories.webp';
 
 const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,6 +33,7 @@ const Category = () => {
 
   useEffect(() => {
     newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

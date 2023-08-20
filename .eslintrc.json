@@ -1,0 +1,117 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "ignorePatterns": ["dist", ".eslintrc.cjs"],
+  "parserOptions": { "ecmaVersion": "latest", "sourceType": "module" },
+  "plugins": ["react-refresh", "unused-imports", "simple-import-sort"],
+  // "overrides": [],
+  // "parserOptions": {
+  //   "ecmaVersion": "latest",
+  //   "sourceType": "module",
+  //   "requireConfigFile": false,
+  //   "babelOptions": {
+  //     "presets": ["@babel/preset-react"]
+  //   }
+  // },
+  "rules": {
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ],
+    "semi": "warn",
+    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }],
+    // "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-console": "warn",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-unescaped-entities": "off",
+    "react/display-name": "off",
+    // "react/tsx-curly-brace-presence": [
+    //   "warn",
+    //   { "props": "never", "children": "never" }
+    // ],
+
+    //*=========== Unused Import ===========
+    // "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "simple-import-sort/exports": "warn",
+    "simple-import-sort/imports": [
+      "warn",
+      {
+        "groups": [
+          // Side effect imports.
+          ["^\\u0000"],
+
+          // Packages.
+          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          ["^@?\\w"],
+
+          // components
+          ["^@components"],
+
+          // pages
+          ["^@pages"],
+
+          // context & api
+          ["^@context", "^@store", "^@api"],
+
+          // hooks & utils
+          ["^@hooks", "^@utils"],
+
+          // Other imports
+          // ['^@/'],
+          ["^@public", "^@assets"],
+
+          // {s}css files
+          ["^.+\\.s?css$"],
+
+          // relative paths up until 3 level
+          [
+            "^\\./?$",
+            "^\\.(?!/?$)",
+            "^\\.\\./?$",
+            "^\\.\\.(?!/?$)",
+            "^\\.\\./\\.\\./?$",
+            "^\\.\\./\\.\\.(?!/?$)",
+            "^\\.\\./\\.\\./\\.\\./?$",
+            "^\\.\\./\\.\\./\\.\\.(?!/?$)"
+          ],
+
+          ["^types"],
+          ["^"]
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "React": true,
+    "JSX": true
+  }
+}

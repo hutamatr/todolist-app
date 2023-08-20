@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { usePagination, DOTS } from 'hooks/usePagination';
+import { MdAccessTime, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
-import { MdNavigateNext, MdNavigateBefore, MdAccessTime } from 'react-icons/md';
+import { DOTS, usePagination } from '@hooks/usePagination';
 
 const Pagination = ({
   onPageChange,

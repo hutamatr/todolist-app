@@ -1,4 +1,4 @@
-import { useReducer, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 
 import { AuthContext } from './Context';
 
@@ -80,14 +80,17 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const loginHandler = (loginAccess, expireDate) => {
-    localStorage.setItem('auth_token', loginAccess?.data?.token);
-    localStorage.setItem('expire_token', expireDate);
-    dispatchAuth({ type: 'LOGIN', payload: loginAccess?.data?.token });
+  const loginHandler = useCallback(
+    (loginAccess, expireDate) => {
+      localStorage.setItem('auth_token', loginAccess?.data?.token);
+      localStorage.setItem('expire_token', expireDate);
+      dispatchAuth({ type: 'LOGIN', payload: loginAccess?.data?.token });
 
-    const autoLogout = calculateAutoLogoutTime(expireDate);
-    logoutTimer = setTimeout(logoutHandler, autoLogout);
-  };
+      const autoLogout = calculateAutoLogoutTime(expireDate);
+      logoutTimer = setTimeout(logoutHandler, autoLogout);
+    },
+    [logoutHandler]
+  );
 
   useEffect(() => {
     if (storageData) {
@@ -95,12 +98,20 @@ const AuthProvider = ({ children }) => {
     }
   }, [storageData, logoutHandler]);
 
-  const value = {
-    authToken: authState.authToken,
-    isAuthenticated: authState.isAuthenticated,
-    login: loginHandler,
-    logout: logoutHandler,
-  };
+  const value = useMemo(
+    () => ({
+      authToken: authState.authToken,
+      isAuthenticated: authState.isAuthenticated,
+      login: loginHandler,
+      logout: logoutHandler,
+    }),
+    [
+      authState.authToken,
+      authState.isAuthenticated,
+      loginHandler,
+      logoutHandler,
+    ]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

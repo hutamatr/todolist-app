@@ -1,10 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { LoginFormContext } from 'context/Context';
+import { LoginFormContext } from '@context/Context';
 
-import todoImageOne from 'assets/images/Todo-list-pana.webp';
-import todoImageTwo from 'assets/images/task-login.webp';
+import todoImageTwo from '@assets/images/task-login.webp';
+import todoImageOne from '@assets/images/Todo-list-pana.webp';
 
 const LayoutWithoutNav = () => {
   const { onLoginScreen } = useContext(LoginFormContext);

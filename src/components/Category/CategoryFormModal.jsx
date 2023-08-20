@@ -1,6 +1,8 @@
-import Modal from 'components/UI/Modal';
+import Modal from '@components/UI/Modal';
+
+import { useModal } from '@hooks/useStoreContext';
+
 import CategoryForm from './CategoryForm';
-import { useModal } from 'hooks/useStoreContext';
 
 const CategoryFormModal = () => {
   const { isModalShow, setShowModal } = useModal();

@@ -1,5 +1,5 @@
-import { rest } from 'msw';
 import { faker } from '@faker-js/faker';
+import { rest } from 'msw';
 
 const url = 'http://localhost:8002/api/v1';
 

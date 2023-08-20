@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { LoginFormContext } from './Context';
 
@@ -8,10 +8,13 @@ const LoginFormProvider = ({ children }) => {
   const loginScreenHandler = (value) => {
     setIsLoginScreen(value);
   };
-  const value = {
-    onLoginScreen: isLoginScreen,
-    loginScreen: loginScreenHandler,
-  };
+  const value = useMemo(
+    () => ({
+      onLoginScreen: isLoginScreen,
+      loginScreen: loginScreenHandler,
+    }),
+    [isLoginScreen]
+  );
 
   return (
     <LoginFormContext.Provider value={value}>

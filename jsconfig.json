@@ -1,6 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "./",
+    "paths": {
+      "@public/*": ["./public/*"],
+      "@src/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@store/*": ["src/store/*"],
+      "@context/*": ["src/context/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@utils/*": ["src/utils/*"],
+      "@api/*": ["src/api/*"],
+      "@assets/*": ["src/assets/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "types/*": ["src/types/*"],
+      "test-utils": ["src/test-utils.jsx"]
+    }
   },
   "include": ["src"]
 }

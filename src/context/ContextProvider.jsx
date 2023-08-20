@@ -1,7 +1,7 @@
-import TodoProvider from './TodoProvider';
 import AuthProvider from './AuthProvider';
 import LoginFormProvider from './LoginFormProvider';
 import ModalProvider from './ModalProvider';
+import TodoProvider from './TodoProvider';
 
 const ContextProvider = ({ children }) => {
   return (

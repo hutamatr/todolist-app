@@ -1,10 +1,13 @@
-import { useCallback } from 'react';
 import axios from 'axios';
+import { useCallback } from 'react';
 
 import { useAuth } from './useStoreContext';
 
 const todosAPI = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL || 'http://localhost:8002/api/v1',
+  baseURL: import.meta.env.VITE_BASE_URL,
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
 });
 
 const useHttp = () => {
@@ -20,7 +23,6 @@ const useHttp = () => {
         headers: {
           ...headers,
           Authorization: `Bearer ${authToken}`,
-          'Content-type': 'application/json; charset=UTF-8',
         },
       });
 

@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { AxiosError } from 'axios';
-
-import useCreateCategory from 'hooks/useCreateCategory';
-
+import { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
+
+import useCreateCategory from '@hooks/useCreateCategory';
 
 const categoryLong = 100;
 

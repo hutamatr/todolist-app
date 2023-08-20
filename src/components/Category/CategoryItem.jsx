@@ -1,8 +1,7 @@
+import { MdDeleteForever, MdFolderOpen } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import { randIcons } from 'utils/categoryIcons';
-
-import { MdDeleteForever, MdFolderOpen } from 'react-icons/md';
+import { randIcons } from '@utils/categoryIcons';
 
 const CategoryItem = ({ id, name, onDelete }) => {
   const categoryDeleteHandler = () => {

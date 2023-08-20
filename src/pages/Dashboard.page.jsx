@@ -1,21 +1,22 @@
-import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useCallback, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { MdAdd, MdArrowBack } from 'react-icons/md';
 
-import TodoFilter from 'components/Todos/TodoFilter';
-import Sort from 'components/UI/Sort';
-import Pagination from 'components/UI/Pagination';
-import TodoForm from 'components/Todos/TodoForm';
-import TodoList from 'components/Todos/TodoList';
-import Search from 'components/UI/Search';
-import useHttp from 'hooks/useHttp';
-import useBaffle from 'hooks/useBaffle';
-import { useModal } from 'hooks/useStoreContext';
-import errorQuery from 'utils/errorQuery';
+import TodoFilter from '@components/Todos/TodoFilter';
+import TodoForm from '@components/Todos/TodoForm';
+import TodoList from '@components/Todos/TodoList';
+import Pagination from '@components/UI/Pagination';
+import Search from '@components/UI/Search';
+import Sort from '@components/UI/Sort';
 
-import { MdArrowBack, MdAdd } from 'react-icons/md';
-import emptyTodo from 'assets/images/Calendar.webp';
+import useBaffle from '@hooks/useBaffle';
+import useHttp from '@hooks/useHttp';
+import { useModal } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
+
+import emptyTodo from '@assets/images/Calendar.webp';
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +36,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Dashboard = () => {
       setIsCreateButtonShow(false);
       setScrollPosition(+document.body.getBoundingClientRect().top);
     }
-  }, [scrollPosition, document.body.getBoundingClientRect().top]);
+  }, [scrollPosition]);
 
   useEffect(() => {
     window.addEventListener('scroll', scrollHandler);

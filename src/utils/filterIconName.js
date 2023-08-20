@@ -1,8 +1,8 @@
-import { HiPuzzle, HiCheck, HiFolder } from 'react-icons/hi';
+import { HiCheck, HiFolder, HiPuzzle } from 'react-icons/hi';
 
-import inProgressImage from 'assets/images/In-progress-pana.webp';
-import doneImage from 'assets/images/Done-rafiki.webp';
-import categoryImage from 'assets/images/Todo-list-amico.webp';
+import doneImage from '@assets/images/Done-rafiki.webp';
+import inProgressImage from '@assets/images/In-progress-pana.webp';
+import categoryImage from '@assets/images/Todo-list-amico.webp';
 
 const filterIconName = [
   {

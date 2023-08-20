@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-
-import TodoForm from 'components/Todos/TodoForm';
-import TodoList from 'components/Todos/TodoList';
-import TodoFilter from 'components/Todos/TodoFilter';
-import Pagination from 'components/UI/Pagination';
-import Search from 'components/UI/Search';
-import useHttp from 'hooks/useHttp';
-import useBaffle from 'hooks/useBaffle';
-import { useModal } from 'hooks/useStoreContext';
-import errorQuery from 'utils/errorQuery';
-
-import emptyTodo from 'assets/images/Calendar.webp';
+import { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { MdArrowBack } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+
+import TodoFilter from '@components/Todos/TodoFilter';
+import TodoForm from '@components/Todos/TodoForm';
+import TodoList from '@components/Todos/TodoList';
+import Pagination from '@components/UI/Pagination';
+import Search from '@components/UI/Search';
+
+import useBaffle from '@hooks/useBaffle';
+import useHttp from '@hooks/useHttp';
+import { useModal } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
+
+import emptyTodo from '@assets/images/Calendar.webp';
 
 const CategoryDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +36,7 @@ const CategoryDetails = () => {
 
   useEffect(() => {
     newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

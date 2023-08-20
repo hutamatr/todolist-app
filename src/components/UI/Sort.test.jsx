@@ -1,4 +1,4 @@
-import { render, screen, userEventSetup, act } from 'test-utils';
+import { act, render, screen, userEventSetup } from 'test-utils';
 
 import Sort from './Sort';
 

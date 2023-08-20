@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { MdClose, MdMenu } from 'react-icons/md';
+import { Link, NavLink } from 'react-router-dom';
+
+import ProfilePicture from '@components/UI/ProfilePicture';
+
+import { useAuth } from '@hooks/useStoreContext';
+
+import todoIcon from '@assets/images/todo-list-icon.webp';
 
 import ThemeSwitcher from './ThemeSwitcher';
-import ProfilePicture from 'components/UI/ProfilePicture';
-import { useAuth } from 'hooks/useStoreContext';
-
-import { MdMenu, MdClose } from 'react-icons/md';
-import todoIcon from 'assets/images/todo-list-icon.webp';
 
 const Navigation = () => {
   const [viewMenu, setMenuView] = useState(false);
@@ -92,8 +94,7 @@ const Navigation = () => {
             Logout
           </NavLink>
         </li>
-        {/* eslint-disable-next-line prettier/prettier */}
-        <div className="dropdown-end dropdown">
+        <div className="dropdown dropdown-end">
           <ProfilePicture
             classPhoto="btn-sm hidden sm:block cursor-pointer"
             tabIndex={0}
@@ -101,7 +102,7 @@ const Navigation = () => {
           />
           <ul
             tabIndex={0}
-            className="dropdown-content menu menu-compact mt-3 w-52 rounded-md bg-base-100 p-2 shadow-lg dark:bg-neutral-700"
+            className="menu-compact menu dropdown-content mt-3 w-52 rounded-md bg-base-100 p-2 shadow-lg dark:bg-neutral-700"
           >
             <li>
               <NavLink to="profile">Profile</NavLink>

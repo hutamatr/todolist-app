@@ -1,18 +1,17 @@
-import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
-
-import { useTodos } from 'hooks/useStoreContext';
-import useHttp from 'hooks/useHttp';
-import errorQuery from 'utils/errorQuery';
-
+import { toast } from 'react-hot-toast';
 import {
-  MdDeleteForever,
   MdAccessTime,
-  MdModeEdit,
+  MdDeleteForever,
   MdDone,
+  MdModeEdit,
 } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
+
+import useHttp from '@hooks/useHttp';
+import { useTodos } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
 
 const TodoItem = ({
   id,

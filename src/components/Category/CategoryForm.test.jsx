@@ -1,4 +1,5 @@
-import { render, screen, userEventSetup, act } from 'test-utils';
+import { act, render, screen, userEventSetup } from 'test-utils';
+
 import CategoryForm from './CategoryForm';
 
 describe('Category Form Component', () => {

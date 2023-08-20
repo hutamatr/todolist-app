@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
-import { toast } from 'react-hot-toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
-import Modal from 'components/UI/Modal';
-import DashboardFormCategory from 'components/Dashboard/DashboardFormCategory';
-import useHttp from 'hooks/useHttp';
-import useInputState from 'hooks/useInputState';
-import { useTodos } from 'hooks/useStoreContext';
-import errorQuery from 'utils/errorQuery';
+import DashboardFormCategory from '@components/Dashboard/DashboardFormCategory';
+import Modal from '@components/UI/Modal';
+
+import useHttp from '@hooks/useHttp';
+import useInputState from '@hooks/useInputState';
+import { useTodos } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
 
 const titleLong = 100;
 const descriptionLong = 500;

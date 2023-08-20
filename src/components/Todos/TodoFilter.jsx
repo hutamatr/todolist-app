@@ -1,5 +1,5 @@
-import { MdDone } from 'react-icons/md';
 import { HiPuzzle } from 'react-icons/hi';
+import { MdDone } from 'react-icons/md';
 
 const TodoFilter = ({
   setTodoStatus,

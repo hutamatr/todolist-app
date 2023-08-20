@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
-import { Toaster, toast } from 'react-hot-toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 
-import ProfilePicture from 'components/UI/ProfilePicture';
-import useInputState from 'hooks/useInputState';
-import useHttp from 'hooks/useHttp';
-import useBaffle from 'hooks/useBaffle';
-import errorQuery from 'utils/errorQuery';
+import ProfilePicture from '@components/UI/ProfilePicture';
+
+import useBaffle from '@hooks/useBaffle';
+import useHttp from '@hooks/useHttp';
+import useInputState from '@hooks/useInputState';
+import errorQuery from '@utils/errorQuery';
 
 const Profile = () => {
   const [editForm, setEditForm] = useState(false);
@@ -22,6 +23,7 @@ const Profile = () => {
 
   useEffect(() => {
     newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { username, email, password } = input;
@@ -172,7 +174,7 @@ const Profile = () => {
                       : 'text-neutral-500 dark:text-slate-400'
                   }`}
                   value={newProfileData}
-                  readOnly={!editForm ? true : false}
+                  readOnly={!editForm}
                   onChange={onChangeInputHandler}
                   required
                 />

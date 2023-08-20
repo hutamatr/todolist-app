@@ -1,12 +1,13 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
+
+import { randIcons } from '@utils/categoryIcons';
+import errorQuery from '@utils/errorQuery';
 
 import useHttp from './useHttp';
-import errorQuery from 'utils/errorQuery';
 import { useModal } from './useStoreContext';
-import { randIcons } from 'utils/categoryIcons';
 
 const categoryLong = 100;
 

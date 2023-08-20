@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import ProfilePicture from 'components/UI/ProfilePicture';
-import filterIconName from 'utils/filterIconName';
-import useBaffle from 'hooks/useBaffle.js';
-import { useTodos } from 'hooks/useStoreContext';
+import ProfilePicture from '@components/UI/ProfilePicture';
 
-import todoGif from 'assets/gif/checklist.gif';
-import todoImage from 'assets/images/Consulting-bro.webp';
+import useBaffle from '@hooks/useBaffle.js';
+import { useTodos } from '@hooks/useStoreContext';
+import filterIconName from '@utils/filterIconName';
+
+import todoGif from '@assets/gif/checklist.gif';
+import todoImage from '@assets/images/Consulting-bro.webp';
 
 const Home = ({ username }) => {
   const { totalAllTodos } = useTodos();
@@ -15,6 +16,7 @@ const Home = ({ username }) => {
 
   useEffect(() => {
     newBaffle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { totalDone, totalInProgress, totalTodos, totalCategories } =

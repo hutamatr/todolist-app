@@ -1,16 +1,17 @@
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Layout from 'components/Layout/Layout';
-import LayoutWithoutNav from 'components/Layout/LayoutWithoutNav';
-import HomePage from 'pages/Home.page';
-import RequireAuth from 'components/Auth/RequireAuth';
-import Register from 'pages/Register.page';
-import Login from 'pages/Login.page';
-import Dashboard from 'pages/Dashboard.page';
-import Profile from 'pages/Profile.page';
-import Category from 'pages/Category.page';
-import CategoryDetails from 'pages/CategoryDetails.page';
-import NotFound from 'pages/NotFound.page';
+import RequireAuth from '@components/Auth/RequireAuth';
+import Layout from '@components/Layout/Layout';
+import LayoutWithoutNav from '@components/Layout/LayoutWithoutNav';
+
+import Category from '@pages/Category.page';
+import CategoryDetails from '@pages/CategoryDetails.page';
+import Dashboard from '@pages/Dashboard.page';
+import HomePage from '@pages/Home.page';
+import Login from '@pages/Login.page';
+import NotFound from '@pages/NotFound.page';
+import Profile from '@pages/Profile.page';
+import Register from '@pages/Register.page';
 
 const App = () => {
   return (

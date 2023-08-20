@@ -1,7 +1,7 @@
+import { categoriesData } from '@mocks/handlers';
 import { render, screen } from 'test-utils';
 
 import DashboardFormCategory from './DashboardFormCategory';
-import { categoriesData } from 'mocks/handlers';
 
 describe('Dashboard Form Category Component', () => {
   test('render category list correctly', async () => {

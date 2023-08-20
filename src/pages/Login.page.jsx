@@ -1,16 +1,18 @@
-import { useState, useEffect, useRef, useContext } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-import { Toaster, toast } from 'react-hot-toast';
 
-import FormInput from 'components/UI/FormInput';
-import useInputState from 'hooks/useInputState';
-import usePasswordView from 'hooks/usePasswordView';
-import useHttp from 'hooks/useHttp';
-import { useAuth } from 'hooks/useStoreContext';
-import { LoginFormContext } from 'context/Context';
-import validation from 'utils/validation';
-import errorQuery from 'utils/errorQuery';
+import FormInput from '@components/UI/FormInput';
+
+import { LoginFormContext } from '@context/Context';
+
+import useHttp from '@hooks/useHttp';
+import useInputState from '@hooks/useInputState';
+import usePasswordView from '@hooks/usePasswordView';
+import { useAuth } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
+import validation from '@utils/validation';
 
 const Login = () => {
   const emailRef = useRef();

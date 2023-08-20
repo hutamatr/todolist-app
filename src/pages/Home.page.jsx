@@ -2,10 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Toaster } from 'react-hot-toast';
 
-import Home from 'components/Home/Home';
-import useHttp from 'hooks/useHttp';
-import { useTodos } from 'hooks/useStoreContext';
-import errorQuery from 'utils/errorQuery';
+import Home from '@components/Home/Home';
+
+import useHttp from '@hooks/useHttp';
+import { useTodos } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
 
 const HomePage = () => {
   const { getTotalTodo } = useTodos();

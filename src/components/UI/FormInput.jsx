@@ -1,9 +1,8 @@
 import { forwardRef } from 'react';
-
-import RegisterNote from 'components/Register/RegisterNote';
-
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { MdDone } from 'react-icons/md';
-import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi';
+
+import RegisterNote from '@components/Register/RegisterNote';
 
 const FormInput = forwardRef(
   (
@@ -40,7 +39,7 @@ const FormInput = forwardRef(
             id={id}
             name={name}
             value={input}
-            autoComplete={autoComplete ? autoComplete : null}
+            autoComplete={autoComplete || null}
             ref={ref}
             onChange={onChange}
             onFocus={onFocus}

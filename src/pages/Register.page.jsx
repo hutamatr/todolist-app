@@ -1,15 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 
-import FormInput from 'components/UI/FormInput';
-import useInputState from 'hooks/useInputState';
-import usePasswordView from 'hooks/usePasswordView';
-import useHttp from 'hooks/useHttp';
-import { useAuth, useLoginForm } from 'hooks/useStoreContext';
-import errorQuery from 'utils/errorQuery';
-import validation from 'utils/validation';
+import FormInput from '@components/UI/FormInput';
+
+import useHttp from '@hooks/useHttp';
+import useInputState from '@hooks/useInputState';
+import usePasswordView from '@hooks/usePasswordView';
+import { useAuth, useLoginForm } from '@hooks/useStoreContext';
+import errorQuery from '@utils/errorQuery';
+import validation from '@utils/validation';
 
 const Register = () => {
   const userNameRef = useRef();

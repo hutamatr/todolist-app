@@ -1,6 +1,6 @@
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import Navigation from 'components/Navigation/Navigation';
+import Navigation from '@components/Navigation/Navigation';
 
 const Layout = () => {
   const { pathname } = useLocation();

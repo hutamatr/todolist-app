@@ -1,12 +1,13 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 
 import ContextProvider from './context/ContextProvider';
 
 const queryClient = new QueryClient();
 
+// eslint-disable-next-line react-refresh/only-export-components
 const AllProviders = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -27,5 +28,6 @@ export function userEventSetup(jsx, options) {
   };
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export * from '@testing-library/react';
 export { customRender as render };

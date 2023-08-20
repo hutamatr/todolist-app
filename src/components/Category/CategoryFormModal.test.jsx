@@ -1,4 +1,5 @@
 import { render, screen } from 'test-utils';
+
 import CategoryFormModal from './CategoryFormModal';
 
 describe('Category Form Modal Component', () => {
