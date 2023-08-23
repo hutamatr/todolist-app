@@ -142,22 +142,21 @@ const Profile = () => {
         <form onSubmit={formSubmitHandler} className="flex flex-col gap-y-6">
           {inputForm.map((input, index) => {
             let newProfileData;
-            if (editForm) {
-              newProfileData =
-                index === 0
-                  ? username
-                  : index === 1
-                  ? email
-                  : index === 2
-                  ? password
-                  : '';
-            } else {
-              newProfileData =
-                index === 0 ? username : index === 1 ? email : '';
+            switch (index) {
+              case 0:
+                newProfileData = username;
+                break;
+              case 1:
+                newProfileData = email;
+                break;
+              case 2:
+                if (editForm) {
+                  newProfileData = password;
+                }
+                break;
             }
-
             return (
-              <div key={index} className="flex flex-col gap-y-1">
+              <div key={input.label} className="flex flex-col gap-y-1">
                 <label
                   htmlFor={input.label}
                   className="text-xs font-medium text-neutral-600 dark:text-material-green"

@@ -17,7 +17,7 @@ import validation from '@utils/validation';
 const Login = () => {
   const emailRef = useRef();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { auth } = useAuth();
   const { isPasswordView, viewPasswordHandler } = usePasswordView();
   const { emailValidation, passwordValidation } = validation();
   const { loginScreen } = useContext(LoginFormContext);
@@ -52,7 +52,7 @@ const Login = () => {
     },
     onSettled: (data) => {
       const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
-      login(data?.data, expireDateLogin.toISOString());
+      auth(data?.data, expireDateLogin.toISOString());
     },
     onError: (error) => {
       errorQuery(error, 'Login Failed!');
@@ -121,7 +121,7 @@ const Login = () => {
 
           <button
             className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 font-light text-material-green disabled:cursor-not-allowed"
-            disabled={!isValidEmail || !isValidPassword ? true : false}
+            disabled={!!(!isValidEmail || !isValidPassword)}
           >
             {isLoadingLogin ? 'Loading...' : 'Sign In'}
           </button>

@@ -29,9 +29,8 @@ describe('Profile Page Component', () => {
 
     await user.click(editFormButtonElement);
 
-    const passwordInputElement = await screen.findByLabelText(
-      'Confirm Password'
-    );
+    const passwordInputElement =
+      await screen.findByLabelText('Confirm Password');
 
     expect(passwordInputElement).toBeInTheDocument();
     expect(

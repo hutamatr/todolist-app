@@ -10,8 +10,9 @@ export const TodoContext = createContext({
 export const AuthContext = createContext({
   authToken: '',
   isAuthenticated: false,
-  login: () => {},
+  auth: () => {},
   logout: () => {},
+  setAuth: () => {},
 });
 
 export const LoginFormContext = createContext({

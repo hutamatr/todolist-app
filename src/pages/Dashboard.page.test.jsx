@@ -25,9 +25,8 @@ describe('Dashboard Page Component', () => {
     render(<Dashboard />);
 
     const buttonDoneElement = await screen.findByTestId('button-done');
-    const buttonInProgressElement = await screen.findByTestId(
-      'button-inprogress'
-    );
+    const buttonInProgressElement =
+      await screen.findByTestId('button-inprogress');
 
     expect(buttonInProgressElement).toHaveTextContent('180');
     expect(buttonDoneElement).toHaveTextContent('8');

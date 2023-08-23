@@ -31,7 +31,7 @@ const getStorageItems = () => {
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case 'LOGIN': {
+    case 'AUTH': {
       const authToken = action.payload;
       let isAuth;
       if (authToken) isAuth = !!authToken;
@@ -80,17 +80,21 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const loginHandler = useCallback(
+  const authHandler = useCallback(
     (loginAccess, expireDate) => {
       localStorage.setItem('auth_token', loginAccess?.data?.token);
       localStorage.setItem('expire_token', expireDate);
-      dispatchAuth({ type: 'LOGIN', payload: loginAccess?.data?.token });
+      dispatchAuth({ type: 'AUTH', payload: loginAccess?.data?.token });
 
       const autoLogout = calculateAutoLogoutTime(expireDate);
       logoutTimer = setTimeout(logoutHandler, autoLogout);
     },
     [logoutHandler]
   );
+
+  const setAuthState = useCallback((token) => {
+    dispatchAuth({ type: 'AUTH', payload: token });
+  }, []);
 
   useEffect(() => {
     if (storageData) {
@@ -102,14 +106,16 @@ const AuthProvider = ({ children }) => {
     () => ({
       authToken: authState.authToken,
       isAuthenticated: authState.isAuthenticated,
-      login: loginHandler,
+      auth: authHandler,
       logout: logoutHandler,
+      setAuth: setAuthState,
     }),
     [
       authState.authToken,
       authState.isAuthenticated,
-      loginHandler,
+      authHandler,
       logoutHandler,
+      setAuthState,
     ]
   );
 

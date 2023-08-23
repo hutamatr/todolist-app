@@ -28,7 +28,7 @@ const TodoFilter = ({
           todoStatus ? '' : 'ring-2 ring-blue-100'
         }`}
         onClick={viewTodosCompletedHandler}
-        disabled={todoStatus ? false : true}
+        disabled={!todoStatus}
       >
         {totalInProgress > 0 && (
           <span
@@ -46,7 +46,7 @@ const TodoFilter = ({
           todoStatus ? 'ring-2 ring-green-100' : ''
         }`}
         onClick={viewTodosNotCompletedHandler}
-        disabled={todoStatus ? true : false}
+        disabled={!!todoStatus}
       >
         {totalTodoDone > 0 && (
           <span

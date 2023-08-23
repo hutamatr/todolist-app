@@ -25,9 +25,8 @@ describe('Category Page Component', () => {
     const { user } = userEventSetup(<Category />);
 
     await screen.findByText('Benton');
-    const deleteButtonElement = await screen.findAllByTestId(
-      /delete-category/i
-    );
+    const deleteButtonElement =
+      await screen.findAllByTestId(/delete-category/i);
 
     await user.click(deleteButtonElement[0]);
 

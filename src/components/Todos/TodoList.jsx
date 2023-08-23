@@ -17,9 +17,9 @@ const TodoList = ({
 }) => {
   return (
     <ul className="flex min-h-fit flex-col gap-y-4">
-      {todosData?.map((todo, index) => {
+      {todosData?.map((todo) => {
         return (
-          <li key={index}>
+          <li key={todo}>
             <TodoItem
               {...todo}
               onTodoEdit={todo}

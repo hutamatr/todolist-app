@@ -15,7 +15,7 @@ import validation from '@utils/validation';
 const Register = () => {
   const userNameRef = useRef();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { auth } = useAuth();
   const { loginScreen } = useLoginForm();
   const { isPasswordView, viewPasswordHandler } = usePasswordView();
   const { userNameValidation, emailValidation, passwordValidation } =
@@ -64,7 +64,7 @@ const Register = () => {
     },
     onSettled: (data) => {
       const expireDateLogin = new Date(new Date().getTime() + 36000 * 1000);
-      login(data?.data, expireDateLogin.toISOString());
+      auth(data?.data, expireDateLogin.toISOString());
     },
     onError: (error) => {
       errorQuery(error, 'Register Account Failed!');
@@ -196,12 +196,12 @@ const Register = () => {
           <button
             className="disabled:bg-primary-80 rounded-md bg-orange-100 py-3 text-xs font-light text-material-green disabled:cursor-not-allowed"
             disabled={
-              !isValidUserName ||
-              !isValidUserEmail ||
-              !isValidPassword ||
-              !isValidPasswordMatch
-                ? true
-                : false
+              !!(
+                !isValidUserName ||
+                !isValidUserEmail ||
+                !isValidPassword ||
+                !isValidPasswordMatch
+              )
             }
           >
             {isLoadingRegister ? 'Loading...' : 'Create Account'}

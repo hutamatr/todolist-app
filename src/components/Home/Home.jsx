@@ -56,68 +56,49 @@ const Home = ({ username }) => {
         </div>
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-3">
           {filterIconName.map((item, index) => {
+            let bgColor;
+            let textColor;
+            let todos;
+
+            switch (index) {
+              case 0:
+                bgColor = 'bg-blue-10';
+                textColor = 'text-blue-700';
+                todos = totalInProgress;
+                break;
+              case 1:
+                bgColor = 'bg-green-10';
+                textColor = 'text-green-700';
+                todos = totalDone;
+                break;
+              case 2:
+                bgColor = 'col-span-2 bg-orange-200 lg:col-auto';
+                textColor = 'text-orange-700';
+                todos = totalCategories;
+                break;
+              default:
+                bgColor = '';
+                textColor = '';
+                todos = null;
+                break;
+            }
+
             return (
               <li
-                key={index}
+                key={item.name}
                 className={`flex items-center justify-between rounded-md p-4 shadow-material-shadow-3 sm:flex-row ${
                   index === 2 ? 'flex-row' : 'flex-col-reverse'
-                } ${
-                  index === 0
-                    ? 'bg-blue-10'
-                    : index === 1
-                    ? 'bg-green-10'
-                    : index === 2
-                    ? 'col-span-2 bg-orange-200 lg:col-auto'
-                    : ''
-                }`}
+                } ${bgColor}`}
               >
                 <div className="flex flex-col items-center justify-start gap-y-1 sm:items-start sm:gap-y-2">
                   <div className="flex flex-row items-center gap-x-2">
                     <item.icon className="h-6 w-6" fill={item.color} />
-                    <span
-                      className={`font-bold sm:text-lg ${
-                        index === 0
-                          ? 'text-blue-700'
-                          : index === 1
-                          ? 'text-green-700'
-                          : index === 2
-                          ? 'text-orange-700'
-                          : ''
-                      }`}
-                    >
+                    <span className={`font-bold sm:text-lg ${textColor}`}>
                       {item.name}
                     </span>
                   </div>
-                  <p
-                    className={`text font-semibold ${
-                      index === 0
-                        ? 'text-blue-700'
-                        : index === 1
-                        ? 'text-green-700'
-                        : index === 2
-                        ? 'text-orange-700'
-                        : ''
-                    }`}
-                  >
-                    <span
-                      className={`${
-                        index === 0
-                          ? 'text-blue-700'
-                          : index === 1
-                          ? 'text-green-700'
-                          : index === 2
-                          ? 'text-orange-700'
-                          : ''
-                      }`}
-                    >
-                      {index === 0
-                        ? totalInProgress
-                        : index === 1
-                        ? totalDone
-                        : index === 2
-                        ? totalCategories
-                        : null}
-                    </span>{' '}
+                  <p className={`text font-semibold ${textColor}`}>
+                    <span className={`${textColor}`}>{todos}</span>{' '}
                     {index === 2 ? 'List Category' : 'List Todo'}
                   </p>
                 </div>
