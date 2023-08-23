@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useAuth } from './useStoreContext';
 
 const todosAPI = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL || 'http://localhost:8002/api/v1',
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 const useHttp = () => {

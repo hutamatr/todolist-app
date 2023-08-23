@@ -25,11 +25,11 @@ const Search = ({ name, onSearchValue }) => {
         value={searchInput}
         onChange={searchInputHandler}
         placeholder={`Search ${name}`}
-        className="rounded-l-full bg-slate-100 py-2 px-4 outline-none placeholder:text-sm dark:bg-neutral-700 dark:text-material-green"
+        className="rounded-l-full bg-slate-100 px-4 py-2 outline-none placeholder:text-sm dark:bg-neutral-700 dark:text-material-green"
         required
       />
       <button
-        className="rounded-r-full bg-orange-100 py-2 px-3 text-sm font-medium text-material-green dark:text-neutral-800"
+        className="rounded-r-full bg-orange-100 px-3 py-2 text-sm font-medium text-material-green dark:text-neutral-800"
         type="submit"
       >
         Search

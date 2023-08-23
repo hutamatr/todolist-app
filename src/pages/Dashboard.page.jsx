@@ -184,7 +184,7 @@ const Dashboard = () => {
           <div className="flex items-center gap-x-6">
             {isButtonShow && (
               <button
-                className="rounded bg-material-green py-1 px-3 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100 dark:bg-orange-100"
+                className="rounded bg-material-green px-3 py-1 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100 dark:bg-orange-100"
                 onClick={backButtonHandler}
               >
                 <MdArrowBack className="text-xl" />
@@ -231,7 +231,7 @@ const Dashboard = () => {
           type="button"
           onClick={modalShowHandler}
           data-testid="create-todo"
-          className={`fixed bottom-0 right-0 z-30 my-6 mx-4 cursor-pointer rounded-full bg-orange-100 p-3 duration-700 ${
+          className={`fixed bottom-0 right-0 z-30 mx-4 my-6 cursor-pointer rounded-full bg-orange-100 p-3 duration-700 ${
             isCreateButtonShow ? '' : 'translate-y-96'
           }`}
         >

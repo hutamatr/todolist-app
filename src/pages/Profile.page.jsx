@@ -127,7 +127,7 @@ const Profile = () => {
           duration: 1500,
         }}
       />
-      <section className="mx-auto flex min-h-screen max-w-lg flex-col gap-y-6 py-6 px-5 pt-20">
+      <section className="mx-auto flex min-h-screen max-w-lg flex-col gap-y-6 px-5 py-6 pt-20">
         <h1 className="profileBaffle text-lg font-bold dark:text-material-green">
           Profile
         </h1>

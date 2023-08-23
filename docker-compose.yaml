@@ -8,13 +8,13 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - 'POSTGRES_USER=postgres' 
+      - 'POSTGRES_USER=postgres'
       - 'POSTGRES_DB=todo-list'
       - 'POSTGRES_PASSWORD=root'
     volumes:
       - /home/hutamatr/git-repo(hutamatr)/database-postgres:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
 
   app-backend:
     container_name: app-backend

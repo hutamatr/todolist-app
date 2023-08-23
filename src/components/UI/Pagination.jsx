@@ -48,7 +48,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-end gap-y-3 gap-x-4 md:flex-row">
+    <div className="flex flex-col items-center justify-end gap-x-4 gap-y-3 md:flex-row">
       <div className="flex flex-row items-center justify-center gap-x-1">
         <label
           htmlFor="page-value"

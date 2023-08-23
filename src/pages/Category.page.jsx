@@ -127,7 +127,7 @@ const Category = () => {
           <button
             type="button"
             onClick={showCategoryFormHandler}
-            className="flex items-center gap-x-1 rounded-md bg-orange-100 py-2 px-4 font-semibold text-material-green shadow-material-shadow dark:text-neutral-800"
+            className="flex items-center gap-x-1 rounded-md bg-orange-100 px-4 py-2 font-semibold text-material-green shadow-material-shadow dark:text-neutral-800"
           >
             <MdAdd className="text-2xl text-material-green dark:text-neutral-800" />{' '}
             Add Category
@@ -180,7 +180,7 @@ const Category = () => {
           <div className="flex items-center gap-x-6">
             {isButtonShow && (
               <button
-                className="rounded bg-material-green py-1 px-3 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100 dark:bg-orange-100"
+                className="rounded bg-material-green px-3 py-1 shadow-material-shadow duration-300 hover:ring-2 hover:ring-orange-100 dark:bg-orange-100"
                 onClick={backButtonHandler}
               >
                 <MdArrowBack className="text-xl" />
