@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { faker } from '@faker-js/faker';
 
-const url = 'http://localhost:8002/api/v1';
+const url = process.env.REACT_APP_BASE_URL;
 
 export const categoriesData = Array.from({ length: 20 }).map((_, i) => ({
   id: i + 1,
